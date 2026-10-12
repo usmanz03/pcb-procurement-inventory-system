@@ -7,7 +7,7 @@
   <meta name="description" content="PPRA-compliant platform for procurement, inventory, custody and asset lifecycle for Pakistan Cricket Board.">
   <link rel="stylesheet" href="css/shadcn.css">
   <link rel="stylesheet" href="css/poc.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230B6B3A'/><polygon points='50,15 61,38 86,41 68,58 73,83 50,70 27,83 32,58 14,41 39,38' fill='%23FFFFFF'/></svg>">
+  <link rel="icon" type="image/svg+xml" href="assets/pcb-logo.svg">
 </head>
 <body>
   <div class="shad-shell">
@@ -16,7 +16,7 @@
     <header class="shad-header">
       <div style="display:flex; align-items:center; gap:28px;">
         <div class="shad-brand" onclick="app.showTab('overview')" style="cursor:pointer;">
-          <div class="shad-logo-badge">PCB</div>
+          <div class="brand-logo"><img src="assets/pcb-logo.svg" alt="Pakistan Cricket Board"></div>
           <span style="letter-spacing:-0.01em;">Procurement & Stores ERP</span>
           <span class="shad-badge shad-badge-outline" style="font-size:10px; margin-left:4px;">PPRA 2004</span>
         </div>
@@ -708,9 +708,10 @@
         <button type="button" class="shad-btn shad-btn-ghost shad-btn-icon" onclick="app.closeDialog('export-dialog')">&times;</button>
       </div>
       <div class="shad-dialog-content">
-        <div style="border-bottom:1px solid hsl(var(--border)); padding-bottom:12px; margin-bottom:16px;">
-          <div style="font-weight:700; font-size:14px;">PAKISTAN CRICKET BOARD</div>
-          <div style="font-size:12px; color:hsl(var(--muted-foreground));">Tender Ref: PCB/LOG-PSL10/2026/089 &bull; Rule 36(b) Comparative Statement</div>
+        <div class="doc-preview" style="margin-bottom:16px; padding:14px 16px;">
+          <div class="doc-head" style="margin:0; padding:0; border:0;">
+            <div><h4>PAKISTAN CRICKET BOARD</h4><div class="muted">Tender Ref: PCB/LOG-PSL10/2026/089 &bull; Rule 36(b) Comparative Statement</div></div>
+          </div>
         </div>
         <p style="font-size:13px; margin-bottom:12px;">
           Recommended Awardee: <strong style="color:hsl(var(--gold-text));">Signify Pakistan Ltd (Philips Lighting Solutions)</strong><br>

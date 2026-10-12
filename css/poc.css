@@ -311,7 +311,9 @@ body.role-readonly .readonly-note { display: flex !important; }
 .shad-nav-links { min-width: 0; overflow-x: auto; scrollbar-width: none; }
 .shad-nav-links::-webkit-scrollbar { display: none; }
 .shad-nav-link { white-space: nowrap; flex: none; }
-.shad-logo-badge { width: auto; min-width: 28px; padding: 0 6px; }
+/* Official PCB crest: on a light tile so the green wordmark reads in both themes */
+.brand-logo { height: 40px; padding: 3px 7px; border-radius: 8px; background: #fff; display: flex; align-items: center; flex: none; box-shadow: 0 0 0 1px hsl(var(--gold) / .45), 0 4px 14px -6px rgba(0,0,0,.5); }
+.brand-logo img { height: 100%; width: auto; display: block; }
 .shad-brand > span:not(.shad-badge) { white-space: nowrap; }
 @media (max-width: 1680px) { .shad-brand > span { display: none; } }
 .shad-badge { white-space: nowrap; }
@@ -320,8 +322,18 @@ body.role-readonly .readonly-note { display: flex !important; }
 
 .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
 .empty { padding: 28px; text-align: center; color: hsl(var(--muted-foreground)); font-size: 13px; }
-.doc-preview { border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 18px; background: hsl(var(--background)); font-size: 12px; }
-.doc-head { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid hsl(var(--border)); padding-bottom: 10px; margin-bottom: 12px; }
+/* Generated documents render as white paper in both themes, under the PCB crest */
+.doc-preview {
+  --background: 0 0% 100%; --foreground: 150 30% 7.8%; --card: 0 0% 100%; --card-foreground: 150 30% 7.8%;
+  --muted: 144 16% 95%; --muted-foreground: 150 6% 39.6%; --border: 144 10% 88%; --primary: 149 81% 23.1%;
+  --success: 152 68% 27.8%; --warning: 24 85% 38.2%; --danger: 7 70% 41.2%; --info: 217 65% 40%;
+  --gold: 44 66% 50.2%; --gold-text: 43 100% 27.1%; --secondary: 144 16% 93.9%; --secondary-foreground: 150 30% 7.8%;
+  --card-sheen: none; --card-shadow: none;
+  border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 20px; background: #fff; color: hsl(var(--foreground)); font-size: 12px;
+  color-scheme: light;
+}
+.doc-head { display: flex; justify-content: space-between; gap: 12px; border-bottom: 2px solid hsl(var(--primary)); padding-bottom: 12px; margin-bottom: 14px; }
+.doc-head > div:first-child { padding-left: 52px; min-height: 58px; display: flex; flex-direction: column; justify-content: center; background: url(../assets/pcb-logo.svg) left center / auto 58px no-repeat; }
 .doc-head h4 { font-size: 15px; margin: 0; }
 .divider { height: 1px; background: hsl(var(--border)); margin: 14px 0; }
 .shad-dialog.is-wide { max-width: 860px; }
