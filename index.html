@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PCB Procurement & Inventory ERP | Stakeholder Presentation</title>
+  <meta name="description" content="PPRA-compliant platform for procurement, inventory, custody and asset lifecycle for Pakistan Cricket Board.">
+  <link rel="stylesheet" href="css/shadcn.css">
+  <link rel="stylesheet" href="css/poc.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230B6B3A'/><polygon points='50,15 61,38 86,41 68,58 73,83 50,70 27,83 32,58 14,41 39,38' fill='%23FFFFFF'/></svg>">
+</head>
+<body>
+  <div class="shad-shell">
+    
+    <!-- MINIMALIST SHADCN TOP HEADER -->
+    <header class="shad-header">
+      <div style="display:flex; align-items:center; gap:28px;">
+        <div class="shad-brand" onclick="app.showTab('overview')" style="cursor:pointer;">
+          <div class="shad-logo-badge">PCB</div>
+          <span style="letter-spacing:-0.01em;">Procurement & Stores ERP</span>
+          <span class="shad-badge shad-badge-outline" style="font-size:10px; margin-left:4px;">PPRA 2004</span>
+        </div>
+
+        <!-- Main Navigation Links -->
+        <nav class="shad-nav-links">
+          <button type="button" class="shad-nav-link active" data-tab="overview" onclick="app.showTab('overview')">Overview</button>
+          <button type="button" class="shad-nav-link" data-tab="items" onclick="app.showTab('items')">Items</button>
+          <button type="button" class="shad-nav-link" data-tab="inventory" onclick="app.showTab('inventory')">Inventory</button>
+          <button type="button" class="shad-nav-link" data-tab="custody" onclick="app.showTab('custody')">Custody</button>
+          <button type="button" class="shad-nav-link" data-tab="tenders" onclick="app.showTab('tenders')">Tenders</button>
+          <button type="button" class="shad-nav-link" data-tab="approvals" onclick="app.showTab('approvals')">Approvals</button>
+          <button type="button" class="shad-nav-link" data-tab="orders" onclick="app.showTab('orders')">PO &amp; GRN</button>
+          <button type="button" class="shad-nav-link" data-tab="finance" onclick="app.showTab('finance')">Finance</button>
+          <button type="button" class="shad-nav-link" data-tab="reports" onclick="app.showTab('reports')">Reports</button>
+        </nav>
+      </div>
+
+      <div class="shad-header-right">
+        <!-- Minimal Search -->
+        <div class="shad-search-wrap">
+          <input type="text" class="shad-search-input" placeholder="Item code, PR, PO, vendor…" id="global-search-input" autocomplete="off" oninput="app.filterInventoryTable(this.value)" onfocus="if (this.value) app.globalSearch(this.value)">
+          <kbd class="shad-search-kbd">&#8984;K</kbd>
+        </div>
+
+        <!-- Role Select Pill -->
+        <select class="shad-btn shad-btn-outline shad-btn-sm" id="role-select" onchange="app.switchRole(this.value)" style="cursor:pointer; font-size:11px;">
+          <option value="director">Role: Director Procurement</option>
+          <option value="committee">Role: Committee Member</option>
+          <option value="cfo">Role: Chief Financial Officer</option>
+          <option value="storekeeper">Role: Central Storekeeper</option>
+          <option value="auditor">Role: Statutory Auditor</option>
+        </select>
+
+        <!-- Theme Toggle -->
+        <button type="button" class="shad-btn shad-btn-ghost shad-btn-icon" onclick="app.toggleTheme()" title="Toggle Theme">
+          <svg id="theme-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+
+        <!-- User Avatar -->
+        <div class="shad-avatar" title="Usman Zafar (Director Procurement)">UZ</div>
+      </div>
+    </header>
+
+    <!-- MAIN VIEW CONTAINER -->
+    <main class="shad-main">
+
+      <!-- ==================================================================
+           TAB 1: EXECUTIVE OVERVIEW
+           ================================================================== -->
+      <section class="tab-panel active" id="tab-overview">
+        <div class="shad-page-header">
+          <div>
+            <div class="eyebrow">Module 11 · Command centre</div>
+            <h1 class="shad-page-title">Procurement &amp; stores at a glance</h1>
+            <p class="shad-page-description">Commitments against budget, the demand-to-payment pipeline and what needs your decision, for your role.</p>
+          </div>
+          <div class="shad-page-actions">
+            <button type="button" class="shad-btn shad-btn-outline" onclick="app.showTab('reports')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+              <span>Reports</span>
+            </button>
+            <button type="button" class="shad-btn shad-btn-default" data-write onclick="app.openNewDemandModal()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Raise demand</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Role banner and role-specific KPIs (rendered by poc-core.js) -->
+        <div class="role-banner" id="role-banner"></div>
+        <div class="kpi-grid" id="overview-kpis"></div>
+
+        <div class="poc-grid-2">
+          <div class="shad-card chart-card">
+            <div class="shad-card-header">
+              <div class="chart-head">
+                <div>
+                  <h2 class="shad-card-title">Committed spend by month</h2>
+                  <p class="shad-card-description">PKR millions, FY 2026-27. Hover a bar for the split.</p>
+                </div>
+                <div class="chart-legend"><span><i style="--c:var(--chart-1)"></i>CapEx</span><span><i style="--c:var(--chart-2)"></i>OpEx</span><span><i class="dash" style="--c:var(--chart-3)"></i>Plan</span></div>
+              </div>
+            </div>
+            <div class="shad-card-content"><div id="ov-spend-chart"></div></div>
+          </div>
+          <div class="shad-card">
+            <div class="shad-card-header">
+              <h2 class="shad-card-title"><span>Needs my action</span><span class="shad-badge shad-badge-outline" id="ov-work-count">0 open</span></h2>
+              <p class="shad-card-description">Sorted by urgency. Select an item to open it.</p>
+            </div>
+            <div class="shad-card-content" id="ov-worklist"></div>
+          </div>
+        </div>
+
+        <div class="poc-grid-2-even">
+          <div class="shad-card">
+            <div class="shad-card-header">
+              <h2 class="shad-card-title">Demand-to-payment pipeline</h2>
+              <p class="shad-card-description">Documents at each stage, FY to date. Select a stage to open it.</p>
+            </div>
+            <div class="shad-card-content" id="ov-pipeline"></div>
+          </div>
+          <div class="shad-card">
+            <div class="shad-card-header">
+              <h2 class="shad-card-title">Budget utilisation by head</h2>
+              <p class="shad-card-description">Light bar is committed, solid bar is spent. Heads above 75% are flagged.</p>
+            </div>
+            <div class="shad-card-content" id="ov-budgets"></div>
+          </div>
+        </div>
+
+        <!-- 2 Column Layout: Stadium Stores & Recent Audit Activity -->
+        <div class="poc-grid-2" style="margin-bottom:0;">
+          
+          <!-- Stadium Fleet Card -->
+          <div class="shad-card">
+            <div class="shad-card-header">
+              <h2 class="shad-card-title">
+                <span>PCB Stadium Stores Fleet Ledger (Module 2)</span>
+                <span class="shad-badge shad-badge-outline">Multi-Store</span>
+              </h2>
+              <p class="shad-card-description">Click any stadium store to inspect its specific stock balances.</p>
+            </div>
+            <div class="shad-card-content" style="padding:0;">
+              <table class="shad-table">
+                <thead>
+                  <tr>
+                    <th>Store / Venue</th>
+                    <th>Type</th>
+                    <th>Total SKUs</th>
+                    <th>Valuation (PKR)</th>
+                    <th>Custodian</th>
+                  </tr>
+                </thead>
+                <tbody id="overview-stores-tbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Recent Audit Trail Card -->
+          <div class="shad-card">
+            <div class="shad-card-header">
+              <h2 class="shad-card-title">
+                <span>Statutory Audit Feed (Module 11)</span>
+              </h2>
+              <p class="shad-card-description">Click any entry to view full cryptographic audit details.</p>
+            </div>
+            <div class="shad-card-content">
+              <div id="overview-audit-list" style="display:flex; flex-direction:column; gap:14px;">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           TAB 2: PPRA TENDERING & BID EVALUATION VAULT (Modules 5 & 6)
+           ================================================================== -->
+      <section class="tab-panel" id="tab-tenders" style="display:none;">
+        <div class="shad-page-header">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span class="shad-badge shad-badge-outline" style="font-family:var(--font-mono);" id="tender-display-ref">PCB/LOG-PSL10/2026/089</span>
+              <span class="shad-badge shad-badge-success">Rule 36(b) Active</span>
+              <div style="margin-left:12px; display:inline-flex; gap:6px;">
+                <button type="button" class="shad-btn shad-btn-sm shad-btn-outline" onclick="app.switchTender(0)">Tender 1: LED Floodlights (CapEx)</button>
+                <button type="button" class="shad-btn shad-btn-sm shad-btn-outline" onclick="app.switchTender(1)">Tender 2: Kookaburra Balls (OpEx)</button>
+              </div>
+            </div>
+            <h1 class="shad-page-title" id="tender-display-title">Procurement & Turnkey Rigging of Broadcast-Grade LED Stadium Floodlights for Gaddafi Stadium</h1>
+            <p class="shad-page-description">Two-Envelope Procedure: Technical gating completed. Financial envelopes ready for comparative evaluation.</p>
+          </div>
+          <div class="shad-page-actions">
+            <button type="button" class="shad-btn shad-btn-outline" onclick="app.openExportModal()">
+              <span>Export Signed CST</span>
+            </button>
+            <button type="button" class="shad-btn shad-btn-default" id="btn-decrypt-vault-top" data-write onclick="app.decryptFinancialEnvelopes()">
+              <span>Open financial envelopes</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Sourcing workspace: lifecycle, method selection, RFQ, bidding documents, guarantees (poc-screens.js) -->
+        <div class="shad-card poc-section" id="sourcing-workspace"></div>
+
+        <!-- 4 Quick Tender Metrics -->
+        <div class="shad-stat-grid">
+          <div class="shad-stat-card">
+            <div class="shad-stat-header"><span>Approved PC-1 Budget</span></div>
+            <div class="shad-stat-value" style="font-family:var(--font-mono);" id="tender-display-budget">PKR 60.0M</div>
+            <div class="shad-stat-meta"><span>CapEx Infrastructure Head</span></div>
+          </div>
+          <div class="shad-stat-card">
+            <div class="shad-stat-header"><span>Bid Security (2%)</span></div>
+            <div class="shad-stat-value" style="color:hsl(var(--success));">100% Verified</div>
+            <div class="shad-stat-meta"><span>Bank Guarantees (HBL, MCB, Meezan)</span></div>
+          </div>
+          <div class="shad-stat-card">
+            <div class="shad-stat-header"><span>Technical Gating (70% Min)</span></div>
+            <div class="shad-stat-value">3 Qualified / 1 Disq</div>
+            <div class="shad-stat-meta"><span>Evaluated by 4-Member Committee</span></div>
+          </div>
+          <div class="shad-stat-card">
+            <div class="shad-stat-header"><span>Recommended Awardee</span></div>
+            <div class="shad-stat-value" style="font-size:16px; color:hsl(var(--gold-text)); margin-top:8px;">Signify Pakistan (Philips)</div>
+            <div class="shad-stat-meta"><span>Evaluated Cost: PKR 56,876,000</span></div>
+          </div>
+        </div>
+
+        <!-- Automated Comparative Statement (CST) Card -->
+        <div class="shad-card" style="margin-bottom:20px;">
+          <div class="shad-card-header">
+            <h2 class="shad-card-title">
+              <span>Automated Comparative Statement (CST) &bull; Module 6</span>
+              <span class="shad-badge shad-badge-outline" id="cst-state-badge">Financial Envelopes Evaluated</span>
+            </h2>
+            <p class="shad-card-description">Click any bidder row to inspect their full technical evaluation scorecard and prequalification dossier.</p>
+          </div>
+          <div class="shad-card-content" style="padding:0;">
+            <table class="shad-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Bidder Organization</th>
+                  <th>NTN / FBR Status</th>
+                  <th>Tech Score</th>
+                  <th>Earnest Money Guarantee</th>
+                  <th>Quoted Base (PKR)</th>
+                  <th>Sales Tax (18%)</th>
+                  <th>Evaluated Total (PKR)</th>
+                  <th>PPRA Recommendation</th>
+                </tr>
+              </thead>
+              <tbody id="tenders-cst-tbody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+          <div class="shad-card-footer">
+            <span style="font-size:12px; color:hsl(var(--muted-foreground)); margin-right:auto;">
+              Savings against approved budget: <strong>PKR 3,124,000 (5.2% Under Budget)</strong>
+            </span>
+            <button type="button" class="shad-btn shad-btn-outline" onclick="app.openEvaluationReport()">
+              <span>Bid evaluation report</span>
+            </button>
+            <button type="button" class="shad-btn shad-btn-default" data-write onclick="app.requestPOFromTender()">
+              <span>Generate purchase order &rarr;</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Committee Sign-off Section -->
+        <div class="shad-card">
+          <div class="shad-card-header">
+            <h2 class="shad-card-title">
+              <span>Procurement Committee Sign-off & Conflict of Interest (COI) Declarations</span>
+              <span class="shad-badge shad-badge-success">4/4 Signed Without Conflict</span>
+            </h2>
+          </div>
+          <div class="shad-card-content">
+            <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:16px;" id="committee-grid">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           TAB 3: DEMANDS & SMART INVENTORY (Modules 1 & 2)
+           ================================================================== -->
+      <section class="tab-panel" id="tab-inventory" style="display:none;">
+        <div class="shad-page-header">
+          <div>
+            <div class="eyebrow">Modules 1 &amp; 2</div>
+            <h1 class="shad-page-title">Demand &amp; Inventory</h1>
+            <p class="shad-page-description">Electronic demands with stock-availability branching, reservation and budget checks, on one ledger across every store.</p>
+          </div>
+          <div class="shad-page-actions">
+            <button type="button" class="shad-btn shad-btn-outline" data-write onclick="app.openStockTransfer()">
+              <span>Transfer stock</span>
+            </button>
+            <button type="button" class="shad-btn shad-btn-default" data-write onclick="app.openNewDemandModal()">
+              <span>Raise demand</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="poc-grid-2">
+          <!-- Latest demand and its stock-availability branch -->
+          <div class="shad-card" style="border-left:3px solid hsl(var(--primary));">
+            <div class="shad-card-header">
+              <h2 class="shad-card-title" id="branch-title"></h2>
+              <p class="shad-card-description" id="branch-desc"></p>
+            </div>
+            <div class="shad-card-content" id="branch-body"></div>
+          </div>
+          <div class="shad-card chart-card">
+            <div class="shad-card-header">
+              <h2 class="shad-card-title">Valuation by store</h2>
+              <p class="shad-card-description">PKR millions. Select a store to filter the ledger.</p>
+            </div>
+            <div class="shad-card-content"><div id="inv-store-chart"></div></div>
+          </div>
+        </div>
+
+        <!-- Demand register -->
+        <div class="shad-card poc-section">
+          <div class="shad-card-header">
+            <h2 class="shad-card-title">Demand register</h2>
+            <p class="shad-card-description">Every demand is recorded, including those fulfilled from stock, with a permanent number.</p>
+          </div>
+          <div class="shad-card-content table-scroll" style="padding:0;">
+            <table class="shad-table">
+              <thead><tr><th>Demand</th><th>Department</th><th>Item</th><th>Outcome</th><th>Required by</th><th>Status</th></tr></thead>
+              <tbody id="demand-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Master Inventory Table Card -->
+        <div class="shad-card">
+          <div class="shad-card-header">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <div>
+                <h2 class="shad-card-title">Catalogue Stock Ledger (Module 2)</h2>
+                <p class="shad-card-description">Click any item to inspect its multi-store stock distribution and movement history.</p>
+              </div>
+              
+              <!-- Venue Store Filter Pills -->
+              <div style="display:flex; gap:6px;">
+                <button type="button" class="shad-btn shad-btn-sm shad-btn-outline store-filter-tab active" data-store="all" onclick="app.filterStoreTab('all')">All Stores</button>
+                <button type="button" class="shad-btn shad-btn-sm shad-btn-outline store-filter-tab" data-store="STORE-LHR-01" onclick="app.filterStoreTab('STORE-LHR-01')">Gaddafi (LHR)</button>
+                <button type="button" class="shad-btn shad-btn-sm shad-btn-outline store-filter-tab" data-store="STORE-KHI-01" onclick="app.filterStoreTab('STORE-KHI-01')">National Bank (KHI)</button>
+                <button type="button" class="shad-btn shad-btn-sm shad-btn-outline store-filter-tab" data-store="STORE-RWP-01" onclick="app.filterStoreTab('STORE-RWP-01')">Rawalpindi</button>
+                <button type="button" class="shad-btn shad-btn-sm shad-btn-outline store-filter-tab" data-store="STORE-MUL-01" onclick="app.filterStoreTab('STORE-MUL-01')">Multan</button>
+              </div>
+            </div>
+          </div>
+          <div class="shad-card-content" style="padding:0;">
+            <table class="shad-table">
+              <thead>
+                <tr>
+                  <th>Item Code</th>
+                  <th>Description</th>
+                  <th>Classification</th>
+                  <th>UoM</th>
+                  <th class="right">All stores</th>
+                  <th class="right">Selected store</th>
+                  <th>Re-order level</th>
+                  <th class="right">WAC (PKR)</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="inventory-tbody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="poc-grid-2" style="margin-top:20px; margin-bottom:0;">
+          <div class="shad-card" id="stocktake"></div>
+          <div class="shad-card chart-card">
+            <div class="shad-card-header">
+              <h2 class="shad-card-title">Total stock value</h2>
+              <p class="shad-card-description">Month-end value across all stores, PKR millions.</p>
+            </div>
+            <div class="shad-card-content"><div id="inv-value-chart"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           TAB 4: CHAIN OF CUSTODY & ASSETS (Module 3)
+           ================================================================== -->
+      <section class="tab-panel" id="tab-custody" style="display:none;">
+        <div class="shad-page-header">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span class="shad-badge shad-badge-outline">Select Custodian:</span>
+              <button type="button" class="shad-btn shad-btn-sm shad-btn-outline" onclick="app.switchPlayer('PCB-PLR-0056')">Babar Azam (4 Assets)</button>
+              <button type="button" class="shad-btn shad-btn-sm shad-btn-outline" onclick="app.switchPlayer('PCB-PLR-0010')">Shaheen Afridi (3 Assets)</button>
+              <button type="button" class="shad-btn shad-btn-sm shad-btn-outline" onclick="app.switchPlayer('PCB-CUR-0014')">Hafiz Shabbir - Curator (2 Assets)</button>
+              <button type="button" class="shad-btn shad-btn-sm shad-btn-outline" onclick="app.switchPlayer('PCB-STF-0089')">Bilal Hasan - Eq Mgr (2 Assets)</button>
+            </div>
+            <div class="eyebrow">Module 3</div>
+            <h1 class="shad-page-title">Custody &amp; Sub-Store Issuance</h1>
+            <p class="shad-page-description">Central Store → Departmental Custodian → Employee. Custody moves only when the recipient confirms.</p>
+          </div>
+          <div class="shad-page-actions">
+            <button type="button" class="shad-btn shad-btn-outline" onclick="app.generateExitClearance()">
+              <span>Exit clearance report</span>
+            </button>
+            <button type="button" class="shad-btn shad-btn-default" data-write onclick="app.openTransferAsset()">
+              <span>Hand over custody</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="poc-grid-2">
+          <div class="shad-card">
+            <div class="shad-card-header">
+              <h2 class="shad-card-title">Chain of custody</h2>
+              <p class="shad-card-description">Each department has an accountable custodian with its own ledger.</p>
+            </div>
+            <div class="shad-card-content" id="custody-chain"></div>
+          </div>
+          <div class="shad-card">
+            <div class="shad-card-header">
+              <h2 class="shad-card-title"><span>Awaiting recipient confirmation</span><span class="shad-badge shad-badge-outline" id="custody-acks-count"></span></h2>
+              <p class="shad-card-description">Unconfirmed issues escalate to the departmental custodian after 48 hours.</p>
+            </div>
+            <div class="shad-card-content" id="custody-acks"></div>
+          </div>
+        </div>
+
+        <!-- Holder passport -->
+        <div class="shad-card" style="margin-bottom:20px; border-left:3px solid hsl(var(--gold));">
+          <div class="shad-card-header">
+            <div class="card-head-row">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div class="shad-avatar" id="custody-player-avatar" style="width:40px; height:40px; font-size:14px;">BA</div>
+                <div>
+                  <h2 class="shad-card-title" id="custody-player-name"></h2>
+                  <p class="shad-card-description" id="custody-player-role"></p>
+                </div>
+              </div>
+              <div style="text-align:right;">
+                <div class="strong t-success small" id="custody-player-count"></div>
+                <div class="small muted mono" id="custody-player-value"></div>
+              </div>
+            </div>
+          </div>
+          <div class="shad-card-content">
+            <div class="poc-grid-3" style="grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));" id="custody-player-assets-row"></div>
+          </div>
+        </div>
+
+        <!-- Custody register -->
+        <div class="shad-card">
+          <div class="shad-card-header">
+            <h2 class="shad-card-title">Custody register · who holds what</h2>
+            <p class="shad-card-description">Select a row to open that holder. Select an asset tile above to change its lifecycle status.</p>
+          </div>
+          <div class="shad-card-content table-scroll" style="padding:0;">
+            <table class="shad-table">
+              <thead>
+                <tr>
+                  <th>Asset tag</th>
+                  <th>Item</th>
+                  <th>Custody chain</th>
+                  <th>Purpose / location</th>
+                  <th>Issued</th>
+                  <th class="right">Value (PKR)</th>
+                  <th>Lifecycle</th>
+                  <th>Confirmation</th>
+                </tr>
+              </thead>
+              <tbody id="custody-tbody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           TAB 5: PURCHASE ORDERS & 3-WAY MATCH GATE (Modules 8, 9 & 10)
+           ================================================================== -->
+      <section class="tab-panel" id="tab-finance" style="display:none;">
+        <div class="shad-page-header">
+          <div>
+            <div class="eyebrow">Module 10</div>
+            <h1 class="shad-page-title">Three-Way Match &amp; Payment</h1>
+            <p class="shad-page-description">Purchase order, goods receipt and vendor invoice matched within tolerance, with tax withholding and payment tracking.</p>
+          </div>
+          <div class="shad-page-actions">
+            <button type="button" class="shad-btn shad-btn-outline" onclick="app.openErpModal()">
+              <span>ERP data contract</span>
+            </button>
+            <button type="button" class="shad-btn shad-btn-default" data-write onclick="app.postToFinance()">
+              <span>Release payment</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Reconciled 3-Way Match Card -->
+        <div class="shad-card" style="margin-bottom:20px; border-left:3px solid hsl(var(--success));" id="reconciliation-banner">
+          <div class="shad-card-header">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <h2 class="shad-card-title">Reconciliation: PO-PCB-2026-0312 &bull; Signify Pakistan Ltd</h2>
+                <p class="shad-card-description">Batch of 20x Philips ArenaVision LED Luminaires for Gaddafi Stadium.</p>
+              </div>
+              <span class="shad-badge shad-badge-success" style="font-size:12px;">&#10003; 100% Zero Variance Match</span>
+            </div>
+          </div>
+          <div class="shad-card-content">
+            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px;">
+              <!-- PO Pillar -->
+              <div style="background:hsl(var(--muted)/0.4); padding:16px; border-radius:var(--radius); border:1px solid hsl(var(--border));">
+                <div style="font-size:11px; color:hsl(var(--muted-foreground)); font-weight:600;">1. PURCHASE ORDER (PO)</div>
+                <div style="font-size:18px; font-weight:700; font-family:var(--font-mono); margin:6px 0 2px 0;">PKR 8,400,000</div>
+                <div style="font-size:11px; color:hsl(var(--muted-foreground));">PO-PCB-2026-0312 &bull; 20 Units Ordered</div>
+              </div>
+
+              <!-- GRN Pillar -->
+              <div style="background:hsl(var(--muted)/0.4); padding:16px; border-radius:var(--radius); border:1px solid hsl(var(--border));">
+                <div style="font-size:11px; color:hsl(var(--muted-foreground)); font-weight:600;">2. GOODS RECEIPT NOTE (GRN)</div>
+                <div style="font-size:18px; font-weight:700; font-family:var(--font-mono); margin:6px 0 2px 0;">PKR 8,400,000</div>
+                <div style="font-size:11px; color:hsl(var(--success));">GRN-LHR-2026-0491 &bull; 20/20 Inspected Pass</div>
+              </div>
+
+              <!-- Invoice Pillar -->
+              <div style="background:hsl(var(--muted)/0.4); padding:16px; border-radius:var(--radius); border:1px solid hsl(var(--border));">
+                <div style="font-size:11px; color:hsl(var(--muted-foreground)); font-weight:600;">3. VENDOR TAX INVOICE</div>
+                <div style="font-size:18px; font-weight:700; font-family:var(--font-mono); margin:6px 0 2px 0;">PKR 8,400,000</div>
+                <div style="font-size:11px; color:hsl(var(--muted-foreground));">INV-SIG-2026-9812 &bull; 0.00% Variance</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tax Withholding & Net Disbursement Schedule -->
+        <div class="shad-card">
+          <div class="shad-card-header">
+            <h2 class="shad-card-title">Tax Computation & Net Payable Disbursement</h2>
+            <p class="shad-card-description">Income Tax Ordinance 2001 Sec 153 & Sales Tax Act 1990 withholding computation.</p>
+          </div>
+          <div class="shad-card-content" style="padding:0;">
+            <table class="shad-table">
+              <thead>
+                <tr>
+                  <th>Voucher Component</th>
+                  <th>Statutory Basis</th>
+                  <th>Rate</th>
+                  <th>Amount (PKR)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Base Taxable Supply (20x Luminaires)</td>
+                  <td>Approved CST / PO Price</td>
+                  <td>&mdash;</td>
+                  <td style="font-family:var(--font-mono); font-weight:600;">PKR 8,400,000</td>
+                </tr>
+                <tr>
+                  <td>Sales Tax Addition (GST / PRA)</td>
+                  <td>Sales Tax Act 1990</td>
+                  <td>+ 18.0%</td>
+                  <td style="font-family:var(--font-mono); font-weight:600;">+ PKR 1,512,000</td>
+                </tr>
+                <tr>
+                  <td>Gross Invoice Value</td>
+                  <td>Payable Before Withholding</td>
+                  <td>&mdash;</td>
+                  <td style="font-family:var(--font-mono); font-weight:600;">PKR 9,912,000</td>
+                </tr>
+                <tr>
+                  <td>Income Tax Withholding (Deduction at Source)</td>
+                  <td>Active Taxpayer (Goods)</td>
+                  <td>- 4.5%</td>
+                  <td style="font-family:var(--font-mono); font-weight:600; color:hsl(var(--danger));">- PKR 378,000</td>
+                </tr>
+                <tr style="background:hsl(var(--muted)/0.3); font-weight:600;">
+                  <td>NET DISBURSEMENT TO VENDOR</td>
+                  <td>RTGS Crossed Transfer</td>
+                  <td>&mdash;</td>
+                  <td style="font-family:var(--font-mono); font-weight:700; color:hsl(var(--primary)); font-size:15px;">PKR 9,534,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="poc-grid-2" style="margin-top:20px; margin-bottom:0;">
+          <div class="shad-card">
+            <div class="shad-card-header">
+              <h2 class="shad-card-title">Match queue &amp; payment status</h2>
+              <p class="shad-card-description">Every GRN arrives here automatically. Exceptions outside tolerance are routed back before payment.</p>
+            </div>
+            <div class="shad-card-content table-scroll" style="padding:0;">
+              <table class="shad-table">
+                <thead><tr><th>Invoice</th><th>PO / GRN</th><th class="right">Base (PKR)</th><th>Match</th><th>Payment</th><th></th></tr></thead>
+                <tbody id="fin-queue-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="shad-card chart-card">
+            <div class="shad-card-header">
+              <h2 class="shad-card-title">Payables ageing</h2>
+              <p class="shad-card-description">Outstanding vendor payables by age, PKR millions.</p>
+            </div>
+            <div class="shad-card-content"><div id="fin-ageing-chart"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           TAB 6: ITEM MASTER & CODIFICATION (Module 0 & 4)
+           ================================================================== -->
+      <section class="tab-panel" id="tab-items" style="display:none;">
+        <div class="shad-page-header">
+          <div>
+            <div class="eyebrow">Modules 0 &amp; 4</div>
+            <h1 class="shad-page-title">Item Master &amp; Vendors</h1>
+            <p class="shad-page-description">One Item Code from catalogue to disposal, governed codes with duplicate checks, and a vendor master with prequalification and blacklisting.</p>
+          </div>
+          <div class="shad-page-actions">
+            <button type="button" class="shad-btn shad-btn-default" data-write onclick="app.submitNewItemCode()">
+              <span>Submit code for approval</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Code request form (poc-screens.js) -->
+        <div class="shad-card poc-section">
+          <div class="shad-card-header">
+            <h2 class="shad-card-title">Request a new Item Code</h2>
+            <p class="shad-card-description">Category, sub-category and serial. Mandatory attributes are captured once and carried to every transaction.</p>
+          </div>
+          <div class="shad-card-content" id="codifier"></div>
+        </div>
+
+        <!-- Item catalogue -->
+        <div class="shad-card poc-section">
+          <div class="shad-card-header">
+            <h2 class="shad-card-title">Central catalogue</h2>
+            <p class="shad-card-description">Last purchase and weighted average cost update automatically on each goods receipt. Select an item for its history.</p>
+          </div>
+          <div class="shad-card-content table-scroll" style="padding:0;">
+            <table class="shad-table">
+              <thead><tr><th>Item code</th><th>Description</th><th>Classification</th><th>Asset attributes</th><th>Last purchase</th><th class="right">WAC (PKR)</th></tr></thead>
+              <tbody id="catalogue-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="poc-grid-2" style="margin-bottom:0;">
+          <!-- Vendor master -->
+          <div class="shad-card">
+            <div class="shad-card-header">
+              <h2 class="shad-card-title">Vendor master</h2>
+              <p class="shad-card-description">Statutory documents with expiry monitoring, prequalification, performance and blacklisting.</p>
+            </div>
+            <div class="shad-card-content table-scroll" style="padding:0;">
+              <table class="shad-table">
+                <thead><tr><th>Vendor</th><th>NTN / FBR</th><th>Prequalification</th><th class="right">On-time</th><th class="right">Rating</th><th>Next document expiry</th><th>Status</th><th></th></tr></thead>
+                <tbody id="vendor-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="shad-card chart-card">
+            <div class="shad-card-header">
+              <h2 class="shad-card-title">Prequalification scores</h2>
+              <p class="shad-card-description">Out of 100. Below 70 is not eligible.</p>
+            </div>
+            <div class="shad-card-content"><div id="vendor-chart"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Module 7: rendered by poc-core.js -->
+      <section class="tab-panel" id="tab-approvals" style="display:none;"></section>
+
+      <!-- Modules 8 & 9: rendered by poc-core.js -->
+      <section class="tab-panel" id="tab-orders" style="display:none;"></section>
+
+      <!-- Module 11: rendered by poc-screens.js -->
+      <section class="tab-panel" id="tab-reports" style="display:none;"></section>
+
+    </main>
+  </div>
+
+  <!-- ==================================================================
+       SHADCN DIALOGS & MODALS
+       ================================================================== -->
+
+  <!-- Modal: CST Statutory Export -->
+  <div class="shad-dialog-overlay" id="export-dialog">
+    <div class="shad-dialog">
+      <div class="shad-dialog-header">
+        <h3 class="shad-dialog-title">Comparative Statement &bull; Form CST-04</h3>
+        <button type="button" class="shad-btn shad-btn-ghost shad-btn-icon" onclick="app.closeDialog('export-dialog')">&times;</button>
+      </div>
+      <div class="shad-dialog-content">
+        <div style="border-bottom:1px solid hsl(var(--border)); padding-bottom:12px; margin-bottom:16px;">
+          <div style="font-weight:700; font-size:14px;">PAKISTAN CRICKET BOARD</div>
+          <div style="font-size:12px; color:hsl(var(--muted-foreground));">Tender Ref: PCB/LOG-PSL10/2026/089 &bull; Rule 36(b) Comparative Statement</div>
+        </div>
+        <p style="font-size:13px; margin-bottom:12px;">
+          Recommended Awardee: <strong style="color:hsl(var(--gold-text));">Signify Pakistan Ltd (Philips Lighting Solutions)</strong><br>
+          Evaluated Amount: <strong>PKR 56,876,000</strong> (Inclusive of 18% Sales Tax).
+        </p>
+        <p style="font-size:12px; color:hsl(var(--muted-foreground));">
+          Digitally endorsed by 4-member procurement committee with conflict of interest declarations on file.
+        </p>
+      </div>
+      <div class="shad-dialog-footer">
+        <button type="button" class="shad-btn shad-btn-outline" onclick="app.closeDialog('export-dialog')">Cancel</button>
+        <button type="button" class="shad-btn shad-btn-default" onclick="app.downloadPdfMock()">Download Certified PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Raise New Indent -->
+  <div class="shad-dialog-overlay" id="new-demand-dialog">
+    <div class="shad-dialog">
+      <div class="shad-dialog-header">
+        <h3 class="shad-dialog-title">Raise a demand</h3>
+        <button type="button" class="shad-btn shad-btn-ghost shad-btn-icon" onclick="app.closeDialog('new-demand-dialog')" aria-label="Close">&times;</button>
+      </div>
+      <div class="shad-dialog-content">
+        <div class="small muted" id="ind-by" style="margin-bottom:12px;"></div>
+        <div class="form-grid">
+          <div>
+            <label class="shad-label" for="ind-dept">Department</label>
+            <select class="shad-select" id="ind-dept">
+              <option>High Performance Centre</option>
+              <option>Grounds &amp; Pitches</option>
+              <option>Men's National Team</option>
+              <option>Women's National Team</option>
+              <option>PSL Operations</option>
+              <option>Domestic Cricket Operations</option>
+            </select>
+          </div>
+          <div>
+            <label class="shad-label" for="ind-date">Required by</label>
+            <input type="date" class="shad-input" id="ind-date" value="2026-11-01">
+          </div>
+          <div class="span-2">
+            <label class="shad-label" for="ind-item">Item</label>
+            <select class="shad-select" id="ind-item" onchange="app.onIndentItemChange()"></select>
+          </div>
+          <div>
+            <label class="shad-label" for="ind-qty">Quantity</label>
+            <input type="number" class="shad-input" id="ind-qty" min="1" value="100" oninput="app.updateIndentPreview()">
+          </div>
+          <div>
+            <label class="shad-label" for="ind-budget">Budget head</label>
+            <select class="shad-select" id="ind-budget" onchange="app.updateIndentPreview()"></select>
+          </div>
+          <div class="span-2">
+            <label class="shad-label" for="ind-purpose">Purpose / justification</label>
+            <input class="shad-input" id="ind-purpose" value="NCA pre-season camp" oninput="app.updateIndentPreview()">
+          </div>
+        </div>
+        <div class="panel-title" style="margin-top:16px;">Stock and budget check</div>
+        <div id="ind-preview"></div>
+      </div>
+      <div class="shad-dialog-footer">
+        <button type="button" class="shad-btn shad-btn-outline" onclick="app.closeDialog('new-demand-dialog')">Cancel</button>
+        <button type="button" class="shad-btn shad-btn-default" id="ind-submit" onclick="app.submitIndent()">Submit demand</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: ERP REST Contract -->
+  <div class="shad-dialog-overlay" id="erp-dialog">
+    <div class="shad-dialog" style="max-width:700px;">
+      <div class="shad-dialog-header">
+        <h3 class="shad-dialog-title">ERP REST API Data Contract (Module 10)</h3>
+        <button type="button" class="shad-btn shad-btn-ghost shad-btn-icon" onclick="app.closeDialog('erp-dialog')">&times;</button>
+      </div>
+      <div class="shad-dialog-content">
+        <pre style="background:hsl(var(--muted)); padding:16px; border-radius:var(--radius); font-family:var(--font-mono); font-size:11px; color:hsl(var(--primary)); overflow-x:auto;">
+{
+  "transaction_id": "TXN-PCB-FIN-2026-9812",
+  "match_status": "RECONCILED_THREE_WAY_MATCH",
+  "po_number": "PO-PCB-2026-0312",
+  "grn_number": "GRN-LHR-2026-0491",
+  "invoice_number": "INV-SIG-2026-9812",
+  "vendor": "Signify Pakistan Ltd",
+  "base_amount_pkr": 8400000.00,
+  "sales_tax_18pct": 1512000.00,
+  "wht_tax_4_5pct": 378000.00,
+  "net_payable_pkr": 9534000.00,
+  "tolerance_variance": 0.00
+}
+        </pre>
+      </div>
+      <div class="shad-dialog-footer">
+        <button type="button" class="shad-btn shad-btn-default" onclick="app.closeDialog('erp-dialog')">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Shelf -->
+  <div style="position:fixed; bottom:20px; right:20px; z-index:100; display:flex; flex-direction:column; gap:8px;" id="toast-shelf"></div>
+
+  <!-- Core Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/poc-data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/poc-core.js"></script>
+  <script src="js/poc-screens.js"></script>
+</body>
+</html>

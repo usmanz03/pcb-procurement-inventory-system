@@ -1,0 +1,763 @@
+/* ==========================================================================
+   AUTHENTIC SHADCN/UI DESIGN SYSTEM TOKENS & ATOMIC COMPONENTS
+   Minimalist, airy, modern zinc palette with PCB emerald brand accents
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --radius: 0.5rem;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* "Pitch & Trophy" palette — pitch green for brand/actions, trophy gold for
+     highlights only (active nav, awarded/winner). Neutrals carry a slight green tint. */
+
+  /* Dark Theme (Default) — "floodlit night" */
+  --background: 156 24% 4%;            /* #080c0a */
+  --foreground: 140 15% 92.2%;         /* #e8eeea */
+
+  --card: 148 18% 7.6%;                /* #101714 */
+  --card-foreground: 140 15% 92.2%;
+
+  --popover: 146 17% 8%;
+  --popover-foreground: 140 15% 92.2%;
+
+  --primary: 147 61% 46.7%;            /* #2fbf71 Pitch Green */
+  --primary-foreground: 146 67% 4.7%;  /* #04140b */
+
+  --secondary: 150 17% 11.4%;          /* #18221d */
+  --secondary-foreground: 140 15% 92.2%;
+
+  --muted: 150 17% 11.4%;              /* #18221d */
+  --muted-foreground: 148 8% 61%;      /* #94a39b */
+
+  --accent: 146 27% 11.8%;             /* #16261d */
+  --accent-foreground: 140 15% 92.2%;
+
+  --destructive: 7 74% 60.4%;          /* #e5604f */
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 147 15% 14.3%;             /* #1f2a24 */
+  --input: 147 15% 14.3%;
+  --ring: 147 61% 46.7%;
+
+  --gold: 42 74% 57.3%;                /* #e3b341 Trophy Gold (fills, borders) */
+  --gold-text: 42 74% 57.3%;           /* gold readable as text on this theme */
+
+  /* Status text colours (use /0.12 alpha for badge backgrounds) */
+  --success: 149 55% 50.8%;            /* #3cc77f */
+  --warning: 24 85% 60.6%;             /* #f08a45 — orange, kept apart from gold */
+  --danger: 7 80% 70.2%;               /* #f08576 */
+  --info: 220 77% 74.1%;               /* #8aacf0 */
+  --sealed: 256 73% 77.8%;             /* #b39df0 */
+
+  /* Depth (dark only; flattened in light) */
+  --page-glow:
+    radial-gradient(1100px 420px at 50% -120px, hsl(147 61% 46.7% / 0.10), transparent 70%),
+    radial-gradient(700px 360px at 100% -80px, hsl(42 74% 57.3% / 0.05), transparent 70%);
+  --card-sheen: linear-gradient(180deg, hsl(140 30% 90% / 0.03), hsl(140 30% 90% / 0) 45%);
+  --card-shadow: inset 0 1px 0 hsl(140 30% 90% / 0.05), 0 1px 2px hsl(0 0% 0% / 0.45), 0 12px 28px -16px hsl(0 0% 0% / 0.7);
+  --header-bg: hsl(156 24% 4% / 0.72);
+  --btn-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.16), hsl(0 0% 100% / 0) 60%);
+  --primary-glow: 0 6px 20px -8px hsl(147 61% 46.7% / 0.55);
+}
+
+[data-theme="light"] {
+  --background: 150 12% 96.9%;         /* #f6f8f7 */
+  --foreground: 150 30% 7.8%;          /* #0e1a14 */
+
+  --card: 0 0% 100%;
+  --card-foreground: 150 30% 7.8%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 150 30% 7.8%;
+
+  --primary: 149 81% 23.1%;            /* #0b6b3a Pitch Green */
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 144 16% 93.9%;          /* #edf2ef */
+  --secondary-foreground: 150 30% 7.8%;
+
+  --muted: 144 16% 93.9%;
+  --muted-foreground: 150 6% 39.6%;    /* #5f6b65 */
+
+  --accent: 141 33% 91.8%;             /* #e3f1e8 */
+  --accent-foreground: 150 30% 7.8%;
+
+  --destructive: 6 66% 50.8%;          /* #d4402f */
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 144 10% 90%;               /* #e3e8e5 */
+  --input: 144 10% 90%;
+  --ring: 149 81% 23.1%;
+
+  --gold: 44 66% 50.2%;                /* #d4a72c */
+  --gold-text: 43 100% 27.1%;          /* #8a6400 */
+
+  --success: 152 68% 27.8%;            /* #17774a */
+  --warning: 24 85% 38.2%;             /* #b4520f */
+  --danger: 7 70% 41.2%;               /* #b3311f */
+  --info: 217 65% 40%;                 /* #2457a8 */
+  --sealed: 255 50% 49.2%;             /* #5e3fbc */
+
+  --page-glow: none;
+  --card-sheen: none;
+  --card-shadow: 0 1px 2px hsl(150 30% 8% / 0.05);
+  --header-bg: hsl(0 0% 100% / 0.85);
+  --btn-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.10), hsl(0 0% 100% / 0) 60%);
+  --primary-glow: 0 4px 14px -6px hsl(149 81% 23.1% / 0.45);
+}
+
+/* ==========================================================================
+   BASE RESET & TYPOGRAPHY
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-color: hsl(var(--border));
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   SHADCN LAYOUT PRIMITIVES
+   ========================================================================== */
+.shad-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: hsl(var(--background));
+  background-image: var(--page-glow);
+  background-repeat: no-repeat;
+}
+
+/* Top Header */
+.shad-header {
+  height: 56px;
+  border-bottom: 1px solid hsl(var(--border));
+  background-color: var(--header-bg);
+  backdrop-filter: saturate(140%) blur(12px);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.shad-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  text-decoration: none;
+}
+
+.shad-logo-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: hsl(var(--primary));
+  background-image: var(--btn-sheen);
+  color: hsl(var(--primary-foreground));
+  box-shadow: 0 0 0 1px hsl(var(--gold) / 0.55), var(--primary-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: -0.5px;
+}
+
+/* Stakeholder Presentation Bar */
+.presentation-switch-bar {
+  background-color: hsl(var(--card) / 0.6);
+  border-bottom: 1px solid hsl(var(--border));
+  padding: 8px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  overflow-x: auto;
+}
+
+.presentation-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: hsl(var(--muted-foreground));
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.screen-pills-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.screen-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+  background-color: hsl(var(--secondary));
+  border: 1px solid hsl(var(--border));
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.screen-pill:hover {
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--accent));
+  border-color: hsl(var(--primary)/0.5);
+}
+
+.screen-pill.active {
+  color: hsl(var(--primary-foreground));
+  background-color: hsl(var(--primary));
+  border-color: hsl(var(--primary));
+  font-weight: 600;
+  box-shadow: 0 1px 3px hsl(var(--primary) / 0.3), inset 0 -2px 0 hsl(var(--gold));
+}
+
+.pill-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.25);
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+.screen-pill.active .pill-num {
+  background-color: hsl(var(--primary-foreground) / 0.18);
+  color: hsl(var(--primary-foreground));
+}
+
+.shad-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.shad-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+  border-radius: calc(var(--radius) - 2px);
+  text-decoration: none;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  transition: all 0.15s ease;
+}
+
+.shad-nav-link:hover {
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--accent));
+}
+
+.shad-nav-link.active {
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--accent));
+  font-weight: 600;
+  box-shadow: inset 0 -2px 0 hsl(var(--gold));
+}
+
+.shad-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Search Input */
+.shad-search-wrap {
+  position: relative;
+  width: 220px;
+}
+
+.shad-search-input {
+  width: 100%;
+  height: 32px;
+  border-radius: calc(var(--radius) - 2px);
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--card));
+  padding: 0 32px 0 10px;
+  font-size: 12px;
+  color: hsl(var(--foreground));
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.shad-search-input:focus {
+  border-color: hsl(var(--ring));
+}
+
+.shad-search-kbd {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: hsl(var(--muted-foreground));
+  border: 1px solid hsl(var(--border));
+  border-radius: 4px;
+  padding: 1px 4px;
+  background: hsl(var(--background));
+}
+
+/* Main Container */
+.shad-main {
+  flex: 1;
+  max-width: 1360px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 28px 24px 60px 24px;
+}
+
+/* Page Header Block */
+.shad-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.shad-page-title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: hsl(var(--foreground));
+  line-height: 1.2;
+}
+
+.shad-page-description {
+  font-size: 14px;
+  color: hsl(var(--muted-foreground));
+  margin-top: 4px;
+}
+
+.shad-page-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ==========================================================================
+   SHADCN UI COMPONENTS
+   ========================================================================== */
+
+/* Buttons */
+.shad-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.shad-btn-sm {
+  height: 30px;
+  padding: 0 10px;
+  font-size: 12px;
+  border-radius: calc(var(--radius) - 2px);
+}
+
+.shad-btn-default {
+  background-color: hsl(var(--primary));
+  background-image: var(--btn-sheen);
+  color: hsl(var(--primary-foreground));
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.12);
+}
+.shad-btn-default:hover {
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.12), var(--primary-glow);
+}
+
+.shad-btn-secondary {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+  border-color: hsl(var(--border));
+}
+.shad-btn-secondary:hover {
+  background-color: hsl(var(--accent));
+}
+
+.shad-btn-outline {
+  background-color: transparent;
+  border-color: hsl(var(--border));
+  color: hsl(var(--foreground));
+}
+.shad-btn-outline:hover {
+  background-color: hsl(var(--accent));
+}
+
+.shad-btn-ghost {
+  background-color: transparent;
+  color: hsl(var(--muted-foreground));
+}
+.shad-btn-ghost:hover {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--foreground));
+}
+
+.shad-btn-icon {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: var(--radius);
+}
+
+/* Cards */
+.shad-card {
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  background-image: var(--card-sheen);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+}
+
+.shad-card-header {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.shad-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: hsl(var(--card-foreground));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.shad-card-description {
+  font-size: 13px;
+  color: hsl(var(--muted-foreground));
+}
+
+.shad-card-content {
+  padding: 0 24px 20px 24px;
+}
+
+.shad-card-footer {
+  padding: 16px 24px;
+  border-top: 1px solid hsl(var(--border));
+  background-color: hsl(var(--background));
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Stat KPI Cards */
+.shad-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 1024px) {
+  .shad-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.shad-stat-card {
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  background-image: var(--card-sheen);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.shad-stat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+}
+
+.shad-stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: hsl(var(--card-foreground));
+  margin: 4px 0 2px 0;
+}
+
+.shad-stat-meta {
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Tabs */
+.shad-tabs-list {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  border-radius: var(--radius);
+  background-color: hsl(var(--muted));
+  padding: 3px;
+  margin-bottom: 20px;
+  border: 1px solid hsl(var(--border));
+}
+
+.shad-tab-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+  border-radius: calc(var(--radius) - 2px);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.shad-tab-trigger:hover {
+  color: hsl(var(--foreground));
+}
+
+.shad-tab-trigger.active {
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+}
+
+/* Badges */
+.shad-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  line-height: 1.2;
+}
+
+.shad-badge-outline {
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+}
+
+.shad-badge-secondary {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+}
+
+.shad-badge-success {
+  background-color: hsl(var(--success) / 0.12);
+  color: hsl(var(--success));
+  border: 1px solid hsl(var(--success) / 0.28);
+}
+
+.shad-badge-warning {
+  background-color: hsl(var(--warning) / 0.12);
+  color: hsl(var(--warning));
+  border: 1px solid hsl(var(--warning) / 0.28);
+}
+
+.shad-badge-destructive {
+  background-color: hsl(var(--danger) / 0.12);
+  color: hsl(var(--danger));
+  border: 1px solid hsl(var(--danger) / 0.28);
+}
+
+.shad-badge-info {
+  background-color: hsl(var(--info) / 0.12);
+  color: hsl(var(--info));
+  border: 1px solid hsl(var(--info) / 0.28);
+}
+
+.shad-badge-sealed {
+  background-color: hsl(var(--sealed) / 0.12);
+  color: hsl(var(--sealed));
+  border: 1px solid hsl(var(--sealed) / 0.28);
+}
+
+/* Gold is reserved for awarded / winning bidder */
+.shad-badge-award {
+  background-color: hsl(var(--gold) / 0.14);
+  color: hsl(var(--gold-text));
+  border: 1px solid hsl(var(--gold) / 0.45);
+}
+
+/* Tables */
+.shad-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.shad-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+
+.shad-table th {
+  padding: 11px 16px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: hsl(var(--muted-foreground));
+  background-color: hsl(var(--muted) / 0.45);
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.shad-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid hsl(var(--border));
+  color: hsl(var(--card-foreground));
+  vertical-align: middle;
+}
+
+.shad-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.shad-table tbody tr:hover {
+  background-color: hsl(var(--primary) / 0.05);
+}
+
+/* Avatars */
+.shad-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  background-color: hsl(var(--muted));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+}
+
+/* Modals & Dialogs */
+.shad-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 50;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.shad-dialog-overlay.active {
+  display: flex;
+}
+
+.shad-dialog {
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 640px;
+  background-image: var(--card-sheen);
+  box-shadow: var(--card-shadow), 0 24px 48px -12px hsl(0 0% 0% / 0.5);
+  overflow: hidden;
+  animation: dialogScale 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dialogScale {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.shad-dialog-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid hsl(var(--border));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.shad-dialog-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.shad-dialog-content {
+  padding: 24px;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.shad-dialog-footer {
+  padding: 16px 24px;
+  border-top: 1px solid hsl(var(--border));
+  background-color: hsl(var(--background));
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
