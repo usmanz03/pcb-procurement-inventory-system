@@ -2,6 +2,8 @@
 
 Clickable proof of concept for a PPRA-compliant procurement, inventory, custody and asset-lifecycle platform. Covers all twelve SOW modules (Item Master through Reports) with role-based views, live charts and end-to-end flows.
 
+**Live demo:** https://usmanz03.github.io/pcb-procurement-inventory-system/
+
 All figures and records are illustrative sample data.
 
 ## Run
