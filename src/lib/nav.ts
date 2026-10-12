@@ -1,0 +1,23 @@
+import { BarChart3, Boxes, ClipboardCheck, Gavel, LayoutDashboard, Scale, Truck, UserCheck, Warehouse, type LucideIcon } from "lucide-react";
+
+export interface NavItem { href: string; key: string; title: string; module: string; icon: LucideIcon; group: string }
+
+/* Ordered along the procurement lifecycle; number keys 1–9 follow this order. */
+export const NAV: NavItem[] = [
+  { href: "/", key: "overview", title: "Command centre", module: "Module 11", icon: LayoutDashboard, group: "Overview" },
+  { href: "/items/", key: "items", title: "Items & vendors", module: "Modules 0 & 4", icon: Boxes, group: "Master data" },
+  { href: "/inventory/", key: "inventory", title: "Demand & inventory", module: "Modules 1 & 2", icon: Warehouse, group: "Stores" },
+  { href: "/custody/", key: "custody", title: "Custody", module: "Module 3", icon: UserCheck, group: "Stores" },
+  { href: "/sourcing/", key: "sourcing", title: "Sourcing & evaluation", module: "Modules 5 & 6", icon: Gavel, group: "Procurement" },
+  { href: "/approvals/", key: "approvals", title: "Approvals", module: "Module 7", icon: ClipboardCheck, group: "Procurement" },
+  { href: "/orders/", key: "orders", title: "PO & goods receipt", module: "Modules 8 & 9", icon: Truck, group: "Procurement" },
+  { href: "/finance/", key: "finance", title: "Three-way match", module: "Module 10", icon: Scale, group: "Finance" },
+  { href: "/reports/", key: "reports", title: "Reports", module: "Module 11", icon: BarChart3, group: "Finance" },
+];
+
+export const navFor = (pathname: string) => {
+  const p = pathname.replace(process.env.NEXT_PUBLIC_BASE_PATH ?? "", "") || "/";
+  return NAV.find((n) => (n.href === "/" ? p === "/" : p.startsWith(n.href.replace(/\/$/, "")))) ?? NAV[0];
+};
+
+export const asset = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${path}`;

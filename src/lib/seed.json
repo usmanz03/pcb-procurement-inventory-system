@@ -1,0 +1,2233 @@
+{
+ "meta": {
+  "systemName": "PCB Procurement & Inventory Management System",
+  "org": "Pakistan Cricket Board",
+  "version": "v2.5.0-Enterprise",
+  "ppraCompliance": "PPRA Rules 2004 (Rule 36b & Rule 38)",
+  "fiscalYear": "2026-2027",
+  "currency": "PKR"
+ },
+ "stadiumStores": [
+  {
+   "id": "STORE-LHR-01",
+   "name": "Gaddafi Stadium Central Store",
+   "city": "Lahore",
+   "type": "Central Hub",
+   "totalSkus": 18420,
+   "valuationPkr": 64200000,
+   "custodian": "Muhammad Rashid",
+   "capacityUsed": "82%",
+   "lastAudit": "04-Oct-2026",
+   "status": "Active"
+  },
+  {
+   "id": "STORE-KHI-01",
+   "name": "National Bank Stadium",
+   "city": "Karachi",
+   "type": "Regional Store",
+   "totalSkus": 9210,
+   "valuationPkr": 32100000,
+   "custodian": "Tariq Zaman",
+   "capacityUsed": "71%",
+   "lastAudit": "28-Sep-2026",
+   "status": "Active"
+  },
+  {
+   "id": "STORE-RWP-01",
+   "name": "Rawalpindi Cricket Stadium",
+   "city": "Rawalpindi",
+   "type": "Regional Store",
+   "totalSkus": 5430,
+   "valuationPkr": 18500000,
+   "custodian": "Khurram Shehzad",
+   "capacityUsed": "64%",
+   "lastAudit": "01-Oct-2026",
+   "status": "Active"
+  },
+  {
+   "id": "STORE-MUL-01",
+   "name": "Multan Cricket Stadium",
+   "city": "Multan",
+   "type": "Regional Store",
+   "totalSkus": 4110,
+   "valuationPkr": 14300000,
+   "custodian": "Naveed Akram",
+   "capacityUsed": "59%",
+   "lastAudit": "22-Sep-2026",
+   "status": "Active"
+  },
+  {
+   "id": "STORE-NCA-01",
+   "name": "National Cricket Academy (NCA)",
+   "city": "Lahore",
+   "type": "High-Performance Hub",
+   "totalSkus": 3890,
+   "valuationPkr": 13700000,
+   "custodian": "Dr. Asadullah",
+   "capacityUsed": "88%",
+   "lastAudit": "08-Oct-2026",
+   "status": "Active"
+  }
+ ],
+ "itemsMaster": [
+  {
+   "code": "PCB-SPO-BALL-0042",
+   "name": "Kookaburra Turf Regulation White Match Balls (Box of 12)",
+   "category": "Sports & Match Gear",
+   "categoryCode": "SPO",
+   "subCategory": "Match Balls",
+   "classification": "Consumable",
+   "budgetType": "OpEx",
+   "uom": "Box (12 pcs)",
+   "totalStock": 140,
+   "storeBreakdown": {
+    "STORE-LHR-01": 40,
+    "STORE-KHI-01": 35,
+    "STORE-RWP-01": 25,
+    "STORE-MUL-01": 20,
+    "STORE-NCA-01": 20
+   },
+   "centralStock": 40,
+   "reorderLevel": 50,
+   "avgCostPkr": 185000,
+   "shelfLife": "24 Months",
+   "spec": "Australian Leather, 4-piece construction, ICC Regulation A Approved"
+  },
+  {
+   "code": "PCB-INF-LGT-0018",
+   "name": "Philips ArenaVision LED Floodlight Luminaire (1500W DMX-Controlled)",
+   "category": "Infrastructure & Stadium Works",
+   "categoryCode": "INF",
+   "subCategory": "Floodlighting",
+   "classification": "Non-Consumable (Asset)",
+   "budgetType": "CapEx",
+   "uom": "Unit",
+   "totalStock": 48,
+   "storeBreakdown": {
+    "STORE-LHR-01": 20,
+    "STORE-KHI-01": 12,
+    "STORE-RWP-01": 8,
+    "STORE-MUL-01": 8,
+    "STORE-NCA-01": 0
+   },
+   "centralStock": 20,
+   "reorderLevel": 10,
+   "avgCostPkr": 420000,
+   "shelfLife": "N/A (Asset)",
+   "spec": "5700K CCT, TLCI > 90, 4K/8K Ultra HD broadcast compliant, IP66 rated"
+  },
+  {
+   "code": "PCB-TRF-MOW-0007",
+   "name": "John Deere 8000 E-Cut Hybrid Fairway & Pitch Cylinder Mower",
+   "category": "Pitch & Ground Machinery",
+   "categoryCode": "TRF",
+   "subCategory": "Turf Care",
+   "classification": "Non-Consumable (Asset)",
+   "budgetType": "CapEx",
+   "uom": "Unit",
+   "totalStock": 6,
+   "storeBreakdown": {
+    "STORE-LHR-01": 2,
+    "STORE-KHI-01": 1,
+    "STORE-RWP-01": 1,
+    "STORE-MUL-01": 1,
+    "STORE-NCA-01": 1
+   },
+   "centralStock": 2,
+   "reorderLevel": 2,
+   "avgCostPkr": 4850000,
+   "shelfLife": "N/A (Asset)",
+   "spec": "Precision cylinder cutting, hybrid electric drive reels, adjustable 2mm-25mm"
+  },
+  {
+   "code": "PCB-APP-KIT-0091",
+   "name": "Team Pakistan Official Match Kit & Training Apparel (Set of 35 Units)",
+   "category": "Apparel & Merchandise",
+   "categoryCode": "APP",
+   "subCategory": "National Team",
+   "classification": "Consumable",
+   "budgetType": "OpEx",
+   "uom": "Squad Set",
+   "totalStock": 28,
+   "storeBreakdown": {
+    "STORE-LHR-01": 8,
+    "STORE-KHI-01": 6,
+    "STORE-RWP-01": 4,
+    "STORE-MUL-01": 2,
+    "STORE-NCA-01": 8
+   },
+   "centralStock": 8,
+   "reorderLevel": 15,
+   "avgCostPkr": 320000,
+   "shelfLife": "12 Months",
+   "spec": "Moisture-wicking recycled polyester, custom sublimation, PCB Gold Star crest"
+  },
+  {
+   "code": "PCB-MED-REC-0014",
+   "name": "Game Ready Cryo-Pneumatic Compression Therapy System",
+   "category": "Medical & High Performance",
+   "categoryCode": "MED",
+   "subCategory": "Physio Equipment",
+   "classification": "Non-Consumable (Asset)",
+   "budgetType": "CapEx",
+   "uom": "Unit",
+   "totalStock": 14,
+   "storeBreakdown": {
+    "STORE-LHR-01": 4,
+    "STORE-KHI-01": 2,
+    "STORE-RWP-01": 2,
+    "STORE-MUL-01": 2,
+    "STORE-NCA-01": 4
+   },
+   "centralStock": 4,
+   "reorderLevel": 4,
+   "avgCostPkr": 1450000,
+   "shelfLife": "N/A (Asset)",
+   "spec": "Dual-action RICE therapy, microprocessor controlled temperature & pressure"
+  },
+  {
+   "code": "PCB-BRD-HWK-0003",
+   "name": "Hawk-Eye Smart Pitch Calibration Sensor & Optical Tracker",
+   "category": "Broadcast & Tech Infrastructure",
+   "categoryCode": "BRD",
+   "subCategory": "Ball Tracking",
+   "classification": "Non-Consumable (Asset)",
+   "budgetType": "CapEx",
+   "uom": "Sensor Unit",
+   "totalStock": 12,
+   "storeBreakdown": {
+    "STORE-LHR-01": 3,
+    "STORE-KHI-01": 3,
+    "STORE-RWP-01": 2,
+    "STORE-MUL-01": 2,
+    "STORE-NCA-01": 2
+   },
+   "centralStock": 3,
+   "reorderLevel": 3,
+   "avgCostPkr": 3250000,
+   "shelfLife": "N/A (Asset)",
+   "spec": "Sub-millimeter ball-trajectory predictive analysis, ultra high-speed sync"
+  }
+ ],
+ "tenders": [
+  {
+   "id": "TENDER-01",
+   "tenderId": "PCB/LOG-PSL10/2026/089",
+   "title": "Procurement & Turnkey Rigging of Broadcast-Grade LED Stadium Floodlights for Gaddafi Stadium",
+   "method": "Open Competitive Bidding (Two-Envelope PPRA Rule 36b)",
+   "budgetType": "CapEx",
+   "estimatedBudgetPkr": 60000000,
+   "currentStage": "Financial Opening & Comparative Statement",
+   "stageIndex": 4,
+   "publishDate": "12-Sep-2026",
+   "techOpeningDate": "02-Oct-2026",
+   "finOpeningDate": "12-Oct-2026",
+   "bidSecurityPercent": "2.0%",
+   "sbdTemplate": "PEC/PPRA Standard Bidding Document v4.2",
+   "committee": [
+    {
+     "name": "Usman Zafar",
+     "role": "Chair / Director Procurement",
+     "coiDeclared": true
+    },
+    {
+     "name": "Tariq Mehmood",
+     "role": "Chief Financial Officer (CFO)",
+     "coiDeclared": true
+    },
+    {
+     "name": "Engr. Farhan Ali",
+     "role": "Chief Infrastructure Engineer",
+     "coiDeclared": true
+    },
+    {
+     "name": "Prof. Dr. Tahir Amin",
+     "role": "External Technical Specialist (NESPAK)",
+     "coiDeclared": true
+    }
+   ],
+   "bidders": [
+    {
+     "id": "BID-01",
+     "rank": 1,
+     "name": "Signify Pakistan Ltd (Philips Lighting Solutions)",
+     "ntn": "1428901-4",
+     "fbrStatus": "Active Taxpayer",
+     "techScore": 92,
+     "techStatus": "Technically Qualified",
+     "bidSecurity": "HBL Bank Guarantee #HBL-BG-2026-9921 (PKR 1,200,000) - Verified",
+     "quotedBasePkr": 48200000,
+     "salesTaxPkr": 8676000,
+     "evaluatedTotalPkr": 56876000,
+     "whtDeductionPkr": 2169000,
+     "evaluatedStatus": "Lowest Evaluated Responsive Bidder",
+     "isWinner": true,
+     "envelopeEncrypted": false,
+     "dossier": {
+      "experienceYears": 24,
+      "pastProjects": "National Stadium Karachi Floodlights, Rawalpindi Mast Retrofit",
+      "isoCertified": "ISO 9001, ISO 14001, OHSAS 18001",
+      "warrantyYears": "5 Years Turnkey Warranty & Hypercare"
+     }
+    },
+    {
+     "id": "BID-02",
+     "rank": 2,
+     "name": "Musco Stadium Lighting International",
+     "ntn": "0891230-2",
+     "fbrStatus": "Active Taxpayer",
+     "techScore": 88,
+     "techStatus": "Technically Qualified",
+     "bidSecurity": "MCB Bank Guarantee #MCB-BG-4412 (PKR 1,250,000) - Verified",
+     "quotedBasePkr": 52400000,
+     "salesTaxPkr": 9432000,
+     "evaluatedTotalPkr": 61832000,
+     "whtDeductionPkr": 2358000,
+     "evaluatedStatus": "Responsive (2nd Lowest)",
+     "isWinner": false,
+     "envelopeEncrypted": false,
+     "dossier": {
+      "experienceYears": 30,
+      "pastProjects": "Dubai International Stadium, Abu Dhabi Zayed Cricket Stadium",
+      "isoCertified": "ISO 9001",
+      "warrantyYears": "10 Years Musco Total Light Control Warranty"
+     }
+    },
+    {
+     "id": "BID-03",
+     "rank": 3,
+     "name": "Osram Asia High-Power Solutions",
+     "ntn": "3310492-9",
+     "fbrStatus": "Active Taxpayer",
+     "techScore": 84,
+     "techStatus": "Technically Qualified",
+     "bidSecurity": "Meezan Bank CDR #MEZ-CDR-1192 (PKR 1,220,000) - Verified",
+     "quotedBasePkr": 54100000,
+     "salesTaxPkr": 9738000,
+     "evaluatedTotalPkr": 63838000,
+     "whtDeductionPkr": 2434500,
+     "evaluatedStatus": "Responsive (3rd Lowest)",
+     "isWinner": false,
+     "envelopeEncrypted": false,
+     "dossier": {
+      "experienceYears": 18,
+      "pastProjects": "Sharjah Cricket Stadium LED Upgrade",
+      "isoCertified": "ISO 9001",
+      "warrantyYears": "3 Years Standard Warranty"
+     }
+    },
+    {
+     "id": "BID-04",
+     "rank": 4,
+     "name": "Apex Engineering Consortium",
+     "ntn": "2198031-1",
+     "fbrStatus": "Return Filing Pending",
+     "techScore": 58,
+     "techStatus": "Disqualified (Below 70 Min Threshold)",
+     "bidSecurity": "Bank of Punjab CDR #BOP-CDR-0912 - Valid",
+     "quotedBasePkr": 0,
+     "salesTaxPkr": 0,
+     "evaluatedTotalPkr": 0,
+     "whtDeductionPkr": 0,
+     "evaluatedStatus": "Financial Envelope Locked (Disqualified in Tech)",
+     "isWinner": false,
+     "envelopeEncrypted": true,
+     "dossier": {
+      "experienceYears": 6,
+      "pastProjects": "Local Sports Complex Luminaires",
+      "isoCertified": "None Provided",
+      "warrantyYears": "1 Year Limited"
+     }
+    }
+   ]
+  },
+  {
+   "id": "TENDER-02",
+   "tenderId": "PCB/LOG-SPO/2026/041",
+   "title": "Framework Contract for Official ICC-Approved Kookaburra White Turf Balls for PSL 10 & Champions Trophy Camp",
+   "method": "Open Competitive Bidding (Single Stage Two-Envelope)",
+   "budgetType": "OpEx",
+   "estimatedBudgetPkr": 18500000,
+   "currentStage": "10-Day Standstill & Intention to Award",
+   "stageIndex": 5,
+   "publishDate": "20-Aug-2026",
+   "techOpeningDate": "10-Sep-2026",
+   "finOpeningDate": "24-Sep-2026",
+   "bidSecurityPercent": "2.5%",
+   "sbdTemplate": "PCB Goods Procurement Standard Document v3.1",
+   "committee": [
+    {
+     "name": "Usman Zafar",
+     "role": "Chair / Director Procurement",
+     "coiDeclared": true
+    },
+    {
+     "name": "Bilal Hasan",
+     "role": "Equipment Manager",
+     "coiDeclared": true
+    },
+    {
+     "name": "Tariq Mehmood",
+     "role": "Chief Financial Officer (CFO)",
+     "coiDeclared": true
+    }
+   ],
+   "bidders": [
+    {
+     "id": "BID-T2-01",
+     "rank": 1,
+     "name": "CA Sports Sialkot (Authorized Kookaburra Agent)",
+     "ntn": "0492104-9",
+     "fbrStatus": "Active Taxpayer",
+     "techScore": 96,
+     "techStatus": "Technically Qualified",
+     "bidSecurity": "Allied Bank CDR #ABL-9921 (PKR 462,500) - Verified",
+     "quotedBasePkr": 14800000,
+     "salesTaxPkr": 2664000,
+     "evaluatedTotalPkr": 17464000,
+     "whtDeductionPkr": 666000,
+     "evaluatedStatus": "Lowest Evaluated Responsive Bidder",
+     "isWinner": true,
+     "envelopeEncrypted": false,
+     "dossier": {
+      "experienceYears": 42,
+      "pastProjects": "PCB Official Ball Supplier 2021-2025",
+      "isoCertified": "ISO 9001",
+      "warrantyYears": "Batch Quality Guarantee"
+     }
+    }
+   ]
+  }
+ ],
+ "custodyHolders": [
+  {
+   "empId": "PCB-PLR-0056",
+   "name": "Babar Azam",
+   "designation": "National Team Senior Batter",
+   "department": "Men's National Cricket Team",
+   "stadiumBase": "Gaddafi Stadium / NCA",
+   "activeAssetsCount": 4,
+   "clearanceStatus": "Active Custodian (All Assets Verified)",
+   "assets": [
+    {
+     "assetTag": "PCB-AST-SEN-0042",
+     "itemCode": "PCB-SPO-SEN-0001",
+     "description": "StanceBeam Bat Motion Sensor Kit (Bluetooth 5.0)",
+     "issuedDate": "14-Jul-2026",
+     "valuePkr": 95000,
+     "condition": "Excellent"
+    },
+    {
+     "assetTag": "PCB-AST-GPS-0012",
+     "itemCode": "PCB-MED-GPS-0004",
+     "description": "Catapult Vector S7 Athlete Tracking Vest & GPS Pod",
+     "issuedDate": "14-Jul-2026",
+     "valuePkr": 420000,
+     "condition": "Good"
+    },
+    {
+     "assetTag": "PCB-AST-TAB-0089",
+     "itemCode": "PCB-IT-TAB-0021",
+     "description": "iPad Pro 12.9 M2 Video Analysis Tactical Tablet",
+     "issuedDate": "20-Aug-2026",
+     "valuePkr": 380000,
+     "condition": "Excellent"
+    },
+    {
+     "assetTag": "PCB-AST-BAG-0112",
+     "itemCode": "PCB-APP-BAG-0003",
+     "description": "Official Team Pakistan Personalized Heavy-Duty Wheelie Bag",
+     "issuedDate": "10-Sep-2026",
+     "valuePkr": 65000,
+     "condition": "Good"
+    }
+   ]
+  },
+  {
+   "empId": "PCB-PLR-0010",
+   "name": "Shaheen Shah Afridi",
+   "designation": "Lead Fast Bowler",
+   "department": "Men's National Cricket Team",
+   "stadiumBase": "Gaddafi Stadium / NCA",
+   "activeAssetsCount": 3,
+   "clearanceStatus": "Active Custodian",
+   "assets": [
+    {
+     "assetTag": "PCB-AST-SLV-0008",
+     "itemCode": "PCB-MED-BIO-0002",
+     "description": "Smart High-Speed Bowling Arm Biomechanical Sensor Sleeve",
+     "issuedDate": "05-Aug-2026",
+     "valuePkr": 310000,
+     "condition": "Excellent"
+    },
+    {
+     "assetTag": "PCB-AST-GPS-0015",
+     "itemCode": "PCB-MED-GPS-0004",
+     "description": "Catapult Vector S7 Fast-Bowler Pod & Heart-Rate Harness",
+     "issuedDate": "05-Aug-2026",
+     "valuePkr": 420000,
+     "condition": "Excellent"
+    },
+    {
+     "assetTag": "PCB-AST-TAB-0091",
+     "itemCode": "PCB-IT-TAB-0021",
+     "description": "iPad Pro 12.9 M2 Video Analysis Tactical Tablet",
+     "issuedDate": "20-Aug-2026",
+     "valuePkr": 380000,
+     "condition": "Good"
+    }
+   ]
+  },
+  {
+   "empId": "PCB-CUR-0014",
+   "name": "Hafiz Shabbir",
+   "designation": "Chief Pitch Curator",
+   "department": "Grounds & Pitches Infrastructure",
+   "stadiumBase": "Gaddafi Stadium Lahore",
+   "activeAssetsCount": 2,
+   "clearanceStatus": "Active Custodian",
+   "assets": [
+    {
+     "assetTag": "PCB-AST-CUR-0005",
+     "itemCode": "PCB-TRF-PEN-0002",
+     "description": "Turf-Tech Digital Soil Compaction & Moisture Penetrometer",
+     "issuedDate": "02-May-2026",
+     "valuePkr": 290000,
+     "condition": "Calibrated"
+    },
+    {
+     "assetTag": "PCB-AST-LAS-0018",
+     "itemCode": "PCB-TRF-LAS-0001",
+     "description": "Leica Rugby 610 Pitch Elevation Laser Level System",
+     "issuedDate": "18-Jun-2026",
+     "valuePkr": 580000,
+     "condition": "Excellent"
+    }
+   ]
+  },
+  {
+   "empId": "PCB-STF-0089",
+   "name": "Bilal Hasan",
+   "designation": "Equipment Manager",
+   "department": "Logistics & Store Custody Wing",
+   "stadiumBase": "Gaddafi Stadium Lahore",
+   "activeAssetsCount": 2,
+   "clearanceStatus": "Active Departmental Custodian",
+   "assets": [
+    {
+     "assetTag": "PCB-AST-SCN-0011",
+     "itemCode": "PCB-IT-SCN-0003",
+     "description": "Zebra TC52x Rugged Handheld Barcode/QR Inventory Computer",
+     "issuedDate": "12-Jan-2026",
+     "valuePkr": 240000,
+     "condition": "Good"
+    },
+    {
+     "assetTag": "PCB-AST-PRN-0004",
+     "itemCode": "PCB-IT-PRN-0002",
+     "description": "Zebra ZD621 Industrial Barcode Asset Tag Printer",
+     "issuedDate": "12-Jan-2026",
+     "valuePkr": 195000,
+     "condition": "Good"
+    }
+   ]
+  }
+ ],
+ "reconciliationRecord": {
+  "matchId": "3WM-2026-0814",
+  "status": "VERIFIED_THREE_WAY_MATCH",
+  "po": {
+   "number": "PO-PCB-2026-0312",
+   "date": "14-Sep-2026",
+   "vendor": "Signify Pakistan Ltd (Philips)",
+   "item": "Philips ArenaVision LED Floodlight Luminaire (Batch of 20)",
+   "qty": 20,
+   "unitPrice": 420000,
+   "baseTotal": 8400000,
+   "terms": "Liquidated damages 0.1% per day up to 10%. Net 30 days.",
+   "budgetHead": "Stadium Infrastructure CapEx (PC-1)",
+   "status": "Approved"
+  },
+  "grn": {
+   "number": "GRN-LHR-2026-0491",
+   "date": "04-Oct-2026",
+   "deliveryLocation": "Gaddafi Stadium Central Store",
+   "qtyDelivered": 20,
+   "qtyAccepted": 20,
+   "qtyRejected": 0,
+   "inspector": "Engr. Farhan Ali (Chief Infrastructure Engineer)",
+   "inspectionResult": "100% Passed. Lux output and photometric calibration certified.",
+   "tagRange": "PCB-AST-LGT-001 to PCB-AST-LGT-020",
+   "status": "Accepted"
+  },
+  "invoice": {
+   "number": "INV-SIG-2026-9812",
+   "date": "06-Oct-2026",
+   "strn": "14-28-9014-001-92",
+   "ntn": "1428901-4",
+   "billedBase": 8400000,
+   "salesTax18": 1512000,
+   "grossTotal": 9912000,
+   "varianceBasePkr": 0,
+   "variancePct": 0,
+   "status": "Reconciled"
+  },
+  "taxes": {
+   "base": 8400000,
+   "salesTax18": 1512000,
+   "gross": 9912000,
+   "wht4_5": 378000,
+   "netPayable": 9534000
+  },
+  "paymentDisbursed": false
+ },
+ "recentActivities": [
+  {
+   "id": "ACT-01",
+   "type": "tender",
+   "title": "PPRA Standstill Period Triggered",
+   "desc": "Intention to award published for Tender PCB/LOG-SPO/2026/041. 10-day grievance window active.",
+   "time": "14 mins ago",
+   "badge": "PPRA Compliance",
+   "color": "gold",
+   "details": "Notice of Intention to Award posted on PCB & PPRA web portals. Standstill expires 16-Oct-2026 17:00 PST. No grievances filed so far."
+  },
+  {
+   "id": "ACT-02",
+   "type": "inventory",
+   "title": "Smart Requisition Stock Reservation",
+   "desc": "Requisition REQ-2026-1044 split: 40 boxes reserved at Gaddafi Central Store, 60 boxes routed to Procurement.",
+   "time": "42 mins ago",
+   "badge": "Auto Branching",
+   "color": "green",
+   "details": "High Performance Division indent processed. Branch 1: SIN-LHR-8902 generated for 40 units. Branch 2: PR-AUTO-4401 generated for 60 units balance."
+  },
+  {
+   "id": "ACT-03",
+   "type": "custody",
+   "title": "Digital Chain-of-Custody Sign-off",
+   "desc": "Babar Azam acknowledged custody transfer for StanceBeam Motion Sensor (PCB-AST-SEN-0042) via secure OTP.",
+   "time": "2 hours ago",
+   "badge": "Custody Chain",
+   "color": "blue",
+   "details": "Electronic transfer signed with OTP #849201 from verified player mobile device. Chain recorded: Central Store -> Bilal Hasan -> Babar Azam."
+  },
+  {
+   "id": "ACT-04",
+   "type": "finance",
+   "title": "Three-Way Match Reconciled",
+   "desc": "PO-PCB-2026-0312 vs GRN-LHR-2026-0491 vs INV-SIG-2026-9812 matched with 0.00% variance.",
+   "time": "4 hours ago",
+   "badge": "Finance Gate",
+   "color": "green",
+   "details": "Full tolerance validation successful. Gross: PKR 9,912,000. WHT 4.5%: PKR 378,000. Net Payable: PKR 9,534,000 queued for RTGS disbursement."
+  }
+ ],
+ "today": "13-Oct-2026",
+ "analytics": {
+  "months": [
+   "Jul",
+   "Aug",
+   "Sep",
+   "Oct"
+  ],
+  "monthLabels": [
+   "Jul 2026",
+   "Aug 2026",
+   "Sep 2026",
+   "Oct 2026 (to date)"
+  ],
+  "committedCapex": [
+   17.6,
+   21,
+   27.9,
+   9.5
+  ],
+  "committedOpex": [
+   10.4,
+   12.3,
+   16.4,
+   8.7
+  ],
+  "monthlyPlan": 20.1,
+  "stockValue": [
+   131.2,
+   136.8,
+   139.5,
+   142.8
+  ],
+  "cycleDays": [
+   41,
+   38,
+   34,
+   29
+  ],
+  "cycleTarget": 30,
+  "slaOnTime": [
+   78,
+   82,
+   85,
+   88
+  ],
+  "openDemands": [
+   171,
+   166,
+   158,
+   142
+  ],
+  "activeTenders": [
+   3,
+   4,
+   6,
+   5
+  ],
+  "pipeline": [
+   {
+    "stage": "Demands raised",
+    "n": 186,
+    "tab": "inventory"
+   },
+   {
+    "stage": "Fulfilled from stock",
+    "n": 97,
+    "tab": "inventory"
+   },
+   {
+    "stage": "Routed to procurement",
+    "n": 89,
+    "tab": "inventory"
+   },
+   {
+    "stage": "Tenders / RFQs",
+    "n": 31,
+    "tab": "tenders"
+   },
+   {
+    "stage": "Approved for award",
+    "n": 22,
+    "tab": "approvals"
+   },
+   {
+    "stage": "Purchase orders",
+    "n": 20,
+    "tab": "orders"
+   },
+   {
+    "stage": "Goods received",
+    "n": 16,
+    "tab": "orders"
+   },
+   {
+    "stage": "Paid",
+    "n": 13,
+    "tab": "finance"
+   }
+  ],
+  "approvalHoursByType": [
+   {
+    "name": "Demand",
+    "value": 14
+   },
+   {
+    "name": "Purchase requisition",
+    "value": 31
+   },
+   {
+    "name": "Comparative statement",
+    "value": 62
+   },
+   {
+    "name": "Purchase order",
+    "value": 19
+   },
+   {
+    "name": "Item code",
+    "value": 9
+   }
+  ],
+  "ageingBuckets": {
+   "labels": [
+    "0–15 days",
+    "16–30 days",
+    "31–45 days",
+    "45+ days"
+   ],
+   "values": [
+    17.7,
+    6.4,
+    2.1,
+    0.9
+   ]
+  }
+ },
+ "roles": {
+  "director": {
+   "label": "Director Procurement",
+   "user": "Usman Zafar",
+   "initials": "UZ",
+   "tabs": "all",
+   "readOnly": false
+  },
+  "committee": {
+   "label": "Procurement Committee Member",
+   "user": "Engr. Farhan Ali",
+   "initials": "FA",
+   "tabs": [
+    "overview",
+    "items",
+    "tenders",
+    "approvals",
+    "reports"
+   ],
+   "readOnly": false
+  },
+  "cfo": {
+   "label": "Chief Financial Officer",
+   "user": "Tariq Mehmood",
+   "initials": "TM",
+   "tabs": [
+    "overview",
+    "tenders",
+    "approvals",
+    "orders",
+    "finance",
+    "reports"
+   ],
+   "readOnly": false
+  },
+  "storekeeper": {
+   "label": "Central Storekeeper",
+   "user": "Muhammad Rashid",
+   "initials": "MR",
+   "tabs": [
+    "overview",
+    "items",
+    "inventory",
+    "custody",
+    "orders",
+    "reports"
+   ],
+   "readOnly": false
+  },
+  "auditor": {
+   "label": "Statutory Auditor (read-only)",
+   "user": "DG Audit Office",
+   "initials": "AU",
+   "tabs": "all",
+   "readOnly": true
+  }
+ },
+ "budgetHeads": [
+  {
+   "id": "BH-CAP-INF",
+   "name": "Stadium Infrastructure CapEx (PC-1)",
+   "type": "CapEx",
+   "allocation": 120000000,
+   "committed": 63000000,
+   "spent": 41200000
+  },
+  {
+   "id": "BH-CAP-BRD",
+   "name": "Broadcast & Technology CapEx",
+   "type": "CapEx",
+   "allocation": 45000000,
+   "committed": 13000000,
+   "spent": 9750000
+  },
+  {
+   "id": "BH-OPX-CRK",
+   "name": "Cricket Operations OpEx",
+   "type": "OpEx",
+   "allocation": 38000000,
+   "committed": 26400000,
+   "spent": 19100000
+  },
+  {
+   "id": "BH-OPX-HPC",
+   "name": "High Performance Centre OpEx",
+   "type": "OpEx",
+   "allocation": 22000000,
+   "committed": 9600000,
+   "spent": 7300000
+  },
+  {
+   "id": "BH-OPX-GRD",
+   "name": "Grounds & Pitches OpEx",
+   "type": "OpEx",
+   "allocation": 16000000,
+   "committed": 11800000,
+   "spent": 8900000
+  }
+ ],
+ "methodThresholds": [
+  {
+   "max": 100000,
+   "method": "Petty Purchase",
+   "docs": "Single quotation, cash memo",
+   "advert": "Not required",
+   "minDays": 0
+  },
+  {
+   "max": 3000000,
+   "method": "Request for Quotations (RFQ)",
+   "docs": "Minimum 3 written quotations",
+   "advert": "Not required",
+   "minDays": 7
+  },
+  {
+   "max": null,
+   "method": "Open Competitive Bidding",
+   "docs": "Standard Bidding Document, single- or two-stage",
+   "advert": "PPRA website + national newspaper",
+   "minDays": 15
+  }
+ ],
+ "approvalMatrix": [
+  {
+   "band": "B1",
+   "range": "Up to PKR 100,000",
+   "chain": [
+    "Head of Department"
+   ]
+  },
+  {
+   "band": "B2",
+   "range": "PKR 100,001 – 3,000,000",
+   "chain": [
+    "Head of Department",
+    "Director Procurement"
+   ]
+  },
+  {
+   "band": "B3",
+   "range": "PKR 3,000,001 – 20,000,000",
+   "chain": [
+    "Head of Department",
+    "Director Procurement",
+    "CFO"
+   ]
+  },
+  {
+   "band": "B4",
+   "range": "PKR 20,000,001 – 50,000,000",
+   "chain": [
+    "Director Procurement",
+    "CFO",
+    "COO"
+   ]
+  },
+  {
+   "band": "B5",
+   "range": "Above PKR 50,000,000",
+   "chain": [
+    "Procurement Committee",
+    "Director Procurement",
+    "CFO",
+    "Chairman PCB"
+   ]
+  }
+ ],
+ "delegation": {
+  "active": true,
+  "from": "Chief Operating Officer",
+  "to": "CFO (Tariq Mehmood)",
+  "period": "10 – 18 Oct 2026",
+  "reason": "Official travel (ICC meeting, Dubai)"
+ },
+ "approvals": [
+  {
+   "id": "APR-2026-0186",
+   "type": "Comparative Statement",
+   "ref": "PCB/LOG-PSL10/2026/089",
+   "title": "Award recommendation: LED floodlights, Gaddafi Stadium (Signify Pakistan)",
+   "amount": 56876000,
+   "band": "B5",
+   "dept": "Procurement Wing",
+   "requestedBy": "Procurement Committee",
+   "submitted": "09-Oct-2026",
+   "slaHours": 72,
+   "elapsedHours": 79,
+   "status": "pending",
+   "linkTender": 0,
+   "chain": [
+    {
+     "role": "Procurement Committee",
+     "name": "4 members",
+     "status": "approved",
+     "at": "09-Oct 16:40",
+     "remark": "Lowest evaluated responsive bidder. All 4 members signed, no conflicts declared."
+    },
+    {
+     "role": "Director Procurement",
+     "name": "Usman Zafar",
+     "status": "pending",
+     "roleKey": "director"
+    },
+    {
+     "role": "CFO",
+     "name": "Tariq Mehmood",
+     "status": "waiting",
+     "roleKey": "cfo"
+    },
+    {
+     "role": "Chairman PCB",
+     "name": "Chairman",
+     "status": "waiting"
+    }
+   ]
+  },
+  {
+   "id": "APR-2026-0188",
+   "type": "Purchase Requisition",
+   "ref": "PR-AUTO-4401",
+   "title": "60 boxes Kookaburra white match balls (balance of REQ-2026-1044)",
+   "amount": 11100000,
+   "band": "B3",
+   "dept": "High Performance Centre",
+   "requestedBy": "Bilal Hasan",
+   "submitted": "10-Oct-2026",
+   "slaHours": 48,
+   "elapsedHours": 41,
+   "status": "pending",
+   "chain": [
+    {
+     "role": "Head of Department",
+     "name": "Mudassar Nazar",
+     "status": "approved",
+     "at": "10-Oct 14:20",
+     "remark": "Needed for NCA camp starting 1 Nov."
+    },
+    {
+     "role": "Director Procurement",
+     "name": "Usman Zafar",
+     "status": "pending",
+     "roleKey": "director"
+    },
+    {
+     "role": "CFO",
+     "name": "Tariq Mehmood",
+     "status": "waiting",
+     "roleKey": "cfo"
+    }
+   ]
+  },
+  {
+   "id": "APR-2026-0181",
+   "type": "Vendor Blacklisting",
+   "ref": "VND-0412",
+   "title": "Debar Apex Engineering Consortium for 2 years (forged experience certificate)",
+   "amount": null,
+   "band": "—",
+   "dept": "Procurement Wing",
+   "requestedBy": "Procurement Committee",
+   "submitted": "11-Oct-2026",
+   "slaHours": 120,
+   "elapsedHours": 30,
+   "status": "pending",
+   "linkVendor": "VND-0412",
+   "chain": [
+    {
+     "role": "Procurement Committee",
+     "name": "4 members",
+     "status": "approved",
+     "at": "11-Oct 11:05",
+     "remark": "Certificate verified as forged with issuing authority (NESPAK letter ref 2026/441)."
+    },
+    {
+     "role": "Director Procurement",
+     "name": "Usman Zafar",
+     "status": "pending",
+     "roleKey": "director"
+    }
+   ]
+  },
+  {
+   "id": "APR-2026-0184",
+   "type": "Item Code Request",
+   "ref": "PCB-MED-REC-0015",
+   "title": "New code: Normatec 3 recovery boots (physio)",
+   "amount": null,
+   "band": "—",
+   "dept": "High Performance Centre",
+   "requestedBy": "Dr. Asadullah",
+   "submitted": "12-Oct-2026",
+   "slaHours": 24,
+   "elapsedHours": 5,
+   "status": "pending",
+   "chain": [
+    {
+     "role": "Catalogue Officer",
+     "name": "Saima Khan",
+     "status": "approved",
+     "at": "12-Oct 09:10",
+     "remark": "No duplicate found in MED-REC."
+    },
+    {
+     "role": "Director Procurement",
+     "name": "Usman Zafar",
+     "status": "pending",
+     "roleKey": "director"
+    }
+   ]
+  },
+  {
+   "id": "APR-2026-0179",
+   "type": "Demand",
+   "ref": "REQ-2026-1051",
+   "title": "Rain covers and pitch sheets (8 sets) for Multan Cricket Stadium",
+   "amount": 2240000,
+   "band": "B2",
+   "dept": "Grounds & Pitches",
+   "requestedBy": "Usman Zafar",
+   "submitted": "11-Oct-2026",
+   "slaHours": 48,
+   "elapsedHours": 18,
+   "status": "pending",
+   "sodBlocked": true,
+   "chain": [
+    {
+     "role": "Head of Department",
+     "name": "Agha Zahid",
+     "status": "approved",
+     "at": "11-Oct 15:00",
+     "remark": "Monsoon damage replacement."
+    },
+    {
+     "role": "Director Procurement",
+     "name": "Usman Zafar",
+     "status": "pending",
+     "roleKey": "director"
+    }
+   ]
+  },
+  {
+   "id": "APR-2026-0175",
+   "type": "PO Amendment",
+   "ref": "PO-PCB-2026-0298",
+   "title": "Extend Hawk-Eye sensor delivery by 14 days (customs hold)",
+   "amount": 0,
+   "band": "B4",
+   "dept": "Broadcast & Tech",
+   "requestedBy": "Imran Siddiqui",
+   "submitted": "07-Oct-2026",
+   "slaHours": 72,
+   "elapsedHours": 96,
+   "status": "returned",
+   "chain": [
+    {
+     "role": "Director Procurement",
+     "name": "Usman Zafar",
+     "status": "returned",
+     "at": "08-Oct 10:30",
+     "remark": "Attach customs detention letter and vendor undertaking on LD waiver."
+    }
+   ]
+  },
+  {
+   "id": "APR-2026-0170",
+   "type": "Purchase Order",
+   "ref": "PO-PCB-2026-0324",
+   "title": "80 boxes Kookaburra balls, framework call-off",
+   "amount": 17180800,
+   "band": "B3",
+   "dept": "Cricket Operations",
+   "requestedBy": "Bilal Hasan",
+   "submitted": "25-Sep-2026",
+   "slaHours": 48,
+   "elapsedHours": 20,
+   "status": "approved",
+   "chain": [
+    {
+     "role": "Director Procurement",
+     "name": "Usman Zafar",
+     "status": "approved",
+     "at": "26-Sep 09:15",
+     "remark": "Within framework rates."
+    },
+    {
+     "role": "CFO",
+     "name": "Tariq Mehmood",
+     "status": "approved",
+     "at": "26-Sep 12:40",
+     "remark": "Budget available."
+    }
+   ]
+  }
+ ],
+ "intentions": [
+  {
+   "tenderIdx": 1,
+   "tender": "PCB/LOG-SPO/2026/041",
+   "title": "Kookaburra white balls, framework contract",
+   "bidder": "CA Sports Sialkot",
+   "published": "06-Oct-2026",
+   "expires": "16-Oct-2026 17:00",
+   "days": 10,
+   "elapsed": 6,
+   "grievances": 0
+  }
+ ],
+ "grievances": [
+  {
+   "id": "GRV-2026-007",
+   "tender": "PCB/INF-GRD/2026/052",
+   "subject": "Rain covers and pitch sheets",
+   "complainant": "Diamond Tarpaulin Industries",
+   "filed": "02-Oct-2026",
+   "ground": "Technical criteria favoured a single brand",
+   "committee": "Grievance Redressal Committee (3)",
+   "hearing": "09-Oct-2026",
+   "status": "Decision due 16-Oct"
+  },
+  {
+   "id": "GRV-2026-005",
+   "tender": "PCB/APP-KIT/2026/017",
+   "subject": "Domestic team kits",
+   "complainant": "Stitch Pro Garments",
+   "filed": "18-Aug-2026",
+   "ground": "Bid security wrongly declared invalid",
+   "committee": "Grievance Redressal Committee (3)",
+   "hearing": "25-Aug-2026",
+   "status": "Closed: complaint rejected"
+  }
+ ],
+ "demands": [
+  {
+   "id": "REQ-2026-1044",
+   "date": "10-Oct-2026",
+   "dept": "High Performance Centre",
+   "by": "Bilal Hasan",
+   "itemCode": "PCB-SPO-BALL-0042",
+   "qty": 100,
+   "issued": 40,
+   "prQty": 60,
+   "branch": "partial",
+   "sin": "SIN-LHR-8902",
+   "pr": "PR-AUTO-4401",
+   "requiredBy": "01-Nov-2026",
+   "purpose": "NCA pre-season camp",
+   "budgetHead": "BH-OPX-HPC",
+   "status": "Part issued, PR in approval"
+  },
+  {
+   "id": "REQ-2026-1051",
+   "date": "11-Oct-2026",
+   "dept": "Grounds & Pitches",
+   "by": "Usman Zafar",
+   "itemCode": "PCB-GRD-CVR-0004",
+   "qty": 8,
+   "issued": 0,
+   "prQty": 8,
+   "branch": "none",
+   "pr": "PR-AUTO-4407",
+   "requiredBy": "15-Nov-2026",
+   "purpose": "Monsoon damage replacement, Multan",
+   "budgetHead": "BH-OPX-GRD",
+   "status": "PR in approval"
+  },
+  {
+   "id": "REQ-2026-1039",
+   "date": "04-Oct-2026",
+   "dept": "Women's National Team",
+   "by": "Sana Mir",
+   "itemCode": "PCB-APP-KIT-0091",
+   "qty": 2,
+   "issued": 2,
+   "prQty": 0,
+   "branch": "full",
+   "sin": "SIN-LHR-8871",
+   "requiredBy": "06-Oct-2026",
+   "purpose": "Asia Cup squad kits",
+   "budgetHead": "BH-OPX-CRK",
+   "status": "Fulfilled from stock"
+  },
+  {
+   "id": "REQ-2026-1032",
+   "date": "28-Sep-2026",
+   "dept": "Grounds & Pitches",
+   "by": "Hafiz Shabbir",
+   "itemCode": "PCB-INF-LGT-0018",
+   "qty": 110,
+   "issued": 0,
+   "prQty": 110,
+   "branch": "none",
+   "pr": "PR-2026-0389",
+   "requiredBy": "15-Dec-2026",
+   "purpose": "Gaddafi floodlight upgrade",
+   "budgetHead": "BH-CAP-INF",
+   "status": "Tender 089 in evaluation"
+  }
+ ],
+ "itemLedgers": {
+  "PCB-SPO-BALL-0042": {
+   "opening": {
+    "date": "01-Jul-2026",
+    "qty": 60,
+    "unitCost": 186000
+   },
+   "entries": [
+    {
+     "date": "08-Jul-2026",
+     "type": "GRN",
+     "ref": "GRN-LHR-2026-0377",
+     "doc": "PO-PCB-2026-0261",
+     "qty": 60,
+     "unitCost": 182000,
+     "party": "CA Sports Sialkot",
+     "purpose": "Framework call-off 1"
+    },
+    {
+     "date": "15-Jul-2026",
+     "type": "ISSUE",
+     "ref": "SIN-LHR-8611",
+     "doc": "REQ-2026-0912",
+     "qty": -30,
+     "party": "Men's National Team",
+     "custodian": "Bilal Hasan",
+     "recipient": "Team Manager",
+     "purpose": "England series preparation camp"
+    },
+    {
+     "date": "02-Aug-2026",
+     "type": "ISSUE",
+     "ref": "SIN-LHR-8703",
+     "doc": "REQ-2026-0955",
+     "qty": -25,
+     "party": "High Performance Centre",
+     "custodian": "Dr. Asadullah",
+     "recipient": "U-19 Head Coach",
+     "purpose": "U-19 summer camp"
+    },
+    {
+     "date": "19-Aug-2026",
+     "type": "TRANSFER_OUT",
+     "ref": "TRF-2026-0045",
+     "doc": "To STORE-KHI-01",
+     "qty": -20,
+     "party": "National Bank Stadium store",
+     "purpose": "Karachi Test match allocation"
+    },
+    {
+     "date": "05-Sep-2026",
+     "type": "ISSUE",
+     "ref": "SIN-LHR-8790",
+     "doc": "REQ-2026-1003",
+     "qty": -38,
+     "party": "Domestic Cricket Operations",
+     "custodian": "Junaid Zia",
+     "recipient": "Tournament Director",
+     "purpose": "Quaid-e-Azam Trophy, round 1"
+    },
+    {
+     "date": "22-Sep-2026",
+     "type": "RETURN",
+     "ref": "RET-LHR-0112",
+     "doc": "SIN-LHR-8790",
+     "qty": 3,
+     "party": "Domestic Cricket Operations",
+     "purpose": "Unused sealed boxes returned"
+    },
+    {
+     "date": "08-Oct-2026",
+     "type": "GRN",
+     "ref": "GRN-LHR-2026-0503",
+     "doc": "PO-PCB-2026-0324",
+     "qty": 40,
+     "unitCost": 182000,
+     "party": "CA Sports Sialkot",
+     "purpose": "Framework call-off 2 (part delivery)"
+    },
+    {
+     "date": "11-Oct-2026",
+     "type": "ISSUE",
+     "ref": "SIN-LHR-8899",
+     "doc": "REQ-2026-1040",
+     "qty": -10,
+     "party": "Women's National Team",
+     "custodian": "Bilal Hasan",
+     "recipient": "Team Manager",
+     "purpose": "Asia Cup camp"
+    }
+   ]
+  },
+  "PCB-INF-LGT-0018": {
+   "opening": {
+    "date": "01-Jul-2026",
+    "qty": 6,
+    "unitCost": 435000
+   },
+   "entries": [
+    {
+     "date": "12-Aug-2026",
+     "type": "ISSUE",
+     "ref": "SIN-LHR-8722",
+     "doc": "REQ-2026-0971",
+     "qty": -6,
+     "party": "Grounds & Infrastructure",
+     "custodian": "Engr. Farhan Ali",
+     "recipient": "Electrical Foreman",
+     "purpose": "Replace failed lamps, Tower 3"
+    },
+    {
+     "date": "04-Oct-2026",
+     "type": "GRN",
+     "ref": "GRN-LHR-2026-0491",
+     "doc": "PO-PCB-2026-0312",
+     "qty": 20,
+     "unitCost": 420000,
+     "party": "Signify Pakistan Ltd",
+     "purpose": "Batch 1 luminaires"
+    }
+   ]
+  },
+  "PCB-TRF-MOW-0007": {
+   "opening": {
+    "date": "01-Jul-2026",
+    "qty": 2,
+    "unitCost": 4850000
+   },
+   "entries": [
+    {
+     "date": "20-Aug-2026",
+     "type": "ISSUE",
+     "ref": "SIN-LHR-8740",
+     "doc": "REQ-2026-0980",
+     "qty": -1,
+     "party": "Grounds & Pitches",
+     "custodian": "Hafiz Shabbir",
+     "recipient": "Head Groundsman, Multan",
+     "purpose": "Season pitch preparation",
+     "returnable": true
+    },
+    {
+     "date": "25-Sep-2026",
+     "type": "RETURN",
+     "ref": "RET-LHR-0118",
+     "doc": "SIN-LHR-8740",
+     "qty": 1,
+     "party": "Grounds & Pitches",
+     "purpose": "Returned after season"
+    }
+   ]
+  },
+  "PCB-APP-KIT-0091": {
+   "opening": {
+    "date": "01-Jul-2026",
+    "qty": 20,
+    "unitCost": 320000
+   },
+   "entries": [
+    {
+     "date": "10-Jul-2026",
+     "type": "ISSUE",
+     "ref": "SIN-LHR-8602",
+     "doc": "REQ-2026-0901",
+     "qty": -6,
+     "party": "Men's National Team",
+     "custodian": "Bilal Hasan",
+     "recipient": "Kit Manager",
+     "purpose": "England tour kits"
+    },
+    {
+     "date": "28-Aug-2026",
+     "type": "ISSUE",
+     "ref": "SIN-LHR-8761",
+     "doc": "REQ-2026-0990",
+     "qty": -4,
+     "party": "Women's National Team",
+     "custodian": "Bilal Hasan",
+     "recipient": "Kit Manager",
+     "purpose": "South Africa series"
+    },
+    {
+     "date": "14-Sep-2026",
+     "type": "GRN",
+     "ref": "GRN-LHR-2026-0459",
+     "doc": "PO-PCB-2026-0288",
+     "qty": 6,
+     "unitCost": 325000,
+     "party": "AJ Sports Lahore",
+     "purpose": "Replenishment"
+    },
+    {
+     "date": "03-Oct-2026",
+     "type": "ISSUE",
+     "ref": "SIN-LHR-8862",
+     "doc": "REQ-2026-1029",
+     "qty": -8,
+     "party": "PSL Operations",
+     "custodian": "Junaid Zia",
+     "recipient": "Franchise liaison",
+     "purpose": "PSL draft event"
+    }
+   ]
+  },
+  "PCB-MED-REC-0014": {
+   "opening": {
+    "date": "01-Jul-2026",
+    "qty": 4,
+    "unitCost": 1450000
+   },
+   "entries": [
+    {
+     "date": "18-Sep-2026",
+     "type": "ISSUE",
+     "ref": "SIN-LHR-8811",
+     "doc": "REQ-2026-1011",
+     "qty": -1,
+     "party": "High Performance Centre",
+     "custodian": "Dr. Asadullah",
+     "recipient": "Lead Physiotherapist",
+     "purpose": "Rehab unit, NCA",
+     "returnable": true
+    },
+    {
+     "date": "30-Sep-2026",
+     "type": "RETURN",
+     "ref": "RET-LHR-0121",
+     "doc": "SIN-LHR-8811",
+     "qty": 1,
+     "party": "High Performance Centre",
+     "purpose": "Rehab programme completed"
+    }
+   ]
+  },
+  "PCB-BRD-HWK-0003": {
+   "opening": {
+    "date": "01-Jul-2026",
+    "qty": 3,
+    "unitCost": 3250000
+   },
+   "entries": [
+    {
+     "date": "05-Aug-2026",
+     "type": "TRANSFER_OUT",
+     "ref": "TRF-2026-0039",
+     "doc": "To STORE-RWP-01",
+     "qty": -1,
+     "party": "Rawalpindi Cricket Stadium store",
+     "purpose": "Rawalpindi Test broadcast"
+    },
+    {
+     "date": "28-Aug-2026",
+     "type": "TRANSFER_IN",
+     "ref": "TRF-2026-0047",
+     "doc": "From STORE-RWP-01",
+     "qty": 1,
+     "party": "Rawalpindi Cricket Stadium store",
+     "purpose": "Returned after Test"
+    }
+   ]
+  }
+ },
+ "assetAttributes": {
+  "PCB-INF-LGT-0018": {
+   "warranty": "5 years",
+   "usefulLife": "12 years",
+   "depreciation": "Straight-line 8.33% p.a.",
+   "tagRequired": true
+  },
+  "PCB-TRF-MOW-0007": {
+   "warranty": "2 years",
+   "usefulLife": "8 years",
+   "depreciation": "Straight-line 12.5% p.a.",
+   "tagRequired": true
+  },
+  "PCB-MED-REC-0014": {
+   "warranty": "3 years",
+   "usefulLife": "6 years",
+   "depreciation": "Straight-line 16.67% p.a.",
+   "tagRequired": true
+  },
+  "PCB-BRD-HWK-0003": {
+   "warranty": "3 years",
+   "usefulLife": "7 years",
+   "depreciation": "Straight-line 14.29% p.a.",
+   "tagRequired": true
+  }
+ },
+ "stockTake": {
+  "id": "ST-2026-Q2-LHR",
+  "store": "Gaddafi Stadium Central Store",
+  "date": "09-Oct-2026",
+  "countedBy": "Muhammad Rashid, Naveed Akram",
+  "status": "Awaiting approval",
+  "lines": [
+   {
+    "code": "PCB-SPO-BALL-0042",
+    "book": 40,
+    "counted": 40
+   },
+   {
+    "code": "PCB-INF-LGT-0018",
+    "book": 20,
+    "counted": 20
+   },
+   {
+    "code": "PCB-APP-KIT-0091",
+    "book": 8,
+    "counted": 7
+   },
+   {
+    "code": "PCB-MED-REC-0014",
+    "book": 4,
+    "counted": 4
+   },
+   {
+    "code": "PCB-BRD-HWK-0003",
+    "book": 3,
+    "counted": 3
+   },
+   {
+    "code": "PCB-TRF-MOW-0007",
+    "book": 2,
+    "counted": 2
+   }
+  ]
+ },
+ "deadStock": [
+  {
+   "code": "PCB-SPO-SCR-0003",
+   "name": "Manual scoreboard numeral set",
+   "store": "Multan Cricket Stadium",
+   "qty": 4,
+   "value": 260000,
+   "lastMovement": "14-Feb-2025",
+   "days": 605
+  },
+  {
+   "code": "PCB-IT-PRJ-0001",
+   "name": "Epson EB-2250U projector",
+   "store": "National Cricket Academy",
+   "qty": 3,
+   "value": 345000,
+   "lastMovement": "20-Nov-2025",
+   "days": 326
+  },
+  {
+   "code": "PCB-SPO-BWM-0011",
+   "name": "Bowling machine feeder (legacy model)",
+   "store": "Rawalpindi Cricket Stadium",
+   "qty": 2,
+   "value": 780000,
+   "lastMovement": "02-Mar-2026",
+   "days": 224
+  }
+ ],
+ "vendors": [
+  {
+   "id": "VND-0101",
+   "name": "Signify Pakistan Ltd (Philips Lighting)",
+   "ntn": "1428901-4",
+   "category": "Floodlighting",
+   "atl": true,
+   "prequal": 94,
+   "rating": 4.9,
+   "onTime": 96,
+   "defects": 0.4,
+   "status": "Eligible",
+   "nextDoc": "Chamber membership",
+   "nextExpiry": "30-Jun-2027",
+   "expiryDays": 261,
+   "pos": 3,
+   "value": 18400000,
+   "pending": 0
+  },
+  {
+   "id": "VND-0144",
+   "name": "CA Sports Sialkot (Kookaburra agent)",
+   "ntn": "0492104-9",
+   "category": "Match balls",
+   "atl": true,
+   "prequal": 96,
+   "rating": 5,
+   "onTime": 92,
+   "defects": 0,
+   "status": "Eligible",
+   "nextDoc": "STRN certificate",
+   "nextExpiry": "31-Oct-2026",
+   "expiryDays": 19,
+   "pos": 4,
+   "value": 34360000,
+   "pending": 1
+  },
+  {
+   "id": "VND-0159",
+   "name": "Musco Stadium Lighting International",
+   "ntn": "0891230-2",
+   "category": "Floodlighting",
+   "atl": true,
+   "prequal": 91,
+   "rating": 4.8,
+   "onTime": 100,
+   "defects": 0,
+   "status": "Eligible",
+   "nextDoc": "NTN certificate",
+   "nextExpiry": "15-Mar-2027",
+   "expiryDays": 154,
+   "pos": 1,
+   "value": 6200000,
+   "pending": 0
+  },
+  {
+   "id": "VND-0203",
+   "name": "Pak Agro Machinery (John Deere dealer)",
+   "ntn": "3021187-6",
+   "category": "Turf machinery",
+   "atl": true,
+   "prequal": 88,
+   "rating": 4.1,
+   "onTime": 71,
+   "defects": 1.2,
+   "status": "Eligible",
+   "nextDoc": "Registration certificate",
+   "nextExpiry": "12-Jan-2027",
+   "expiryDays": 92,
+   "pos": 2,
+   "value": 9800000,
+   "pending": 1
+  },
+  {
+   "id": "VND-0230",
+   "name": "Sports Tech PK (Hawk-Eye partner)",
+   "ntn": "4410923-1",
+   "category": "Broadcast tech",
+   "atl": true,
+   "prequal": 90,
+   "rating": 4.4,
+   "onTime": 85,
+   "defects": 0.8,
+   "status": "Eligible",
+   "nextDoc": "Chamber membership",
+   "nextExpiry": "28-Feb-2027",
+   "expiryDays": 139,
+   "pos": 1,
+   "value": 13000000,
+   "pending": 1
+  },
+  {
+   "id": "VND-0412",
+   "name": "Apex Engineering Consortium",
+   "ntn": "2198031-1",
+   "category": "Civil & electrical",
+   "atl": false,
+   "prequal": 62,
+   "rating": 3.2,
+   "onTime": 58,
+   "defects": 4.6,
+   "status": "Blacklisting proposed",
+   "nextDoc": "Tax return (FY26)",
+   "nextExpiry": "Overdue",
+   "expiryDays": -12,
+   "pos": 2,
+   "value": 3100000,
+   "pending": 0
+  }
+ ],
+ "purchaseOrders": [
+  {
+   "po": "PO-PCB-2026-0324",
+   "date": "26-Sep-2026",
+   "vendor": "CA Sports Sialkot",
+   "vendorId": "VND-0144",
+   "source": "Framework PCB/LOG-SPO/2026/030",
+   "itemCode": "PCB-SPO-BALL-0042",
+   "item": "Kookaburra white match balls (box of 12)",
+   "qty": 80,
+   "received": 40,
+   "unitPrice": 182000,
+   "taxRate": 0.18,
+   "budgetHead": "BH-OPX-CRK",
+   "due": "20-Oct-2026",
+   "ld": "0.1% per day, max 10%",
+   "terms": "Net 30 days after GRN",
+   "status": "Partially received"
+  },
+  {
+   "po": "PO-PCB-2026-0298",
+   "date": "02-Sep-2026",
+   "vendor": "Sports Tech PK (Hawk-Eye partner)",
+   "vendorId": "VND-0230",
+   "source": "Direct contracting (sole source, recorded)",
+   "itemCode": "PCB-BRD-HWK-0003",
+   "item": "Hawk-Eye pitch calibration sensors",
+   "qty": 4,
+   "received": 0,
+   "unitPrice": 3250000,
+   "taxRate": 0.18,
+   "budgetHead": "BH-CAP-BRD",
+   "due": "25-Oct-2026",
+   "ld": "0.1% per day, max 10%",
+   "terms": "30% advance against bank guarantee, 70% on GRN",
+   "status": "In transit"
+  },
+  {
+   "po": "PO-PCB-2026-0317",
+   "date": "10-Sep-2026",
+   "vendor": "Pak Agro Machinery (John Deere dealer)",
+   "vendorId": "VND-0203",
+   "source": "RFQ-2026-0102",
+   "itemCode": "PCB-TRF-MOW-0007",
+   "item": "John Deere 8000 E-Cut hybrid mower",
+   "qty": 2,
+   "received": 0,
+   "unitPrice": 4900000,
+   "taxRate": 0.18,
+   "budgetHead": "BH-CAP-INF",
+   "due": "05-Oct-2026",
+   "ld": "0.1% per day, max 10%",
+   "terms": "Net 30 days after GRN",
+   "status": "Overdue"
+  },
+  {
+   "po": "PO-PCB-2026-0312",
+   "date": "14-Sep-2026",
+   "vendor": "Signify Pakistan Ltd",
+   "vendorId": "VND-0101",
+   "source": "PCB/INF-LGT/2026/033",
+   "itemCode": "PCB-INF-LGT-0018",
+   "item": "Philips ArenaVision LED luminaire 1500W",
+   "qty": 20,
+   "received": 20,
+   "unitPrice": 420000,
+   "taxRate": 0.18,
+   "budgetHead": "BH-CAP-INF",
+   "due": "30-Sep-2026",
+   "ld": "0.1% per day, max 10%",
+   "terms": "Net 30 days after GRN",
+   "status": "Fully received"
+  }
+ ],
+ "grns": [
+  {
+   "grn": "GRN-LHR-2026-0503",
+   "po": "PO-PCB-2026-0324",
+   "date": "08-Oct-2026",
+   "qty": 40,
+   "accepted": 40,
+   "rejected": 0,
+   "inspector": "Bilal Hasan",
+   "remark": "Seals intact, batch K26-114"
+  },
+  {
+   "grn": "GRN-LHR-2026-0491",
+   "po": "PO-PCB-2026-0312",
+   "date": "04-Oct-2026",
+   "qty": 20,
+   "accepted": 20,
+   "rejected": 0,
+   "inspector": "Engr. Farhan Ali",
+   "remark": "Photometric calibration certified"
+  }
+ ],
+ "invoices": [
+  {
+   "inv": "INV-SIG-2026-9812",
+   "po": "PO-PCB-2026-0312",
+   "grn": "GRN-LHR-2026-0491",
+   "vendor": "Signify Pakistan Ltd",
+   "base": 8400000,
+   "received": "06-Oct-2026",
+   "match": "Matched",
+   "status": "Approved for payment",
+   "ageing": 6
+  },
+  {
+   "inv": "INV-CAS-2026-0441",
+   "po": "PO-PCB-2026-0324",
+   "grn": "GRN-LHR-2026-0503",
+   "vendor": "CA Sports Sialkot",
+   "base": 7770000,
+   "received": "10-Oct-2026",
+   "match": "Exception",
+   "status": "Routed to Procurement",
+   "ageing": 2,
+   "exception": {
+    "poQty": 40,
+    "grnQty": 40,
+    "invQty": 42,
+    "poRate": 182000,
+    "invRate": 185000,
+    "note": "Invoice bills 42 boxes at PKR 185,000. GRN accepted 40 boxes at the PO rate of PKR 182,000. Quantity variance +2, rate variance +1.65% (tolerance 1.0%)."
+   }
+  },
+  {
+   "inv": "INV-AJS-2026-0217",
+   "po": "PO-PCB-2026-0288",
+   "grn": "GRN-LHR-2026-0459",
+   "vendor": "AJ Sports Lahore",
+   "base": 1950000,
+   "received": "16-Sep-2026",
+   "match": "Matched",
+   "status": "Paid",
+   "paidRef": "RTGS-HBL-26-77120",
+   "ageing": 0
+  }
+ ],
+ "sbdTemplates": [
+  {
+   "name": "PPRA Standard Bidding Document: Goods (single stage, two envelope)",
+   "version": "v4.2",
+   "updated": "01-Jul-2026",
+   "status": "Approved"
+  },
+  {
+   "name": "PPRA Standard Bidding Document: Works",
+   "version": "v3.0",
+   "updated": "15-Mar-2026",
+   "status": "Approved"
+  },
+  {
+   "name": "PCB RFQ template: Goods under PKR 3M",
+   "version": "v2.1",
+   "updated": "20-May-2026",
+   "status": "Approved"
+  },
+  {
+   "name": "PCB framework agreement template",
+   "version": "v1.4",
+   "updated": "02-Feb-2026",
+   "status": "Approved"
+  }
+ ],
+ "sbdComments": [
+  {
+   "by": "Engr. Farhan Ali",
+   "role": "Committee member",
+   "at": "18-Sep 11:20",
+   "text": "Clause 4.3: raise minimum TLCI from 85 to 90 for 4K broadcast."
+  },
+  {
+   "by": "Tariq Mehmood",
+   "role": "Committee member",
+   "at": "18-Sep 15:05",
+   "text": "Agree. Also add 5-year on-site warranty as a responsiveness criterion."
+  },
+  {
+   "by": "Usman Zafar",
+   "role": "Chair",
+   "at": "19-Sep 09:40",
+   "text": "Both changes accepted in v4.2-PCB-089. Ready for sign-off."
+  }
+ ],
+ "rfq": {
+  "id": "RFQ-2026-0117",
+  "title": "Pitch rollers (2) and turf seed (600 kg) for Multan",
+  "estValue": 1850000,
+  "itemCode": "PCB-TRF-ROL-0002",
+  "closes": "19-Oct-2026",
+  "vendorIds": [
+   "VND-0203",
+   "VND-0144",
+   "VND-0159",
+   "VND-0412"
+  ],
+  "quoteBook": [
+   {
+    "vendorId": "VND-0203",
+    "base": 1720000,
+    "delivery": "3 weeks",
+    "validity": "90 days"
+   },
+   {
+    "vendorId": "VND-0159",
+    "base": 1810000,
+    "delivery": "5 weeks",
+    "validity": "60 days"
+   },
+   {
+    "vendorId": "VND-0144",
+    "base": 1765000,
+    "delivery": "4 weeks",
+    "validity": "90 days"
+   }
+  ]
+ },
+ "bidTerms": {
+  "BID-01": {
+   "delivery": "14 weeks",
+   "warranty": "5 years on-site",
+   "payment": "10% advance, 90% on commissioning"
+  },
+  "BID-02": {
+   "delivery": "18 weeks",
+   "warranty": "10 years",
+   "payment": "20% advance, 80% on commissioning"
+  },
+  "BID-03": {
+   "delivery": "16 weeks",
+   "warranty": "3 years",
+   "payment": "Net 30 after commissioning"
+  },
+  "BID-04": {
+   "delivery": "—",
+   "warranty": "1 year",
+   "payment": "—"
+  },
+  "BID-T2-01": {
+   "delivery": "2 weeks per call-off",
+   "warranty": "Batch quality guarantee",
+   "payment": "Net 30 after GRN"
+  }
+ },
+ "guarantees": [
+  {
+   "type": "Bid security",
+   "bidder": "Signify Pakistan Ltd",
+   "instrument": "HBL bank guarantee HBL-BG-2026-9921",
+   "amount": 1200000,
+   "validity": "10-Jan-2027",
+   "status": "Held"
+  },
+  {
+   "type": "Bid security",
+   "bidder": "Musco Stadium Lighting",
+   "instrument": "MCB bank guarantee MCB-BG-4412",
+   "amount": 1250000,
+   "validity": "10-Jan-2027",
+   "status": "Held"
+  },
+  {
+   "type": "Bid security",
+   "bidder": "Osram Asia",
+   "instrument": "Meezan CDR MEZ-CDR-1192",
+   "amount": 1220000,
+   "validity": "10-Jan-2027",
+   "status": "Held"
+  },
+  {
+   "type": "Bid security",
+   "bidder": "Apex Engineering Consortium",
+   "instrument": "BOP CDR BOP-CDR-0912",
+   "amount": 1200000,
+   "validity": "10-Jan-2027",
+   "status": "Release on award"
+  },
+  {
+   "type": "Performance guarantee",
+   "bidder": "CA Sports Sialkot",
+   "instrument": "Allied Bank PG ABL-PG-2026-310",
+   "amount": 1735000,
+   "validity": "30-Jun-2027",
+   "status": "Held"
+  }
+ ],
+ "departmentCustodians": [
+  {
+   "dept": "Men's National Cricket Team",
+   "custodian": "Bilal Hasan",
+   "holders": 2,
+   "items": 7
+  },
+  {
+   "dept": "Grounds & Pitches Infrastructure",
+   "custodian": "Hafiz Shabbir",
+   "holders": 1,
+   "items": 2
+  },
+  {
+   "dept": "Logistics & Store Custody Wing",
+   "custodian": "Bilal Hasan",
+   "holders": 1,
+   "items": 2
+  },
+  {
+   "dept": "High Performance Centre",
+   "custodian": "Dr. Asadullah",
+   "holders": 3,
+   "items": 5
+  }
+ ],
+ "custodyMeta": {
+  "PCB-AST-SEN-0042": {
+   "purpose": "Batting technique analysis",
+   "location": "NCA Lahore",
+   "returnable": true,
+   "expectedReturn": "31-Dec-2026",
+   "lifecycle": "In Use",
+   "ack": "Confirmed"
+  },
+  "PCB-AST-GPS-0012": {
+   "purpose": "Workload monitoring",
+   "location": "Team hotel / venue",
+   "returnable": true,
+   "expectedReturn": "31-Mar-2027",
+   "lifecycle": "In Use",
+   "ack": "Confirmed"
+  },
+  "PCB-AST-TAB-0089": {
+   "purpose": "Video analysis",
+   "location": "Touring",
+   "returnable": true,
+   "expectedReturn": "31-Mar-2027",
+   "lifecycle": "Issued",
+   "ack": "Pending",
+   "ackHours": 54
+  },
+  "PCB-AST-BAG-0112": {
+   "purpose": "Personal kit transport",
+   "location": "Touring",
+   "returnable": false,
+   "expectedReturn": "—",
+   "lifecycle": "In Use",
+   "ack": "Confirmed"
+  },
+  "PCB-AST-SLV-0008": {
+   "purpose": "Bowling load biomechanics",
+   "location": "NCA Lahore",
+   "returnable": true,
+   "expectedReturn": "31-Dec-2026",
+   "lifecycle": "Under Repair",
+   "ack": "Confirmed"
+  },
+  "PCB-AST-GPS-0015": {
+   "purpose": "Workload monitoring",
+   "location": "Team hotel / venue",
+   "returnable": true,
+   "expectedReturn": "31-Mar-2027",
+   "lifecycle": "In Use",
+   "ack": "Confirmed"
+  },
+  "PCB-AST-TAB-0091": {
+   "purpose": "Video analysis",
+   "location": "Touring",
+   "returnable": true,
+   "expectedReturn": "31-Mar-2027",
+   "lifecycle": "Issued",
+   "ack": "Pending",
+   "ackHours": 20
+  },
+  "PCB-AST-CUR-0005": {
+   "purpose": "Pitch soil testing",
+   "location": "Gaddafi Stadium",
+   "returnable": true,
+   "expectedReturn": "30-Jun-2027",
+   "lifecycle": "In Use",
+   "ack": "Confirmed"
+  },
+  "PCB-AST-LAS-0018": {
+   "purpose": "Square levelling",
+   "location": "Gaddafi Stadium",
+   "returnable": true,
+   "expectedReturn": "30-Jun-2027",
+   "lifecycle": "Returned",
+   "ack": "Confirmed"
+  },
+  "PCB-AST-SCN-0011": {
+   "purpose": "Store barcode scanning",
+   "location": "Central Store",
+   "returnable": true,
+   "expectedReturn": "On exit",
+   "lifecycle": "In Use",
+   "ack": "Confirmed"
+  },
+  "PCB-AST-PRN-0004": {
+   "purpose": "Asset tag printing",
+   "location": "Central Store",
+   "returnable": true,
+   "expectedReturn": "On exit",
+   "lifecycle": "In Use",
+   "ack": "Confirmed"
+  }
+ },
+ "ackEscalationHours": 48,
+ "spendByDept": [
+  {
+   "name": "Grounds & Infrastructure",
+   "value": 71400000
+  },
+  {
+   "name": "Cricket Operations",
+   "value": 41800000
+  },
+  {
+   "name": "Broadcast & Technology",
+   "value": 22750000
+  },
+  {
+   "name": "High Performance Centre",
+   "value": 16900000
+  },
+  {
+   "name": "PSL Operations",
+   "value": 12300000
+  },
+  {
+   "name": "Administration",
+   "value": 5600000
+  }
+ ],
+ "spendByCategory": [
+  {
+   "name": "Floodlighting",
+   "value": 64800000
+  },
+  {
+   "name": "Match balls & gear",
+   "value": 38900000
+  },
+  {
+   "name": "Broadcast & tracking",
+   "value": 22750000
+  },
+  {
+   "name": "Turf machinery",
+   "value": 19600000
+  },
+  {
+   "name": "Apparel",
+   "value": 14200000
+  },
+  {
+   "name": "Medical & physio",
+   "value": 10500000
+  }
+ ],
+ "tenderHistory": [
+  {
+   "ref": "PCB/LOG-PSL10/2026/089",
+   "title": "LED floodlights, Gaddafi Stadium",
+   "method": "Open competitive (two envelope)",
+   "value": 56876000,
+   "bidders": 4,
+   "stage": "Approval",
+   "days": 30
+  },
+  {
+   "ref": "PCB/LOG-SPO/2026/041",
+   "title": "Kookaburra balls framework",
+   "method": "Open competitive (two envelope)",
+   "value": 17464000,
+   "bidders": 1,
+   "stage": "Intention to award",
+   "days": 47
+  },
+  {
+   "ref": "PCB/INF-GRD/2026/052",
+   "title": "Rain covers and pitch sheets",
+   "method": "Open competitive (single envelope)",
+   "value": 5480000,
+   "bidders": 5,
+   "stage": "Grievance",
+   "days": 38
+  },
+  {
+   "ref": "RFQ-2026-0102",
+   "title": "John Deere hybrid mowers",
+   "method": "RFQ",
+   "value": 11564000,
+   "bidders": 3,
+   "stage": "PO issued",
+   "days": 12
+  },
+  {
+   "ref": "PCB/APP-KIT/2026/017",
+   "title": "Domestic team kits",
+   "method": "Open competitive (single envelope)",
+   "value": 9200000,
+   "bidders": 6,
+   "stage": "Completed",
+   "days": 41
+  }
+ ]
+}

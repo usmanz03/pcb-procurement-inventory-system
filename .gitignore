@@ -1,4 +1,24 @@
+# dependencies
 node_modules/
+.pnp
+.pnp.*
+
+# next.js
+.next/
+out/
+build/
+next-env.d.ts
+*.tsbuildinfo
+
+# env & local tooling
+.env*
+.vercel
 .claude/
+CLAUDE.md
+AGENTS.md
+
+# misc
 .DS_Store
+*.pem
 *.log
+coverage/
