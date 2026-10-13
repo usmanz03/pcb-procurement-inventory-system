@@ -38,7 +38,7 @@ function Orders() {
 
   return (
     <>
-      <PageHeader module="Modules 8 & 9" title="Purchase orders & goods receipt" description="Orders generated from approved evaluations, budget commitment on release, delivery tracking and receipt with inspection."
+      <PageHeader module="Procurement" title="Purchase orders & goods receipt" description="Orders generated from approved evaluations, budget commitment on release, delivery tracking and receipt with inspection."
         actions={!role.readOnly && <Button onClick={() => (s.t089.po ? router.push("/orders/?po=PO-PCB-2026-0331") : setGateOpen(true))}><FileText /> Generate PO from approved evaluation</Button>} />
 
       <KpiGrid items={[

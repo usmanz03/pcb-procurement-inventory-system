@@ -45,7 +45,7 @@ function Approvals() {
 
   return (
     <>
-      <PageHeader module="Module 7" title="Approvals & workflow" description="Approval matrix by value band, delegation, SLA escalation, Intention to Award and grievance redressal."
+      <PageHeader module="Procurement" title="Approvals & workflow" description="Approval matrix by value band, delegation, SLA escalation, Intention to Award and grievance redressal."
         actions={<Button variant="outline" onClick={() => setMatrixOpen(true)}><Layers /> Approval matrix</Button>} />
 
       <KpiGrid key={s.role} items={[
@@ -105,7 +105,7 @@ function Approvals() {
                   </div>
                   <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
                     {closed && !openGrv ? <Status tone="success" icon={Unlock}>Window closed · PO can be released</Status> : <Status tone="warning" icon={Lock}>PO release locked</Status>}
-                    {!closed && !role.readOnly && <Button size="sm" variant="ghost" onClick={() => s.closeStandstill(t.tender)}>Skip to end of window (demo)</Button>}
+                    {!closed && !role.readOnly && <Button size="sm" variant="ghost" onClick={() => s.closeStandstill(t.tender)}>Fast-forward to end of window</Button>}
                   </div>
                 </div>
               );
@@ -251,7 +251,7 @@ function ApprovalDetail({ a }: { a: Approval }) {
           <div className="rounded-lg border border-warning/30 bg-warning/8 p-3 text-xs">
             <div className="mb-1 flex items-center gap-1.5 text-[13px] font-semibold"><Clock className="size-4 text-warning" />Waiting for {step.role}</div>
             {step.roleKey ? `Switch role to ${s.roles[step.roleKey].label} from the sidebar to act on this step.` : "This approver is outside the demo roles."}
-            {!step.roleKey && !role.readOnly && <div className="mt-2"><Button size="sm" variant="outline" onClick={() => act("approve", true)}>Record {step.role} sign-off (demo)</Button></div>}
+            {!step.roleKey && !role.readOnly && <div className="mt-2"><Button size="sm" variant="outline" onClick={() => act("approve", true)}>Record {step.role} sign-off</Button></div>}
           </div>
         ) : (
           <div className={cn("rounded-lg border p-3 text-xs", a.status === "approved" ? "border-success/30 bg-success/8" : "border-warning/30 bg-warning/8")}>

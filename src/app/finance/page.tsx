@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { AlertTriangle, Banknote, Check, Code2, FileCheck2, Receipt, ShoppingCart, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { KpiGrid, PageHeader, Section, SingleBars, Status } from "@/components/dash";
+import { KV } from "@/components/doc";
 import { useApp, useRole } from "@/lib/store";
 import { num, pkr } from "@/lib/domain";
 import type { Invoice } from "@/lib/types";
@@ -16,6 +19,7 @@ export default function FinancePage() {
   const role = useRole();
   const [exc, setExc] = useState<Invoice | null>(null);
   const [erp, setErp] = useState(false);
+  const [cap, setCap] = useState<Invoice | null>(null);
   const r = s.reconciliationRecord;
   const inv9812 = s.invoices.find((i) => i.inv === "INV-SIG-2026-9812");
   const paid = inv9812?.status === "Paid";
@@ -29,9 +33,9 @@ export default function FinancePage() {
 
   return (
     <>
-      <PageHeader module="Module 10" title="Three-way match & payment" description="Purchase order, goods receipt and vendor invoice matched within tolerance, with tax withholding and payment tracking."
+      <PageHeader module="Finance" title="Three-way match & payment" description="Purchase order, goods receipt and vendor invoice matched within tolerance, with tax withholding and payment tracking."
         actions={<>
-          <Button variant="outline" onClick={() => setErp(true)}><Code2 /> ERP data contract</Button>
+          <Button variant="outline" onClick={() => setErp(true)}><Code2 /> Finance system hand-off</Button>
           {!role.readOnly && <Button disabled={paid} onClick={() => release("INV-SIG-2026-9812")}><Banknote /> {paid ? "Payment released" : "Release payment"}</Button>}
         </>} />
 
@@ -84,6 +88,7 @@ export default function FinancePage() {
                   <TableCell className="pr-5 text-right">
                     {i.match === "Exception" && i.status !== "Credit note requested" && <Button size="sm" variant="outline" onClick={() => setExc(i)}>Review</Button>}
                     {i.status === "Approved for payment" && !role.readOnly && <Button size="sm" onClick={() => release(i.inv)}>Pay</Button>}
+                    {i.match === "Awaiting invoice" && !role.readOnly && <Button size="sm" variant="outline" onClick={() => setCap(i)}><Receipt /> Capture invoice</Button>}
                   </TableCell>
                 </TableRow>
               ))}
@@ -118,12 +123,59 @@ export default function FinancePage() {
         </DialogContent>
       </Dialog>
 
+      <CaptureDialog key={cap?.grn ?? "none"} row={cap} onClose={() => setCap(null)} />
+
       <Dialog open={erp} onOpenChange={setErp}>
         <DialogContent className="sm:max-w-2xl">
-          <DialogHeader><DialogTitle>ERP data contract · POST /finance/handoff</DialogTitle><DialogDescription>Sent to PCB&apos;s finance system at each GRN. Payment status comes back on the same contract.</DialogDescription></DialogHeader>
-          <pre className="overflow-x-auto rounded-lg bg-muted p-4 font-mono text-xs text-primary">{JSON.stringify({ transaction_id: "TXN-PCB-FIN-2026-9812", match_status: "RECONCILED_THREE_WAY_MATCH", po_number: r.po.number, grn_number: r.grn.number, invoice_number: r.invoice.number, item_code: "PCB-INF-LGT-0018", budget_head: "BH-CAP-INF", classification: "CapEx", base_amount_pkr: r.taxes.base, sales_tax_pkr: r.taxes.salesTax18, wht_pkr: r.taxes.wht4_5, net_payable_pkr: r.taxes.netPayable, tolerance_variance: 0 }, null, 2)}</pre>
+          <DialogHeader><DialogTitle>Hand-off to PCB finance system</DialogTitle><DialogDescription>Sent automatically to PCB&apos;s finance system for every goods receipt. Payment status comes back the same way.</DialogDescription></DialogHeader>
+          <KV rows={[
+            ["Status", <Status key="m" tone="success">Matched: PO, goods receipt and invoice agree</Status>],
+            ["Purchase order", r.po.number], ["Goods receipt", r.grn.number], ["Vendor invoice", r.invoice.number],
+            ["Item code", "PCB-INF-LGT-0018"], ["Budget head", "Stadium Infrastructure CapEx"],
+            ["Base amount", pkr(r.taxes.base)], ["Sales tax", pkr(r.taxes.salesTax18)], ["Income tax withheld", pkr(r.taxes.wht4_5)],
+            ["Net payable", <b key="n">{pkr(r.taxes.netPayable)}</b>],
+          ]} />
         </DialogContent>
       </Dialog>
     </>
+  );
+}
+
+function CaptureDialog({ row, onClose }: { row: Invoice | null; onClose: () => void }) {
+  const s = useApp();
+  const po = s.purchaseOrders.find((p) => p.po === row?.po);
+  const grn = s.grns.find((g) => g.grn === row?.grn);
+  const [inv, setInv] = useState(() => (po ? `INV-${po.vendor.slice(0, 3).toUpperCase()}-2026-${(row?.grn ?? "").slice(-4)}` : ""));
+  const [qty, setQty] = useState(grn?.accepted ?? 0);
+  const [rate, setRate] = useState(po?.unitPrice ?? 0);
+  if (!row || !po || !grn) return null;
+  const variance = (rate - po.unitPrice) / po.unitPrice;
+  const ok = qty === grn.accepted && Math.abs(variance) <= 0.01;
+  const submit = () => {
+    const r = s.captureInvoice(row.grn, { inv, qty, rate });
+    if (r.ok) toast.success(r.title, { description: r.message }); else toast.warning(r.title, { description: r.message });
+    onClose();
+  };
+  return (
+    <Dialog open onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="sm:max-w-xl">
+        <DialogHeader><DialogTitle>Capture vendor invoice</DialogTitle><DialogDescription>{po.vendor} · {po.po} · {grn.grn}</DialogDescription></DialogHeader>
+        <div className="grid grid-cols-3 gap-3">
+          <div className="col-span-3 grid gap-1.5"><Label htmlFor="inv">Invoice number</Label><Input id="inv" value={inv} onChange={(e) => setInv(e.target.value)} /></div>
+          <div className="grid gap-1.5"><Label htmlFor="iq">Quantity billed</Label><Input id="iq" type="number" value={qty} onChange={(e) => setQty(+e.target.value)} /></div>
+          <div className="col-span-2 grid gap-1.5"><Label htmlFor="ir">Rate billed (PKR)</Label><Input id="ir" type="number" value={rate} onChange={(e) => setRate(+e.target.value)} /></div>
+        </div>
+        <div className="grid grid-cols-3 gap-2 text-center text-xs">
+          {[["Ordered", `${po.qty} × ${num(po.unitPrice)}`], ["Received", `${grn.accepted} accepted`], ["Billed", `${qty} × ${num(rate)}`]].map(([k, v]) => (
+            <div key={k} className="rounded-lg border bg-muted/30 p-2"><div className="text-[11px] text-muted-foreground">{k}</div><div className="font-mono font-semibold">{v}</div></div>
+          ))}
+        </div>
+        <div className={`flex items-center gap-2 rounded-lg border p-3 text-xs ${ok ? "border-success/30 bg-success/8" : "border-warning/30 bg-warning/8"}`}>
+          {ok ? <Check className="size-4 text-success" /> : <AlertTriangle className="size-4 text-warning" />}
+          {ok ? "Order, receipt and invoice agree. It will be approved for payment." : `Does not match: ${qty !== grn.accepted ? `billed ${qty} but ${grn.accepted} received` : ""}${qty !== grn.accepted && Math.abs(variance) > 0.01 ? "; " : ""}${Math.abs(variance) > 0.01 ? `rate ${(variance * 100).toFixed(1)}% off the agreed price` : ""}. It will go back to Procurement.`}
+        </div>
+        <DialogFooter><Button variant="outline" onClick={onClose}>Cancel</Button><Button onClick={submit}>Record invoice and match</Button></DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

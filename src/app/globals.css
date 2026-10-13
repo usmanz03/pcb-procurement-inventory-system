@@ -184,3 +184,8 @@
   [data-slot="sidebar"], [data-slot="sidebar-gap"], header.app-header, .no-print, [data-sonner-toaster] { display: none !important; }
   body { background: #fff !important; }
 }
+
+/* Never allow the page to scroll sideways */
+html, body { overflow-x: clip; }
+/* Grid and flex children may shrink below their content so wide tables scroll inside their card */
+main .grid > *, [role=dialog] .grid > * { min-width: 0; }

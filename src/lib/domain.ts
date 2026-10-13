@@ -14,11 +14,20 @@ export const parseD = (s: string) => {
 export const fmtD = (dt: Date) => `${String(dt.getDate()).padStart(2, "0")}-${MONTHS[dt.getMonth()]}-${dt.getFullYear()}`;
 export const shortD = (s: string) => s.slice(0, 6).replace("-", " ");
 export const daysBetween = (a: Date, b: Date) => Math.round((b.getTime() - a.getTime()) / 86400000);
-export const TODAY_STR = "13-Oct-2026";
-export const TODAY = parseD(TODAY_STR);
+/* Business date follows Pakistan Standard Time, never earlier than the seed's reference date */
+const pkt = (d: Date) => {
+  const p = Object.fromEntries(new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Karachi", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(d).map((x) => [x.type, x.value]));
+  return { y: +p.year, m: +p.month - 1, d: +p.day, hh: p.hour, mm: p.minute };
+};
+const SEED_DATE = new Date(2026, 9, 13);
+const nowPkt = pkt(new Date());
+const realToday = new Date(nowPkt.y, nowPkt.m, nowPkt.d);
+export const TODAY = realToday > SEED_DATE ? realToday : SEED_DATE;
+export const TODAY_STR = fmtD(TODAY);
+export const addDays = (d: Date, n: number) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
 export const stamp = () => {
-  const n = new Date();
-  return `${TODAY_STR.slice(0, 6)} ${String(n.getHours()).padStart(2, "0")}:${String(n.getMinutes()).padStart(2, "0")}`;
+  const n = pkt(new Date());
+  return `${TODAY_STR.slice(0, 6)} ${n.hh}:${n.mm}`;
 };
 
 /* ---------- Ledger & weighted average cost (FR-0.5, FR-2.3, FR-11.2) ---------- */
@@ -75,8 +84,8 @@ export function poStatus(p: PurchaseOrder) {
 /* ---------- Periods for reports ---------- */
 export type PeriodKey = "week" | "month" | "quarter" | "fytd" | "custom";
 export function periodRange(p: PeriodKey, custom: { from: string; to: string }) {
-  if (p === "week") return { from: new Date(2026, 9, 7), to: TODAY, label: "Week to date, 07–13 Oct 2026", months: [3] };
-  if (p === "month") return { from: new Date(2026, 9, 1), to: TODAY, label: "October 2026 to date", months: [3] };
+  if (p === "week") { const f = addDays(TODAY, -6); return { from: f, to: TODAY, label: `Week to date, ${fmtD(f).slice(0, 6)} – ${TODAY_STR}`, months: [3] }; }
+  if (p === "month") return { from: new Date(TODAY.getFullYear(), TODAY.getMonth(), 1), to: TODAY, label: `${TODAY.toLocaleString("en-GB", { month: "long" })} ${TODAY.getFullYear()} to date`, months: [3] };
   if (p === "quarter") return { from: new Date(2026, 6, 1), to: new Date(2026, 8, 30), label: "Q1 FY 2026-27 (Jul–Sep)", months: [0, 1, 2] };
   if (p === "custom") {
     const f = new Date(custom.from), t = new Date(custom.to);

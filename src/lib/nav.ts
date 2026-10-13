@@ -1,4 +1,4 @@
-import { BarChart3, Boxes, ClipboardCheck, Gavel, LayoutDashboard, Scale, Truck, UserCheck, Warehouse, type LucideIcon } from "lucide-react";
+import { Award, BarChart3, Boxes, ClipboardCheck, Gavel, LayoutDashboard, Route, Scale, ShieldCheck, Truck, UserCheck, Warehouse, type LucideIcon } from "lucide-react";
 
 export interface NavItem { href: string; key: string; title: string; module: string; icon: LucideIcon; group: string }
 
@@ -13,6 +13,9 @@ export const NAV: NavItem[] = [
   { href: "/orders/", key: "orders", title: "PO & goods receipt", module: "Modules 8 & 9", icon: Truck, group: "Procurement" },
   { href: "/finance/", key: "finance", title: "Three-way match", module: "Module 10", icon: Scale, group: "Finance" },
   { href: "/reports/", key: "reports", title: "Reports", module: "Module 11", icon: BarChart3, group: "Finance" },
+  { href: "/trace/", key: "trace", title: "Track an item", module: "Traceability", icon: Route, group: "Assurance" },
+  { href: "/system/", key: "system", title: "Controls & audit", module: "Compliance", icon: ShieldCheck, group: "Assurance" },
+  { href: "/commitment/", key: "commitment", title: "Our commitment", module: "Techprysm", icon: Award, group: "Assurance" },
 ];
 
 export const navFor = (pathname: string) => {

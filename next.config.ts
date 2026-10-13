@@ -1,14 +1,11 @@
 import type { NextConfig } from "next";
 
-// Static export so the POC can be hosted on GitHub Pages (or any static host).
-// NEXT_PUBLIC_BASE_PATH is set by the Pages workflow to the repository sub-path.
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-
 const nextConfig: NextConfig = {
-  output: "export",
-  basePath,
   trailingSlash: true,
   images: { unoptimized: true },
+  // Embedded PostgreSQL ships WebAssembly and data files that must stay on disk next to the package
+  serverExternalPackages: ["@electric-sql/pglite"],
+  outputFileTracingIncludes: { "/api/**": ["./node_modules/@electric-sql/pglite/dist/**"] },
 };
 
 export default nextConfig;

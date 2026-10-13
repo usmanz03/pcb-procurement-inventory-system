@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Check, ChevronsUpDown, Lock, RotateCcw } from "lucide-react";
+import { Check, ChevronsUpDown, LogOut, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import {
   Sidebar,
@@ -40,6 +40,7 @@ export function AppSidebar() {
   const roles = useApp((s) => s.roles);
   const setRole = useApp((s) => s.setRole);
   const reset = useApp((s) => s.reset);
+  const signOut = useApp((s) => s.signOut);
   const pendingMine = useApp(
     (s) =>
       s.approvals.filter(
@@ -48,7 +49,8 @@ export function AppSidebar() {
           a.chain.find((c) => c.status === "pending")?.roleKey === s.role
       ).length
   );
-  const groups = [...new Set(NAV.map((n) => n.group))];
+  const visible = NAV.filter((n) => canAccess(role, n.key));
+  const groups = [...new Set(visible.map((n) => n.group))];
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border bg-sidebar">
@@ -84,9 +86,8 @@ export function AppSidebar() {
               {g}
             </SidebarGroupLabel>
             <SidebarMenu className="gap-0.5">
-              {NAV.filter((n) => n.group === g).map((n) => {
-                const idx = NAV.indexOf(n) + 1;
-                const locked = !canAccess(role, n.key);
+              {visible.filter((n) => n.group === g).map((n) => {
+                const idx = visible.indexOf(n) + 1;
                 const isActive = active.key === n.key;
                 return (
                   <SidebarMenuItem key={n.key}>
@@ -99,7 +100,6 @@ export function AppSidebar() {
                         isActive
                           ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold shadow-2xs"
                           : "text-sidebar-foreground/75 hover:bg-sidebar-accent/70 hover:text-sidebar-foreground",
-                        locked && "opacity-45"
                       )}
                     >
                       <Link href={n.href} className="flex items-center gap-2.5">
@@ -110,10 +110,9 @@ export function AppSidebar() {
                           )}
                         />
                         <span className="truncate">{n.title}</span>
-                        {locked && <Lock className="ml-auto size-3 opacity-50" />}
                       </Link>
                     </SidebarMenuButton>
-                    {n.key === "approvals" && pendingMine > 0 && !locked && (
+                    {n.key === "approvals" && pendingMine > 0 && (
                       <SidebarMenuBadge className="rounded-full bg-primary/15 text-primary border border-primary/20 px-1.5 py-0 text-[10px] font-semibold">
                         {pendingMine}
                       </SidebarMenuBadge>
@@ -152,7 +151,7 @@ export function AppSidebar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent side="right" align="end" className="w-64">
                 <DropdownMenuLabel className="text-xs text-muted-foreground">
-                  Switch role (demo)
+                  Switch user
                 </DropdownMenuLabel>
                 {ROLE_ORDER.map((k) => (
                   <DropdownMenuItem key={k} onClick={() => setRole(k)} className="gap-3">
@@ -167,13 +166,18 @@ export function AppSidebar() {
                   </DropdownMenuItem>
                 ))}
                 <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={() => {
-                    reset();
-                    toast.success("Demo data reset");
-                  }}
-                >
-                  <RotateCcw className="size-3.5 mr-2" /> Reset demo data
+                {!role.readOnly && (
+                  <DropdownMenuItem
+                    onClick={async () => {
+                      const r = await reset();
+                      if (r.ok) toast.success(r.title, { description: r.message }); else toast.error(r.title, { description: r.message });
+                    }}
+                  >
+                    <RotateCcw className="size-3.5 mr-2" /> Reset demo data
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuItem onClick={signOut}>
+                  <LogOut className="size-3.5 mr-2" /> Sign out
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

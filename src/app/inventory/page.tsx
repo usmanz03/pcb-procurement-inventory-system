@@ -13,6 +13,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AreaTrend, BarList, KpiGrid, PageHeader, Section, Status, Stepper } from "@/components/dash";
 import { ItemSheet } from "@/components/item-sheet";
+import { QrLabelDialog } from "@/components/qr-label";
 import { useApp, useRole } from "@/lib/store";
 import { fmtD, num, pkr } from "@/lib/domain";
 import { cn } from "@/lib/utils";
@@ -32,6 +33,7 @@ function Inventory() {
   const [sheet, setSheet] = useState<string | null>(null);
   const [demandOpen, setDemandOpen] = useState(params.get("new") === "1");
   const [transferOpen, setTransferOpen] = useState(false);
+  const [qr, setQr] = useState<string | null>(null);
 
   const d = s.demands[0];
   const dItem = s.itemsMaster.find((i) => i.code === d.itemCode);
@@ -43,7 +45,7 @@ function Inventory() {
 
   return (
     <>
-      <PageHeader module="Modules 1 & 2" title="Demand & inventory" description="Electronic demands with stock-availability branching, reservation and budget checks, on one ledger across every store."
+      <PageHeader module="Stores" title="Demand & inventory" description="Raise a demand and the system checks stock, reserves it and routes any shortfall to Procurement, with the budget checked before anything moves."
         actions={!role.readOnly && <>
           <Button variant="outline" onClick={() => setTransferOpen(true)}><ArrowRightLeft /> Transfer stock</Button>
           <Button onClick={() => setDemandOpen(true)}><Plus /> Raise demand</Button>
@@ -117,7 +119,7 @@ function Inventory() {
                   <TableCell className="text-right font-mono text-[13px] font-semibold text-primary tabular">{i.storeBreakdown[store === "all" ? "STORE-LHR-01" : store] ?? 0}</TableCell>
                   <TableCell>{lowI ? <Status tone="warning">Re-order (≤ {i.reorderLevel})</Status> : <span className="font-mono text-xs text-muted-foreground">{i.reorderLevel}</span>}</TableCell>
                   <TableCell className="text-right font-mono text-xs tabular">{num(i.avgCostPkr)}</TableCell>
-                  <TableCell className="pr-5 text-right"><Button size="sm" variant="ghost" onClick={(e) => { e.stopPropagation(); toast.success("Label sent to printer", { description: `Barcode and QR label for ${i.code} queued on Zebra ZD621.` }); }}><QrCode /> Tag</Button></TableCell>
+                  <TableCell className="pr-5 text-right"><Button size="sm" variant="ghost" onClick={(e) => { e.stopPropagation(); setQr(i.code); }}><QrCode /> Label</Button></TableCell>
                 </TableRow>
               );
             })}
@@ -148,7 +150,7 @@ function Inventory() {
           </Table>
           <div className="flex items-center justify-between gap-3 border-t px-5 py-3 text-xs text-muted-foreground">
             <span>Net variance <b className={variance ? "text-destructive" : ""}>{pkr(variance)}</b> · posts only after approval</span>
-            {st.status !== "Approved" && !role.readOnly && <Button size="sm" onClick={() => { s.approveStockTake(); toast.success("Stock-take adjustment approved"); }}>Approve adjustments</Button>}
+            {st.status !== "Approved" && !role.readOnly && <Button size="sm" onClick={() => { const r = s.approveStockTake(); toast.success(r.title, { description: r.message }); }}>Approve adjustments</Button>}
           </div>
         </Section>
         <Section className="self-start" title="Total stock value" description="Month-end value across all stores, PKR millions.">
@@ -157,6 +159,7 @@ function Inventory() {
       </div>
 
       <ItemSheet code={sheet} onOpenChange={(o) => !o && setSheet(null)} />
+      <QrLabelDialog code={qr} title={s.itemsMaster.find((i) => i.code === qr)?.name} sub="Gaddafi Stadium Central Store" onClose={() => setQr(null)} />
       <DemandDialog open={demandOpen} onOpenChange={(o) => { setDemandOpen(o); if (!o && params.get("new")) router.replace("/inventory/", { scroll: false }); }} />
       <TransferDialog open={transferOpen} onOpenChange={setTransferOpen} />
     </>

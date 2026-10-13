@@ -117,6 +117,7 @@ export interface Approval {
   elapsedHours: number;
   status: "pending" | "approved" | "rejected" | "returned";
   sodBlocked?: boolean;
+  linkTender?: string;
   demandId?: string;
   chain: ApprovalStep[];
 }
@@ -171,8 +172,14 @@ export interface Vendor {
   rating: number;
   onTime: number;
   defects: number;
-  status: "Eligible" | "Blacklisting proposed" | "Blacklisted";
+  status: "Eligible" | "Blacklisting proposed" | "Blacklisted" | "Not qualified";
   until?: string;
+  strn?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  registeredOn?: string;
+  prequalBreakdown?: { financial: number; technical: number; past: number; turnover: number };
   nextDoc: string;
   nextExpiry: string;
   expiryDays: number;
@@ -289,4 +296,29 @@ export interface Quote {
   delivery: string;
   validity: string;
   at?: string;
+}
+
+export interface Disposal {
+  id: string;
+  date: string;
+  assetTag: string;
+  itemCode: string;
+  description: string;
+  holder: string;
+  bookValue: number;
+  reason: string;
+  method: "Write-off" | "Auction";
+  reservePrice?: number;
+  status: "Survey committee review" | "Awaiting approval" | "Approved for auction" | "Written off" | "Rejected";
+  approval?: string;
+  decidedOn?: string;
+}
+
+export interface Notice {
+  id: string;
+  at: string;
+  to: RoleKey | "all";
+  title: string;
+  body: string;
+  href?: string;
 }

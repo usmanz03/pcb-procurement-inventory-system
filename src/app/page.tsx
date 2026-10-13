@@ -12,7 +12,7 @@ import { mil, parseD, pkr, TODAY } from "@/lib/domain";
 import type { RoleKey } from "@/lib/types";
 
 const SCOPE: Record<RoleKey, string> = {
-  director: "Approver for bands B2–B5 · access to all nine screens",
+  director: "Approves requests and releases purchase orders",
   committee: "Tender evaluation, bidding documents and grievances",
   cfo: "Budget, approvals above PKR 3M, three-way match and payments",
   storekeeper: "Stores, demands, custody and goods receipt",
@@ -67,7 +67,7 @@ export default function Overview() {
       { label: "Conflict-of-interest declarations", value: 100, suffix: "%", icon: CheckCircle2, foot: "All members declared", href: "/sourcing/" },
     ],
     auditor: [
-      { label: "Audit events logged", value: 1284 + s.recentActivities.length, icon: ShieldCheck, hero: true, foot: "Tamper-evident, hash-chained", href: "/reports/?type=activity" },
+      { label: "Actions on record", value: 1284 + s.recentActivities.length, icon: ShieldCheck, hero: true, foot: "Every action recorded, none can be altered", href: "/reports/?type=activity" },
       { label: "Self-approvals prevented", value: s.approvals.filter((a) => a.sodBlocked).length, icon: Lock, foot: "Segregation of duties", href: "/approvals/" },
       { label: "Approvals past SLA", value: breached.length, icon: Clock, foot: "Auto-escalated", href: "/approvals/" },
       { label: "Match exceptions", value: exceptions.length, icon: AlertTriangle, foot: "Invoice outside tolerance", href: "/finance/" },
@@ -107,7 +107,7 @@ export default function Overview() {
   return (
     <>
       <PageHeader
-        module="Module 11 · Command centre"
+        module="Command centre"
         title="Procurement & stores at a glance"
         description="Commitments against budget, the demand-to-payment pipeline and what needs your decision, for your role."
         actions={<>
@@ -120,7 +120,7 @@ export default function Overview() {
         <span className="flex size-10 items-center justify-center rounded-lg bg-primary/12 text-sm font-bold text-primary ring-1 ring-primary/30">{role.initials}</span>
         <div className="min-w-[14rem] flex-1">
           <div className="text-sm font-semibold">Signed in as {role.user} · {role.label}</div>
-          <div className="text-xs text-muted-foreground">{SCOPE[s.role]}. Segregation of duties is enforced on every approval.</div>
+          <div className="text-xs text-muted-foreground">{SCOPE[s.role]}. Nobody can approve their own request.</div>
         </div>
         <Badge variant="outline">FY 2026-27 · Q2</Badge>
         {role.readOnly && <Status tone="info" icon={Lock}>Read-only session</Status>}

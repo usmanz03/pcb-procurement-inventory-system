@@ -131,9 +131,9 @@ function Reports() {
   return (
     <>
       <PageHeader
-        module="Module 11 · Statutory Registers & Analytics"
+        module="Registers & analytics"
         title="Reports & business intelligence"
-        description="Statutory perpetual stock ledger with Weighted Average Cost (WAC), vendor scorecards, budget variance, and tamper-evident audit logs."
+        description="Stock ledgers, vendor scorecards, spend and stock reports for any period, ready to export or schedule."
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Button variant="outline" onClick={() => setScheduleOpen(true)}>
@@ -188,7 +188,7 @@ function Reports() {
 
         {/* Sub-toolbar: Active Range Badge & Item Selector */}
         <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t">
-          <div className="flex items-center gap-2 text-xs">
+          <div className="flex flex-wrap items-center gap-2 text-xs">
             <Badge variant="outline" className="gap-1.5 py-1 px-2.5">
               <Calendar className="size-3 text-primary" /> {range.label}
             </Badge>
@@ -212,10 +212,10 @@ function Reports() {
           </div>
 
           {reportType === "ledger" && (
-            <div className="flex items-center gap-2">
-              <Label className="text-xs text-muted-foreground">Select catalogue item:</Label>
+            <div className="flex min-w-0 max-w-full flex-wrap items-center gap-2">
+              <Label className="text-xs text-muted-foreground">Item:</Label>
               <Select value={selectedItemCode} onValueChange={setSelectedItemCode}>
-                <SelectTrigger className="w-80 h-8 text-xs font-mono">
+                <SelectTrigger className="h-8 w-80 max-w-full text-xs font-mono">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="max-h-72">
@@ -575,8 +575,8 @@ function Reports() {
       {/* ----------------- REPORT 5: ACTIVITY & AUDIT LOG ----------------- */}
       {reportType === "activity" && (
         <Section
-          title="Tamper-evident system activity log"
-          description="Cryptographically sequenced event trail for procurement operations, financial releases, and role transitions."
+          title="Activity log"
+          description="Every action by every user, in order. Records cannot be edited or deleted."
           flush
         >
           <Table>

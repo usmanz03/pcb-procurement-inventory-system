@@ -161,7 +161,7 @@ function Sourcing() {
   const handleLockSbd = () => {
     s.lockSbd();
     toast.success("Bidding document signed and locked", {
-      description: "Hash signature recorded. Ready for public issuance.",
+      description: "Signed version recorded. Ready to issue.",
     });
   };
 
@@ -179,8 +179,8 @@ function Sourcing() {
 
   // Receive quote
   const handleReceiveNextQuote = () => {
-    s.receiveQuote();
-    toast.info("Quotation received", { description: "Timestamped and added to quotation register." });
+    const r = s.receiveQuote();
+    toast.info(r.title, { description: r.message });
   };
 
   // Sourcing stepper stage
@@ -189,9 +189,9 @@ function Sourcing() {
   return (
     <>
       <PageHeader
-        module="Modules 5 & 6 · Sourcing & Evaluation"
+        module="Procurement"
         title="Sourcing workspace & bid evaluation"
-        description="PPRA Rule-compliant procurement methods, electronic two-envelope sealed vault opening, automated comparative statements, and committee sign-off."
+        description="The right PPRA method for every purchase, sealed technical and price bids opened in order, automatic comparison of quotations, and committee sign-off."
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Button variant="outline" onClick={() => setBerOpen(true)}>
@@ -267,7 +267,7 @@ function Sourcing() {
               title={
                 <div className="flex flex-wrap items-center gap-2">
                   <span>{currentTender.tenderId}: {currentTender.title}</span>
-                  <Badge variant="outline">{currentTender.method}</Badge>
+                  <Badge variant="outline" className="max-w-full truncate">{currentTender.method}</Badge>
                 </div>
               }
               description={`Estimated budget: ${pkr(currentTender.estimatedBudgetPkr)} · SBD: ${currentTender.sbdTemplate} · Bid security: ${currentTender.bidSecurityPercent}`}
@@ -346,7 +346,7 @@ function Sourcing() {
                     {s.vaultOpen ? (
                       <Status tone="success" icon={Unlock}>Vault opened</Status>
                     ) : (
-                      <Status tone="sealed" icon={Lock}>Envelopes encrypted</Status>
+                      <Status tone="sealed" icon={Lock}>Envelopes sealed</Status>
                     )}
                   </div>
 
@@ -410,7 +410,7 @@ function Sourcing() {
                   ) : (
                     <div className="flex flex-col items-center justify-center p-8 text-center space-y-3">
                       <Lock className="size-8 text-sealed animate-pulse" />
-                      <div className="text-xs font-medium">Financial envelopes are cryptographically locked</div>
+                      <div className="text-xs font-medium">Financial envelopes stay sealed</div>
                       <p className="text-[11px] text-muted-foreground max-w-xs">
                         Under PPRA Rule 36(b), financial bids remain unopened until technical evaluation is finalized and signed by the committee.
                       </p>
@@ -544,7 +544,7 @@ function Sourcing() {
                     </div>
                     {s.rfqState.dispatched && remainingQuotes.length > 0 && !role.readOnly && (
                       <Button size="sm" variant="outline" className="h-7 text-xs" onClick={handleReceiveNextQuote}>
-                        <RefreshCw className="size-3" /> Simulate incoming quote
+                        <RefreshCw className="size-3" /> Record next quotation
                       </Button>
                     )}
                   </div>
@@ -587,7 +587,7 @@ function Sourcing() {
                       </Table>
 
                       {rfqQuotes.length >= 3 && (
-                        <div className="rounded-lg border border-success/40 bg-success/10 p-4 flex items-center justify-between">
+                        <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-success/40 bg-success/10 p-4">
                           <div>
                             <div className="font-semibold text-xs text-success">
                               Quotation quorum reached ({rfqQuotes.length} received)
@@ -597,14 +597,14 @@ function Sourcing() {
                             </div>
                           </div>
                           <Button size="sm" onClick={() => setRfqCstOpen(true)}>
-                            View comparative statement
+                            {s.rfqState.po ? `${s.rfqState.po} issued` : "View comparative statement"}
                           </Button>
                         </div>
                       )}
                     </>
                   ) : (
                     <div className="rounded-xl border border-dashed p-8 text-center text-xs text-muted-foreground">
-                      Quotations will appear in real time once the RFQ is dispatched to the selected vendors.
+                      Quotations appear here as vendors respond, once the invitation is sent.
                     </div>
                   )}
                 </div>
@@ -777,7 +777,7 @@ function Sourcing() {
                   )}
                 </div>
               }
-              description="LED floodlights tender document sign-off. Locking finalizes the document hash."
+              description="LED floodlights tender document sign-off. Locking makes the signed version final."
             >
               <div className="space-y-4">
                 <div className="space-y-3 max-h-72 overflow-y-auto pr-2">
@@ -813,7 +813,7 @@ function Sourcing() {
                   </div>
                 ) : (
                   <div className="rounded-lg border border-success/40 bg-success/10 p-3 text-xs text-success flex items-center gap-2">
-                    <CheckCircle2 className="size-4" /> Document locked and tamper-evident hash recorded.
+                    <CheckCircle2 className="size-4" /> Document signed and locked. No further changes possible.
                   </div>
                 )}
               </div>
@@ -1060,16 +1060,21 @@ function Sourcing() {
             <Button variant="outline" onClick={() => setRfqCstOpen(false)}>
               Close
             </Button>
-            <Button
-              onClick={() => {
-                toast.success("Comparative statement finalized", {
-                  description: "Ready for purchase order release.",
-                });
-                setRfqCstOpen(false);
-              }}
-            >
-              Approve comparative statement
-            </Button>
+            {s.rfqState.po ? (
+              <Button onClick={() => router.push(`/orders/?po=${s.rfqState.po}`)}>Open {s.rfqState.po}</Button>
+            ) : !role.readOnly && (
+              <Button
+                onClick={() => {
+                  const r = s.approveRfqCst();
+                  if (!r.ok) { toast.error(r.title, { description: r.message }); return; }
+                  toast.success(r.title, { description: r.message });
+                  setRfqCstOpen(false);
+                  router.push(`/orders/?po=${r.detail.po}`);
+                }}
+              >
+                Approve and generate purchase order
+              </Button>
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>

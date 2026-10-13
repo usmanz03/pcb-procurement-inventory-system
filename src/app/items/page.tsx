@@ -40,6 +40,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { BarList, Empty, KpiGrid, Meter, PageHeader, Section, Stat, Status, type Tone } from "@/components/dash";
 import { ItemSheet } from "@/components/item-sheet";
+import { QrLabelDialog } from "@/components/qr-label";
 import { useApp, useRole } from "@/lib/store";
 import { num, pkr } from "@/lib/domain";
 import type { Item, Vendor } from "@/lib/types";
@@ -68,7 +69,7 @@ function Items() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [activeTab, setActiveTab] = useState<"catalogue" | "vendors" | "codifier">("catalogue");
+  const [activeTab, setActiveTab] = useState<"catalogue" | "vendors" | "codifier">(((v) => (v === "vendors" || v === "codifier" ? v : "catalogue"))(searchParams.get("view")));
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [budgetFilter, setBudgetFilter] = useState("all");
@@ -81,6 +82,7 @@ function Items() {
 
   // QR label preview modal
   const [qrItem, setQrItem] = useState<Item | null>(null);
+  const [vendorOpen, setVendorOpen] = useState(false);
 
   // Codifier State
   const [catKey, setCatKey] = useState("SPO");
@@ -183,7 +185,7 @@ function Items() {
   return (
     <>
       <PageHeader
-        module="Modules 0 & 4 · Master Data"
+        module="Master data"
         title="Items catalogue & vendor management"
         description="Unified item codification with automated duplicate prevention, weighted average valuation, and vendor qualification lifecycle."
         actions={
@@ -236,7 +238,7 @@ function Items() {
 
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b pb-3">
-          <TabsList className="bg-muted/70">
+          <TabsList className="h-auto max-w-full flex-wrap justify-start bg-muted/70">
             <TabsTrigger value="catalogue" className="gap-2">
               <Boxes className="size-4" /> Items catalogue ({s.itemsMaster.length})
             </TabsTrigger>
@@ -388,8 +390,9 @@ function Items() {
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1.8fr)_minmax(0,1fr)]">
               <Section
                 title="Vendor qualification & compliance register"
-                description="Live FBR Active Taxpayer List (ATL) integration, prequalification grading, and blacklisting controls."
+                description="Tax registration checked, prequalification scored, document expiry tracked, and debarred vendors blocked from every invitation."
                 flush
+                action={!role.readOnly && <Button size="sm" onClick={() => setVendorOpen(true)}><Plus className="size-4" /> Register vendor</Button>}
               >
                 <Table>
                   <TableHeader>
@@ -472,11 +475,14 @@ function Items() {
                               <Status tone="warning" icon={ShieldAlert}>
                                 Blacklisting proposed
                               </Status>
+                            ) : v.status === "Not qualified" ? (
+                              <Status tone="neutral">Not qualified</Status>
                             ) : (
                               <Status tone="success" icon={CheckCircle2}>
                                 Eligible
                               </Status>
                             )}
+                            {v.registeredOn && <div className="mt-1 text-[10px] text-muted-foreground">Registered {v.registeredOn}</div>}
                           </TableCell>
                           <TableCell className="text-right pr-5">
                             {v.status === "Eligible" && !role.readOnly ? (
@@ -802,54 +808,52 @@ function Items() {
         </DialogContent>
       </Dialog>
 
-      {/* QR Label Modal */}
-      <Dialog open={!!qrItem} onOpenChange={(open) => !open && setQrItem(null)}>
-        <DialogContent className="sm:max-w-sm">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <QrCode className="size-5 text-primary" /> Store inventory asset tag
-            </DialogTitle>
-            <DialogDescription>
-              Scannable barcode and QR label for warehouse bins and item tracking.
-            </DialogDescription>
-          </DialogHeader>
-          {qrItem && (
-            <div className="rounded-xl border-2 border-dashed border-primary/40 bg-muted/20 p-5 text-center space-y-3">
-              <div className="mx-auto flex size-36 items-center justify-center rounded-lg border bg-white p-2 shadow-sm">
-                {/* Simulated QR Pattern */}
-                <div className="grid grid-cols-6 grid-rows-6 gap-1 w-full h-full p-2 bg-neutral-900 rounded">
-                  <div className="col-span-2 row-span-2 bg-white rounded-xs" />
-                  <div className="col-start-5 col-span-2 row-span-2 bg-white rounded-xs" />
-                  <div className="row-start-5 col-span-2 row-span-2 bg-white rounded-xs" />
-                  <div className="col-start-3 row-start-3 col-span-2 row-span-2 bg-white/60" />
-                  <div className="col-start-4 row-start-5 bg-white" />
-                  <div className="col-start-5 row-start-4 bg-white" />
-                </div>
-              </div>
-              <div>
-                <div className="font-mono text-sm font-bold text-primary">{qrItem.code}</div>
-                <div className="text-xs font-medium text-foreground truncate">{qrItem.name}</div>
-                <div className="text-[11px] text-muted-foreground">
-                  Gaddafi Stadium Central Store · {qrItem.uom}
-                </div>
-              </div>
-            </div>
-          )}
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setQrItem(null)}>
-              Close
-            </Button>
-            <Button
-              onClick={() => {
-                toast.success("Print job sent", { description: `Label printed for ${qrItem?.code}` });
-                setQrItem(null);
-              }}
-            >
-              Print barcode label
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <QrLabelDialog code={qrItem?.code ?? null} title={qrItem?.name} sub={qrItem ? `Gaddafi Stadium Central Store · ${qrItem.uom}` : undefined} onClose={() => setQrItem(null)} />
+      <VendorDialog open={vendorOpen} onOpenChange={setVendorOpen} />
     </>
+  );
+}
+
+const VENDOR_CATEGORIES = ["Sports equipment", "Stadium infrastructure", "Turf & grounds", "Broadcast & technology", "Medical & sports science", "Apparel & kits", "Services"];
+
+function VendorDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o: boolean) => void }) {
+  const s = useApp();
+  const [f, setF] = useState({ name: "Pak Turf Solutions (Pvt) Ltd", ntn: "4471209-3", strn: "3277876175852", category: VENDOR_CATEGORIES[2], email: "tenders@pakturf.pk", phone: "+92 42 3578 1100", address: "Plot 14, Sundar Industrial Estate, Lahore", financial: 78, technical: 82, past: 70, turnover: 64 });
+  const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: ["financial", "technical", "past", "turnover"].includes(k) ? +e.target.value : e.target.value });
+  const score = Math.round(f.financial * 0.3 + f.technical * 0.35 + f.past * 0.2 + f.turnover * 0.15);
+  const ntnOk = /^\d{7}-\d$/.test(f.ntn.trim());
+  const submit = () => {
+    const r = s.registerVendor(f);
+    if (!r.ok) { toast.error(r.title, { description: r.message }); return; }
+    toast.success(r.title, { description: r.message });
+    onOpenChange(false);
+  };
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
+        <DialogHeader><DialogTitle>Register a vendor</DialogTitle><DialogDescription>Company details, tax registration and prequalification. Vendors scoring under 60 cannot be invited to quote.</DialogDescription></DialogHeader>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-1.5 sm:col-span-2"><Label htmlFor="vn">Registered company name</Label><Input id="vn" value={f.name} onChange={set("name")} /></div>
+          <div className="grid gap-1.5"><Label htmlFor="vt">NTN</Label><Input id="vt" value={f.ntn} onChange={set("ntn")} placeholder="1234567-8" />{!ntnOk && <span className="text-[11px] text-destructive">Format 1234567-8</span>}</div>
+          <div className="grid gap-1.5"><Label htmlFor="vs">Sales tax registration (STRN)</Label><Input id="vs" value={f.strn} onChange={set("strn")} /></div>
+          <div className="grid gap-1.5"><Label>Category of supply</Label><Select value={f.category} onValueChange={(v) => setF({ ...f, category: v })}><SelectTrigger className="w-full"><SelectValue /></SelectTrigger><SelectContent>{VENDOR_CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent></Select></div>
+          <div className="grid gap-1.5"><Label htmlFor="ve">Email</Label><Input id="ve" value={f.email} onChange={set("email")} /></div>
+          <div className="grid gap-1.5"><Label htmlFor="vp">Phone</Label><Input id="vp" value={f.phone} onChange={set("phone")} /></div>
+          <div className="grid gap-1.5"><Label htmlFor="va">Address</Label><Input id="va" value={f.address} onChange={set("address")} /></div>
+        </div>
+        <div className="rounded-xl border bg-muted/30 p-4">
+          <div className="mb-3 flex items-center justify-between"><span className="text-[13px] font-semibold">Prequalification</span><Status tone={score >= 60 ? "success" : "danger"}>{score} / 100 · {score >= 60 ? "Qualifies" : "Does not qualify"}</Status></div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {([["financial", "Financial capacity", 30], ["technical", "Technical capability", 35], ["past", "Past performance", 20], ["turnover", "Annual turnover", 15]] as const).map(([k, l, w]) => (
+              <div key={k} className="grid gap-1">
+                <div className="flex justify-between text-xs"><span>{l} <span className="text-muted-foreground">({w}%)</span></span><b className="font-mono">{f[k]}</b></div>
+                <input type="range" min={0} max={100} value={f[k]} onChange={set(k)} className="accent-[var(--primary)]" />
+              </div>
+            ))}
+          </div>
+        </div>
+        <DialogFooter><Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button><Button onClick={submit} disabled={!ntnOk || !f.name.trim()}>Register vendor</Button></DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

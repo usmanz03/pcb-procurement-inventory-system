@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { AlertTriangle, ArrowRightLeft, Building2, CheckCircle2, Clock, FileCheck2, Lock, Mail, Users, Warehouse } from "lucide-react";
+import { AlertTriangle, ArrowRightLeft, Building2, CheckCircle2, Clock, FileCheck2, Gavel, Lock, Mail, PackagePlus, QrCode, Trash2, Users, Warehouse } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { QrLabelDialog } from "@/components/qr-label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,6 +28,7 @@ export default function CustodyPage() {
   const [asset, setAsset] = useState<string | null>(null);
   const [handOpen, setHandOpen] = useState(false);
   const [exitOpen, setExitOpen] = useState(false);
+  const [issueOpen, setIssueOpen] = useState(false);
   const holder = s.custodyHolders.find((h) => h.empId === holderId) ?? s.custodyHolders[0];
   const custodian = (dept: string) => s.departmentCustodians.find((d) => d.dept === dept)?.custodian ?? "—";
   const rows = s.custodyHolders.flatMap((h) => h.assets.map((a) => ({ ...a, h, m: s.custodyMeta[a.assetTag] })));
@@ -34,10 +37,11 @@ export default function CustodyPage() {
 
   return (
     <>
-      <PageHeader module="Module 3" title="Custody & sub-store issuance" description="Central Store → Departmental Custodian → Employee. Custody moves only when the recipient confirms."
+      <PageHeader module="Stores" title="Custody & sub-store issuance" description="Central Store → Departmental Custodian → Employee. Custody moves only when the recipient confirms."
         actions={<>
           <Button variant="outline" onClick={() => setExitOpen(true)}><FileCheck2 /> Exit clearance</Button>
-          {!role.readOnly && <Button onClick={() => setHandOpen(true)}><ArrowRightLeft /> Hand over custody</Button>}
+          {!role.readOnly && <Button variant="outline" onClick={() => setHandOpen(true)}><ArrowRightLeft /> Hand over</Button>}
+          {!role.readOnly && <Button onClick={() => setIssueOpen(true)}><PackagePlus /> Issue asset to staff</Button>}
         </>} />
 
       <KpiGrid items={[
@@ -80,8 +84,8 @@ export default function CustodyPage() {
                     <Meter value={(hrs / s.ackEscalationHours) * 100} tone={esc ? "danger" : "warning"} className="my-2" />
                     {esc && <p className="mb-2 text-[11px] text-muted-foreground">Escalated to {custodian(r.h.department)}</p>}
                     {!role.readOnly && <div className="flex gap-2">
-                      <Button size="sm" variant="outline" onClick={() => toast.success("Reminder sent", { description: `Email and in-app reminder sent to ${r.h.name}.` })}><Mail /> Remind</Button>
-                      <Button size="sm" variant="ghost" onClick={() => { s.confirmCustody(r.assetTag); toast.success("Custody confirmed"); }}>Record confirmation (demo)</Button>
+                      <Button size="sm" variant="outline" onClick={() => { const x = s.remindCustody(r.assetTag); toast.success(x.title, { description: x.message }); }}><Mail /> Remind</Button>
+                      <Button size="sm" variant="ghost" onClick={() => { const x = s.confirmCustody(r.assetTag); toast.success(x.title, { description: x.message }); }}>Record confirmation</Button>
                     </div>}
                   </li>
                 );
@@ -127,7 +131,26 @@ export default function CustodyPage() {
         </Table>
       </Section>
 
+      <Section className="mt-6" title="Condemnation & disposal register" description="Assets proposed for write-off or auction, the survey committee's finding and the approval decision. History is kept permanently." flush>
+        <Table>
+          <TableHeader><TableRow><TableHead className="pl-5">Reference</TableHead><TableHead>Asset</TableHead><TableHead>Reason</TableHead><TableHead>Method</TableHead><TableHead className="text-right">Book value</TableHead><TableHead className="pr-5">Status</TableHead></TableRow></TableHeader>
+          <TableBody>
+            {s.disposals.map((d) => (
+              <TableRow key={d.id}>
+                <TableCell className="pl-5"><div className="font-mono text-xs font-semibold">{d.id}</div><div className="text-[11px] text-muted-foreground">{d.date}</div></TableCell>
+                <TableCell className="max-w-[16rem] whitespace-normal"><div className="font-mono text-xs">{d.assetTag}</div><div className="line-clamp-1 text-xs text-muted-foreground">{d.description}</div></TableCell>
+                <TableCell className="max-w-[16rem] whitespace-normal text-xs text-muted-foreground">{d.reason}</TableCell>
+                <TableCell className="text-xs">{d.method}{d.reservePrice ? <div className="text-[11px] text-muted-foreground">Reserve {pkr(d.reservePrice)}</div> : null}</TableCell>
+                <TableCell className="text-right font-mono text-xs tabular">{num(d.bookValue)}</TableCell>
+                <TableCell className="pr-5"><Status tone={d.status === "Written off" ? "neutral" : d.status === "Approved for auction" ? "gold" : d.status === "Rejected" ? "danger" : "warning"} icon={d.status === "Awaiting approval" ? Clock : d.method === "Auction" ? Gavel : undefined}>{d.status}</Status></TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Section>
+
       <AssetDialog tag={asset} onClose={() => setAsset(null)} />
+      <IssueDialog open={issueOpen} onOpenChange={setIssueOpen} />
       <HandoverDialog open={handOpen} onOpenChange={setHandOpen} />
       <Dialog open={exitOpen} onOpenChange={setExitOpen}>
         <DialogContent className="sm:max-w-2xl">
@@ -145,6 +168,8 @@ function AssetDialog({ tag, onClose }: { tag: string | null; onClose: () => void
   const holder = s.custodyHolders.find((h) => h.assets.some((a) => a.assetTag === tag));
   const a = holder?.assets.find((x) => x.assetTag === tag);
   const m = tag ? s.custodyMeta[tag] : undefined;
+  const [dispose, setDispose] = useState(false);
+  const [qr, setQr] = useState(false);
   return (
     <Dialog open={!!a} onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="sm:max-w-xl">
@@ -152,13 +177,17 @@ function AssetDialog({ tag, onClose }: { tag: string | null; onClose: () => void
           <DialogHeader><DialogTitle>{a.assetTag} · {a.description}</DialogTitle><DialogDescription>Asset lifecycle and custody</DialogDescription></DialogHeader>
           <Stepper steps={LIFECYCLE} at={LIFECYCLE.indexOf(m.lifecycle)} />
           <KV rows={[["Holder", `${holder.name} (${holder.empId})`], ["Purpose", m.purpose], ["Location", m.location], ["Expected return", m.returnable ? m.expectedReturn : "Non-returnable"], ["Item code", <span key="c" className="font-mono">{a.itemCode}</span>], ["Value", pkr(a.valuePkr)]]} />
-          {!role.readOnly && <DialogFooter className="sm:justify-start">
-            {(["In Use", "Returned", "Under Repair", "Disposed"] as Lifecycle[]).filter((x) => x !== m.lifecycle).map((x) => (
-              <Button key={x} size="sm" variant={x === "Disposed" ? "destructive" : "outline"} onClick={() => { s.setLifecycle(a.assetTag, x); toast.success(`Status: ${x}`); onClose(); }}>
-                {x === "In Use" ? "Back in use" : x === "Returned" ? "Returned to store" : x === "Under Repair" ? "Send for repair" : "Dispose / write off"}
+          {!role.readOnly && m.lifecycle !== "Disposed" && <DialogFooter className="flex-wrap gap-2 sm:justify-start">
+            {(["In Use", "Returned", "Under Repair"] as Lifecycle[]).filter((x) => x !== m.lifecycle).map((x) => (
+              <Button key={x} size="sm" variant="outline" onClick={() => { const r = s.setLifecycle(a.assetTag, x); toast.success(r.title, { description: r.message }); onClose(); }}>
+                {x === "In Use" ? "Back in use" : x === "Returned" ? "Returned to store" : "Send for repair"}
               </Button>
             ))}
+            <Button size="sm" variant="destructive" onClick={() => setDispose(true)}><Trash2 /> Propose disposal</Button>
           </DialogFooter>}
+          <Button size="sm" variant="ghost" className="justify-self-start" onClick={() => setQr(true)}><QrCode /> Asset label</Button>
+          <DisposeDialog tag={dispose ? a.assetTag : null} onClose={() => { setDispose(false); onClose(); }} />
+          <QrLabelDialog code={qr ? a.assetTag : null} title={a.description} sub={`${holder.name} · ${holder.department}`} onClose={() => setQr(false)} />
         </>}
       </DialogContent>
     </Dialog>
@@ -209,5 +238,61 @@ function ExitClearance({ empId }: { empId: string }) {
           {!outstanding.length && <tr><td colSpan={4} className="py-4 text-center text-[var(--muted-foreground)]">Nothing outstanding.</td></tr>}</tbody>
       </table>
     </DocPaper>
+  );
+}
+
+function DisposeDialog({ tag, onClose }: { tag: string | null; onClose: () => void }) {
+  const s = useApp();
+  const [reason, setReason] = useState("Beyond economical repair per survey committee inspection");
+  const [method, setMethod] = useState<"Write-off" | "Auction">("Auction");
+  const [reserve, setReserve] = useState(25000);
+  return (
+    <Dialog open={!!tag} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent>
+        <DialogHeader><DialogTitle>Propose disposal · {tag}</DialogTitle><DialogDescription>The survey committee&apos;s finding goes to the Director and CFO for approval. The asset stays on record until approved.</DialogDescription></DialogHeader>
+        <div className="grid gap-3">
+          <div className="grid gap-1.5"><Label>Method</Label><Select value={method} onValueChange={(v) => setMethod(v as "Write-off" | "Auction")}><SelectTrigger className="w-full"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="Auction">Public auction</SelectItem><SelectItem value="Write-off">Write-off</SelectItem></SelectContent></Select></div>
+          {method === "Auction" && <div className="grid gap-1.5"><Label htmlFor="rp">Reserve price (PKR)</Label><Input id="rp" type="number" value={reserve} onChange={(e) => setReserve(+e.target.value)} /></div>}
+          <div className="grid gap-1.5"><Label htmlFor="rs">Survey committee finding</Label><Textarea id="rs" value={reason} onChange={(e) => setReason(e.target.value)} /></div>
+        </div>
+        <DialogFooter><Button variant="outline" onClick={onClose}>Cancel</Button>
+          <Button variant="destructive" onClick={() => { const r = s.proposeDisposal({ tag: tag!, reason, method, reservePrice: method === "Auction" ? reserve : undefined }); if (r.ok) toast.success(r.title, { description: r.message }); else toast.error(r.title, { description: r.message }); onClose(); }}>Send for approval</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function IssueDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o: boolean) => void }) {
+  const s = useApp();
+  const assets = s.itemsMaster.filter((i) => i.classification.includes("Asset") && (i.storeBreakdown["STORE-LHR-01"] ?? 0) > 0);
+  const [code, setCode] = useState(assets[0]?.code ?? "");
+  const [emp, setEmp] = useState(s.custodyHolders[0]?.empId ?? "");
+  const [purpose, setPurpose] = useState("Match-day operations");
+  const [loc, setLoc] = useState("Gaddafi Stadium, Lahore");
+  const [ret, setRet] = useState("2026-12-31");
+  const item = s.itemsMaster.find((i) => i.code === code);
+  const h = s.custodyHolders.find((x) => x.empId === emp);
+  const custodian = s.departmentCustodians.find((d) => d.dept === h?.department)?.custodian ?? "Departmental custodian";
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-lg">
+        <DialogHeader><DialogTitle>Issue an asset to a staff member</DialogTitle><DialogDescription>A new asset tag is created, the store balance drops, and the person is asked to confirm receipt.</DialogDescription></DialogHeader>
+        <div className="grid gap-3">
+          <div className="grid gap-1.5"><Label>Asset from Gaddafi Central Store</Label><Select value={code} onValueChange={setCode}><SelectTrigger className="w-full"><SelectValue placeholder="No assets in store" /></SelectTrigger><SelectContent>{assets.map((i) => <SelectItem key={i.code} value={i.code}>{i.name.slice(0, 44)} · {i.storeBreakdown["STORE-LHR-01"]} in store</SelectItem>)}</SelectContent></Select></div>
+          <div className="grid gap-1.5"><Label>Issued to</Label><Select value={emp} onValueChange={setEmp}><SelectTrigger className="w-full"><SelectValue /></SelectTrigger><SelectContent>{s.custodyHolders.map((x) => <SelectItem key={x.empId} value={x.empId}>{x.name} · {x.department}</SelectItem>)}</SelectContent></Select></div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="grid gap-1.5"><Label htmlFor="ip">Purpose</Label><Input id="ip" value={purpose} onChange={(e) => setPurpose(e.target.value)} /></div>
+            <div className="grid gap-1.5"><Label htmlFor="il">Location</Label><Input id="il" value={loc} onChange={(e) => setLoc(e.target.value)} /></div>
+            <div className="grid gap-1.5"><Label htmlFor="ir">Return by</Label><Input id="ir" type="date" value={ret} onChange={(e) => setRet(e.target.value)} /></div>
+            <div className="grid gap-1.5"><Label>Accountable custodian</Label><div className="flex h-9 items-center truncate rounded-md border bg-muted/40 px-3 text-sm">{custodian}</div></div>
+          </div>
+          {item && <p className="text-xs text-muted-foreground">Value on the custody record: {pkr(item.avgCostPkr)}</p>}
+        </div>
+        <DialogFooter><Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button disabled={!item} onClick={() => { const r = s.issueAsset({ itemCode: code, empId: emp, purpose, location: loc, expectedReturn: ret }); if (r.ok) { toast.success(r.title, { description: r.message }); onOpenChange(false); } else toast.error(r.title, { description: r.message }); }}>Issue and request confirmation</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
