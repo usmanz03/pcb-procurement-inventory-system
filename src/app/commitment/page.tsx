@@ -55,7 +55,7 @@ export default function CommitmentPage() {
         <div className="mx-auto mb-5 flex items-center justify-center gap-4">
           <span className="flex size-16 items-center justify-center rounded-2xl bg-white p-2 shadow-lg"><img src={asset("/pcb-logo.svg")} alt="Pakistan Cricket Board" className="h-full w-auto" /></span>
           <Sparkles className="size-5 text-gold" />
-          <span className="flex h-16 items-center rounded-2xl border bg-card px-5 text-lg font-bold tracking-wide">TECHPRYSM</span>
+          <span className="flex size-16 items-center justify-center rounded-2xl bg-white p-2 shadow-lg"><img src={asset("/techprysm-logo.jpeg")} alt="Techprysm" className="h-full w-auto" /></span>
         </div>
         <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-gold-text">Our commitment to the Pakistan Cricket Board</p>
         <h1 className="mx-auto max-w-3xl font-display text-4xl font-semibold leading-tight tracking-tight text-balance md:text-5xl">Built for PCB. Live in two and a half months. Owned by PCB for good.</h1>
@@ -103,7 +103,7 @@ export default function CommitmentPage() {
       <Section className="mb-8" title="Why not an international ERP suite?" description="An indicative comparison with a typical large enterprise package." flush>
         <div className="overflow-x-auto">
           <Table>
-            <TableHeader><TableRow><TableHead className="pl-5"></TableHead><TableHead>Typical international suite</TableHead><TableHead className="pr-5"><span className="inline-flex items-center gap-1.5 text-gold-text"><Trophy className="size-4" /> Techprysm for PCB</span></TableHead></TableRow></TableHeader>
+            <TableHeader><TableRow><TableHead className="pl-5"></TableHead><TableHead>Typical international suite</TableHead><TableHead className="pr-5"><span className="inline-flex items-center gap-2 text-gold-text"><span className="flex size-6 items-center justify-center rounded-md bg-white p-0.5"><img src={asset("/techprysm-logo.jpeg")} alt="" className="h-full w-auto" /></span>Techprysm for PCB</span></TableHead></TableRow></TableHeader>
             <TableBody>
               {COMPARE.map(([k, a, b]) => (
                 <TableRow key={k}>
