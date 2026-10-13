@@ -93,13 +93,15 @@ const pgDate = (v: any) => (v instanceof Date ? fmtD(new Date(v.getUTCFullYear()
 const rowsOf = (arr: any[], key: string | null) => arr.map((r, i) => ({ id: key ? String(r[key]) : String(i), pos: i, doc: r }));
 
 /* ---------- Seed ---------- */
-export async function migrate(q: Q, exec: (s: string) => Promise<void>) {
+export async function migrate(q: Q, exec: (s: string) => Promise<void>): Promise<boolean> {
   await exec(SCHEMA);
   const v = await q<{ value: number }>("select value from meta where key = 'version'");
-  if (!v.length) await seed(q);
+  const fresh = !v.length;
+  if (fresh) await seed(q);
   const roles = initialData().roles;
   if (!(await q(`select 1 from app_users limit 1`)).length)
     for (const u of SEED_USERS) await q(`insert into app_users (email, name, role, department, password_hash) values ($1,$2,$3,$4,$5) on conflict (email) do nothing`, [u.email, roles[u.role].user, u.role, u.department, hashPassword(DEMO_PASSWORD)]);
+  return fresh;
 }
 
 export async function seed(q: Q) {

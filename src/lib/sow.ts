@@ -76,7 +76,7 @@ export const SOW: Req[] = [
   { id: "FR-11.3", module: M11, text: "Vendor reports", status: "Live", where: "Vendor scorecard", href: "/reports/?type=vendors" },
   { id: "FR-11.4", module: M11, text: "Procurement reports by month, department, category, tender", status: "Live", where: "Procurement report", href: "/reports/?type=procurement" },
   { id: "FR-11.5", module: M11, text: "Inventory reports", status: "Live", where: "Inventory report", href: "/reports/?type=inventory" },
-  { id: "FR-11.6", module: M11, text: "Role-based dashboards; search by code, PR, PO, vendor, department", status: "Live", where: "Command centre; ⌘K search", href: "/" },
+  { id: "FR-11.6", module: M11, text: "Role-based dashboards; search by code, PR, PO, vendor, department", status: "Live", where: "Dashboard; ⌘K search", href: "/" },
   { id: "FR-11.7", module: M11, text: "Excel and PDF export; scheduled emailing", status: "Simulated", where: "Export; schedules stored (mail relay stubbed)", href: "/reports/" },
   { id: "FR-11.8", module: M11, text: "Complete activity log", status: "Live", where: "Hash-chained audit_log", href: "/system/" },
   { id: "NFR-1", module: NFR, text: "Encryption in transit and at rest; SSO; OWASP protections", status: "Delivery", where: "TLS on hosting; SSO in Phase 0–4", href: "/system/" },

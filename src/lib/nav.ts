@@ -4,7 +4,7 @@ export interface NavItem { href: string; key: string; title: string; module: str
 
 /* Ordered along the procurement lifecycle; number keys 1–9 follow this order. */
 export const NAV: NavItem[] = [
-  { href: "/", key: "overview", title: "Command centre", module: "Module 11", icon: LayoutDashboard, group: "Overview" },
+  { href: "/", key: "overview", title: "Dashboard", module: "Module 11", icon: LayoutDashboard, group: "Overview" },
   { href: "/catalogue/", key: "catalogue", title: "Item master", module: "Module 0", icon: Boxes, group: "Master data" },
   { href: "/items/", key: "items", title: "Vendors", module: "Module 4", icon: Building2, group: "Master data" },
   { href: "/demands/", key: "demands", title: "Demands", module: "Module 1", icon: ClipboardList, group: "Stores" },

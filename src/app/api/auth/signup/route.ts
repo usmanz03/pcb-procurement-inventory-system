@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
     const d = await db();
     if ((await d.query(`select 1 from app_users where lower(email) = $1`, [email])).length) return Response.json({ error: "An account with this email already exists. Sign in instead." }, { status: 409 });
     await d.query(`insert into app_users (email, name, role, department, password_hash, last_login) values ($1,$2,$3,$4,$5, now())`, [email, name, role, department || null, hashPassword(password)]);
+    await d.save();
     return Response.json({ user: { email, name, role, department } });
   } catch (e) {
     return fail(e);

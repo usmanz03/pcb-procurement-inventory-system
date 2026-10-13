@@ -13,7 +13,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { AppSidebar } from "@/components/app-sidebar";
 import { CommandMenu } from "@/components/command-menu";
-import { LiveIndicator, SignIn } from "@/components/boot";
+import { SignIn } from "@/components/boot";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { NAV, navFor } from "@/lib/nav";
 import { canAccess, startSync, useApp, useRole } from "@/lib/store";
@@ -77,7 +77,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </BreadcrumbList>
           </Breadcrumb>
           <div className="ml-auto flex items-center gap-2">
-            <LiveIndicator />
             <Button variant="outline" className="h-8 w-9 justify-start gap-2 px-2 text-muted-foreground sm:w-64 sm:px-3" onClick={() => setCmdOpen(true)}>
               <Search className="size-4" />
               <span className="hidden truncate text-[13px] sm:inline">Search code, PR, PO, vendor…</span>

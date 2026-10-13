@@ -32,7 +32,7 @@ You don't need to type emails. On the sign-in screen, open **Sign in as**, pick 
 
 > "Today PCB tracks demand, stores, tenders and payments on paper and in separate spreadsheets. This is one system where every item has one code from the day it is catalogued to the day it is disposed of. Every request is checked against stock and budget automatically, every approval follows PCB's financial powers, nobody can approve their own request, and every action is recorded permanently and cannot be altered. It is built around the PPRA rules, owned by PCB, and live in two and a half months."
 
-Say this while the **Command centre** is on screen, then go straight into the demo. Show, don't describe.
+Say this while the **Dashboard** is on screen, then go straight into the demo. Show, don't describe.
 
 ---
 

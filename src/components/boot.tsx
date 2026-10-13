@@ -1,7 +1,6 @@
 "use client";
 
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { Check, ChevronsUpDown, Eye, EyeOff, Loader2, LogIn, Moon, Shield, Sun } from "lucide-react";
@@ -10,7 +9,6 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { asset } from "@/lib/nav";
 import { DEMO_PASSWORD, SEEDED, useApp } from "@/lib/store";
 import type { RoleKey } from "@/lib/types";
@@ -78,28 +76,6 @@ export function SignIn() {
         </div>
       </div>
     </div>
-  );
-}
-
-export function LiveIndicator() {
-  const sync = useApp((s) => s.sync);
-  const tone = sync.status === "live" ? "bg-success" : sync.status === "saving" ? "bg-warning" : sync.status === "offline" ? "bg-destructive" : "bg-muted-foreground";
-  const label = sync.status === "live" ? "All changes saved" : sync.status === "saving" ? "Saving…" : sync.status === "offline" ? "Offline" : "Live";
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Link href="/system/" className="hidden items-center gap-2 rounded-full border px-2.5 py-1 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground md:inline-flex">
-          <span className="relative flex size-2">
-            {sync.status === "live" && <span className={cn("absolute inline-flex size-full animate-ping rounded-full opacity-60", tone)} />}
-            <span className={cn("relative inline-flex size-2 rounded-full", tone)} />
-          </span>
-          {label}
-        </Link>
-      </TooltipTrigger>
-      <TooltipContent side="bottom" className="text-xs">
-        Shared live with every signed-in user{sync.lastSync ? ` · updated ${new Date(sync.lastSync).toLocaleTimeString()}` : ""}
-      </TooltipContent>
-    </Tooltip>
   );
 }
 

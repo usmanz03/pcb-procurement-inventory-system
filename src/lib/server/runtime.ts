@@ -8,13 +8,14 @@ type State = Data & Workflow;
 const g = globalThis as unknown as { __pcbReady?: Promise<void>; __pcbCache?: { version: number; state: State } };
 
 async function ready() {
-  if (!g.__pcbReady) g.__pcbReady = (async () => { const d = await db(); await migrate(d.query, d.exec); })().catch((e) => { g.__pcbReady = undefined; throw e; });
+  if (!g.__pcbReady) g.__pcbReady = (async () => { const d = await db(); if (await migrate(d.query, d.exec)) await d.save(); })().catch((e) => { g.__pcbReady = undefined; throw e; });
   return g.__pcbReady;
 }
 
 export async function snapshot(): Promise<{ version: number; state: State }> {
   await ready();
   const d = await db();
+  await d.refresh();
   const version = await getVersion(d.query);
   if (g.__pcbCache?.version === version) return g.__pcbCache;
   const state = await loadState(d.query);
@@ -24,7 +25,9 @@ export async function snapshot(): Promise<{ version: number; state: State }> {
 
 export async function currentVersion() {
   await ready();
-  return getVersion((await db()).query);
+  const d = await db();
+  await d.refresh();
+  return getVersion(d.query);
 }
 
 export const ROLES: RoleKey[] = ["director", "committee", "cfo", "storekeeper", "auditor"];
@@ -32,7 +35,8 @@ export const ROLES: RoleKey[] = ["director", "committee", "cfo", "storekeeper", 
 export async function runAction(name: ActionName, args: unknown[], ctx: { role: RoleKey; ip: string | null; clientId: string | null; user?: string | null }): Promise<{ result: Result; version: number; state: State }> {
   await ready();
   const d = await db();
-  return d.tx(async (q) => {
+  await d.refresh(true);
+  const out = await d.tx(async (q) => {
     const version = await getVersion(q);
     const base: State = g.__pcbCache?.version === version ? g.__pcbCache.state : await loadState(q);
     // The signed-in person acts under their own name within their role
@@ -61,14 +65,18 @@ export async function runAction(name: ActionName, args: unknown[], ctx: { role: 
     void _r;
     const state: State = { ...rest, roles: base.roles, recentActivities: await recentActivities(q) };
     g.__pcbCache = { version: nextVersion, state };
-    return { result, version: nextVersion, state };
+    return { result, version: nextVersion, state, saved: true };
   });
+  if ("saved" in out) await d.save();
+  return out;
 }
 
 export async function resetDemo() {
   await ready();
   const d = await db();
+  await d.refresh(true);
   await d.tx(async (q) => { await resetAll(q); });
+  await d.save();
   g.__pcbCache = undefined;
   return snapshot();
 }

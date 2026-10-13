@@ -110,7 +110,7 @@ export default function Overview() {
   return (
     <>
       <PageHeader
-        module="Command centre"
+        module="Dashboard"
         title="Procurement & stores at a glance"
         description="Commitments against budget, the demand-to-payment pipeline and what needs your decision, for your role."
         actions={<>
