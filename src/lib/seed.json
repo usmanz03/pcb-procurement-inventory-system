@@ -91,7 +91,13 @@
       "reorderLevel": 50,
       "avgCostPkr": 185000,
       "shelfLife": "24 Months",
-      "spec": "Australian Leather, 4-piece construction, ICC Regulation A Approved"
+      "spec": "Australian Leather, 4-piece construction, ICC Regulation A Approved",
+      "status": "Active",
+      "reserved": 0,
+      "legacyCodes": [
+        "ST-BALL-117",
+        "LHR/SPT/0042"
+      ]
     },
     {
       "code": "PCB-INF-LGT-0018",
@@ -114,7 +120,12 @@
       "reorderLevel": 10,
       "avgCostPkr": 420000,
       "shelfLife": "N/A (Asset)",
-      "spec": "5700K CCT, TLCI > 90, 4K/8K Ultra HD broadcast compliant, IP66 rated"
+      "spec": "5700K CCT, TLCI > 90, 4K/8K Ultra HD broadcast compliant, IP66 rated",
+      "status": "Active",
+      "reserved": 0,
+      "legacyCodes": [
+        "INF-FL-1500"
+      ]
     },
     {
       "code": "PCB-TRF-MOW-0007",
@@ -137,7 +148,12 @@
       "reorderLevel": 2,
       "avgCostPkr": 4850000,
       "shelfLife": "N/A (Asset)",
-      "spec": "Precision cylinder cutting, hybrid electric drive reels, adjustable 2mm-25mm"
+      "spec": "Precision cylinder cutting, hybrid electric drive reels, adjustable 2mm-25mm",
+      "status": "Active",
+      "reserved": 0,
+      "legacyCodes": [
+        "GRD-MWR-07"
+      ]
     },
     {
       "code": "PCB-APP-KIT-0091",
@@ -160,7 +176,10 @@
       "reorderLevel": 15,
       "avgCostPkr": 320000,
       "shelfLife": "12 Months",
-      "spec": "Moisture-wicking recycled polyester, custom sublimation, PCB Gold Star crest"
+      "spec": "Moisture-wicking recycled polyester, custom sublimation, PCB Gold Star crest",
+      "status": "Active",
+      "reserved": 0,
+      "legacyCodes": []
     },
     {
       "code": "PCB-MED-REC-0014",
@@ -183,7 +202,10 @@
       "reorderLevel": 4,
       "avgCostPkr": 1450000,
       "shelfLife": "N/A (Asset)",
-      "spec": "Dual-action RICE therapy, microprocessor controlled temperature & pressure"
+      "spec": "Dual-action RICE therapy, microprocessor controlled temperature & pressure",
+      "status": "Active",
+      "reserved": 0,
+      "legacyCodes": []
     },
     {
       "code": "PCB-BRD-HWK-0003",
@@ -206,7 +228,10 @@
       "reorderLevel": 3,
       "avgCostPkr": 3250000,
       "shelfLife": "N/A (Asset)",
-      "spec": "Sub-millimeter ball-trajectory predictive analysis, ultra high-speed sync"
+      "spec": "Sub-millimeter ball-trajectory predictive analysis, ultra high-speed sync",
+      "status": "Active",
+      "reserved": 0,
+      "legacyCodes": []
     },
     {
       "code": "PCB-TRF-ROL-0002",
@@ -229,7 +254,10 @@
       "reorderLevel": 2,
       "avgCostPkr": 840000,
       "shelfLife": "N/A (Asset)",
-      "spec": "1.2 m drum, hydrostatic drive, 2,000 kg ballasted, ISO 9001 manufacturer"
+      "spec": "1.2 m drum, hydrostatic drive, 2,000 kg ballasted, ISO 9001 manufacturer",
+      "status": "Active",
+      "reserved": 0,
+      "legacyCodes": []
     }
   ],
   "tenders": [
@@ -1091,7 +1119,22 @@
           "status": "pending",
           "roleKey": "director"
         }
-      ]
+      ],
+      "payload": {
+        "code": "PCB-MED-REC-0015",
+        "name": "Normatec 3 recovery boots (physio)",
+        "category": "Medical & Sports Science",
+        "categoryCode": "MED",
+        "subCategory": "Recovery",
+        "nature": "Non-consumable asset",
+        "exp": "CapEx",
+        "uom": "Set",
+        "reorder": 2,
+        "spec": "Pneumatic compression system with full-leg attachments, 5 zones",
+        "warranty": "2 years",
+        "usefulLife": "5 years",
+        "depreciation": "Straight-line 20% p.a."
+      }
     },
     {
       "id": "APR-2026-0179",
@@ -1230,7 +1273,30 @@
       "requiredBy": "01-Nov-2026",
       "purpose": "NCA pre-season camp",
       "budgetHead": "BH-OPX-HPC",
-      "status": "Part issued, PR in approval"
+      "status": "Part issued, PR in approval",
+      "reserved": 0,
+      "timeline": [
+        {
+          "at": "10-Oct 09:20",
+          "by": "Bilal Hasan",
+          "text": "Raised for 100"
+        },
+        {
+          "at": "10-Oct 09:20",
+          "by": "System",
+          "text": "Stock checked at Gaddafi Central"
+        },
+        {
+          "at": "10-Oct 11:05",
+          "by": "Muhammad Rashid",
+          "text": "40 issued from store under SIN-LHR-8902"
+        },
+        {
+          "at": "10-Oct 09:21",
+          "by": "System",
+          "text": "60 sent to Procurement as PR-AUTO-4401"
+        }
+      ]
     },
     {
       "id": "REQ-2026-1051",
@@ -1246,7 +1312,25 @@
       "requiredBy": "15-Nov-2026",
       "purpose": "Monsoon damage replacement, Multan",
       "budgetHead": "BH-OPX-GRD",
-      "status": "PR in approval"
+      "status": "PR in approval",
+      "reserved": 0,
+      "timeline": [
+        {
+          "at": "11-Oct 09:20",
+          "by": "Usman Zafar",
+          "text": "Raised for 8"
+        },
+        {
+          "at": "11-Oct 09:20",
+          "by": "System",
+          "text": "Stock checked at Gaddafi Central"
+        },
+        {
+          "at": "11-Oct 09:21",
+          "by": "System",
+          "text": "8 sent to Procurement as PR-AUTO-4407"
+        }
+      ]
     },
     {
       "id": "REQ-2026-1039",
@@ -1262,7 +1346,25 @@
       "requiredBy": "06-Oct-2026",
       "purpose": "Asia Cup squad kits",
       "budgetHead": "BH-OPX-CRK",
-      "status": "Fulfilled from stock"
+      "status": "Fulfilled from stock",
+      "reserved": 0,
+      "timeline": [
+        {
+          "at": "04-Oct 09:20",
+          "by": "Sana Mir",
+          "text": "Raised for 2"
+        },
+        {
+          "at": "04-Oct 09:20",
+          "by": "System",
+          "text": "Stock checked at Gaddafi Central"
+        },
+        {
+          "at": "04-Oct 11:05",
+          "by": "Muhammad Rashid",
+          "text": "2 issued from store under SIN-LHR-8871"
+        }
+      ]
     },
     {
       "id": "REQ-2026-1032",
@@ -1278,7 +1380,25 @@
       "requiredBy": "15-Dec-2026",
       "purpose": "Gaddafi floodlight upgrade",
       "budgetHead": "BH-CAP-INF",
-      "status": "Tender 089 in evaluation"
+      "status": "Tender 089 in evaluation",
+      "reserved": 0,
+      "timeline": [
+        {
+          "at": "28-Sep 09:20",
+          "by": "Hafiz Shabbir",
+          "text": "Raised for 110"
+        },
+        {
+          "at": "28-Sep 09:20",
+          "by": "System",
+          "text": "Stock checked at Gaddafi Central"
+        },
+        {
+          "at": "28-Sep 09:21",
+          "by": "System",
+          "text": "110 sent to Procurement as PR-2026-0389"
+        }
+      ]
     }
   ],
   "itemLedgers": {
@@ -1582,45 +1702,6 @@
       "depreciation": "Straight-line 10% p.a.",
       "tagRequired": true
     }
-  },
-  "stockTake": {
-    "id": "ST-2026-Q2-LHR",
-    "store": "Gaddafi Stadium Central Store",
-    "date": "09-Oct-2026",
-    "countedBy": "Muhammad Rashid, Naveed Akram",
-    "status": "Awaiting approval",
-    "lines": [
-      {
-        "code": "PCB-SPO-BALL-0042",
-        "book": 40,
-        "counted": 40
-      },
-      {
-        "code": "PCB-INF-LGT-0018",
-        "book": 20,
-        "counted": 20
-      },
-      {
-        "code": "PCB-APP-KIT-0091",
-        "book": 8,
-        "counted": 7
-      },
-      {
-        "code": "PCB-MED-REC-0014",
-        "book": 4,
-        "counted": 4
-      },
-      {
-        "code": "PCB-BRD-HWK-0003",
-        "book": 3,
-        "counted": 3
-      },
-      {
-        "code": "PCB-TRF-MOW-0007",
-        "book": 2,
-        "counted": 2
-      }
-    ]
   },
   "deadStock": [
     {
@@ -2332,6 +2413,94 @@
       "status": "Written off",
       "approval": "APR-2026-0152",
       "decidedOn": "09-Sep-2026"
+    }
+  ],
+  "stockTakes": [
+    {
+      "id": "ST-2026-Q2-LHR",
+      "store": "Gaddafi Stadium Central Store",
+      "date": "09-Oct-2026",
+      "countedBy": "Muhammad Rashid, Naveed Akram",
+      "status": "Submitted",
+      "lines": [
+        {
+          "code": "PCB-SPO-BALL-0042",
+          "book": 40,
+          "counted": 40
+        },
+        {
+          "code": "PCB-INF-LGT-0018",
+          "book": 20,
+          "counted": 20
+        },
+        {
+          "code": "PCB-APP-KIT-0091",
+          "book": 8,
+          "counted": 7
+        },
+        {
+          "code": "PCB-MED-REC-0014",
+          "book": 4,
+          "counted": 4
+        },
+        {
+          "code": "PCB-BRD-HWK-0003",
+          "book": 3,
+          "counted": 3
+        },
+        {
+          "code": "PCB-TRF-MOW-0007",
+          "book": 2,
+          "counted": 2
+        }
+      ],
+      "storeId": "STORE-LHR-01"
+    },
+    {
+      "id": "STK-2026-011",
+      "storeId": "STORE-KHI-01",
+      "store": "National Bank Stadium",
+      "date": "28-Sep-2026",
+      "countedBy": "Tariq Zaman",
+      "status": "Approved",
+      "approvedBy": "Usman Zafar",
+      "lines": [
+        {
+          "code": "PCB-SPO-BALL-0042",
+          "book": 35,
+          "counted": 35
+        },
+        {
+          "code": "PCB-INF-LGT-0018",
+          "book": 12,
+          "counted": 12
+        },
+        {
+          "code": "PCB-TRF-MOW-0007",
+          "book": 1,
+          "counted": 1
+        },
+        {
+          "code": "PCB-APP-KIT-0091",
+          "book": 6,
+          "counted": 6
+        },
+        {
+          "code": "PCB-MED-REC-0014",
+          "book": 2,
+          "counted": 2
+        },
+        {
+          "code": "PCB-BRD-HWK-0003",
+          "book": 3,
+          "counted": 3
+        },
+        {
+          "code": "PCB-TRF-ROL-0002",
+          "book": 0,
+          "counted": 0
+        }
+      ]
     }
   ]
 }

@@ -37,6 +37,10 @@ export interface Item {
   avgCostPkr: number;
   shelfLife: string;
   spec: string;
+  status?: "Active" | "Inactive" | "Deactivation pending";
+  reserved?: number;
+  legacyCodes?: string[];
+  createdOn?: string;
 }
 
 export type LedgerType = "OPEN" | "GRN" | "ISSUE" | "TRANSFER_OUT" | "TRANSFER_IN" | "RETURN" | "ADJUST";
@@ -118,6 +122,7 @@ export interface Approval {
   status: "pending" | "approved" | "rejected" | "returned";
   sodBlocked?: boolean;
   linkTender?: string;
+  payload?: Record<string, unknown>;
   demandId?: string;
   chain: ApprovalStep[];
 }
@@ -160,6 +165,9 @@ export interface Demand {
   purpose: string;
   budgetHead: string;
   status: string;
+  reserved?: number;
+  cancelReason?: string;
+  timeline?: { at: string; by: string; text: string }[];
 }
 
 export interface Vendor {
@@ -321,4 +329,34 @@ export interface Notice {
   title: string;
   body: string;
   href?: string;
+}
+
+export interface StockTake {
+  id: string;
+  storeId: string;
+  store: string;
+  date: string;
+  countedBy: string;
+  status: "Counting" | "Submitted" | "Approved" | "Cancelled";
+  lines: { code: string; book: number; counted: number | null }[];
+  approvedBy?: string;
+  note?: string;
+}
+
+export interface ItemDraft {
+  code: string;
+  name: string;
+  category: string;
+  categoryCode: string;
+  subCategory: string;
+  nature: "Consumable" | "Non-consumable asset";
+  exp: "CapEx" | "OpEx";
+  uom: string;
+  reorder: number;
+  spec: string;
+  shelfLife?: string;
+  warranty?: string;
+  usefulLife?: string;
+  depreciation?: string;
+  dupOf?: string;
 }

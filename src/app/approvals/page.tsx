@@ -250,7 +250,7 @@ function ApprovalDetail({ a }: { a: Approval }) {
         ) : a.status === "pending" && step ? (
           <div className="rounded-lg border border-warning/30 bg-warning/8 p-3 text-xs">
             <div className="mb-1 flex items-center gap-1.5 text-[13px] font-semibold"><Clock className="size-4 text-warning" />Waiting for {step.role}</div>
-            {step.roleKey ? `Switch role to ${s.roles[step.roleKey].label} from the sidebar to act on this step.` : "This approver is outside the demo roles."}
+            {step.roleKey ? `Awaiting approval by ${s.roles[step.roleKey].label}.` : "This approver is outside the designated roles."}
             {!step.roleKey && !role.readOnly && <div className="mt-2"><Button size="sm" variant="outline" onClick={() => act("approve", true)}>Record {step.role} sign-off</Button></div>}
           </div>
         ) : (

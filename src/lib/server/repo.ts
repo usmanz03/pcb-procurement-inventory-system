@@ -30,6 +30,7 @@ export const ARRAYS: Partial<Record<ArrayKey, { table: string; key: string | nul
   custodyHolders: { table: "custody_holders", key: "empId", label: "Custody holders" },
   departmentCustodians: { table: "department_custodians", key: "dept", label: "Departmental custodians" },
   disposals: { table: "disposals", key: "id", label: "Condemnation & disposal register" },
+  stockTakes: { table: "stock_takes", key: "id", label: "Stock-takes & count sheets" },
   guarantees: { table: "guarantees", key: "instrument", label: "Bid securities & guarantees" },
   sbdTemplates: { table: "bidding_documents", key: "name", label: "Standard bidding documents" },
   sbdComments: { table: "committee_remarks", key: null, label: "Committee remarks" },
@@ -39,7 +40,7 @@ export const ARRAYS: Partial<Record<ArrayKey, { table: string; key: string | nul
   tenderHistory: { table: "tender_history", key: "ref", label: "Tender history" },
 };
 export const MAPS = { custodyMeta: { table: "custody_status", label: "Custody status by asset tag" }, assetAttributes: { table: "asset_attributes", label: "Asset attributes" }, bidTerms: { table: "bid_terms", label: "Bid commercial terms" } } as const;
-const CONFIG_KEYS = ["meta", "analytics", "roles", "delegation", "stockTake", "rfq", "reconciliationRecord", "ackEscalationHours", "spendByDept", "spendByCategory"] as const;
+const CONFIG_KEYS = ["meta", "analytics", "roles", "delegation", "rfq", "reconciliationRecord", "ackEscalationHours", "spendByDept", "spendByCategory"] as const;
 const LEDGER_TYPES = ["OPEN", "GRN", "ISSUE", "TRANSFER_OUT", "TRANSFER_IN", "RETURN", "ADJUST"];
 
 const entityDdl = (t: string) => `create table if not exists ${t} (id text primary key, pos int not null, doc jsonb not null, updated_at timestamptz not null default now(), updated_by text);`;

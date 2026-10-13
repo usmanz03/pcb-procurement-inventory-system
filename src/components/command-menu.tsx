@@ -33,14 +33,14 @@ export function CommandMenu({ open, onOpenChange }: { open: boolean; onOpenChang
         <CommandSeparator />
         <CommandGroup heading="Items">
           {items.map((i) => (
-            <CommandItem key={i.code} value={`${i.code} ${i.name}`} onSelect={() => go(`/reports/?item=${i.code}`)}>
+            <CommandItem key={i.code} value={`${i.code} ${i.name}`} onSelect={() => go(`/catalogue/?code=${i.code}`)}>
               <Package /> <span className="font-mono text-xs">{i.code}</span> <span className="truncate text-muted-foreground">{i.name}</span>
             </CommandItem>
           ))}
         </CommandGroup>
         <CommandGroup heading="Demands & requisitions">
           {demands.map((d) => (
-            <CommandItem key={d.id} value={`${d.id} ${d.pr ?? ""} ${d.sin ?? ""} ${d.dept}`} onSelect={() => go("/inventory/")}>
+            <CommandItem key={d.id} value={`${d.id} ${d.pr ?? ""} ${d.sin ?? ""} ${d.dept}`} onSelect={() => go(`/demands/?id=${d.id}`)}>
               <FileText /> <span className="font-mono text-xs">{d.id}</span> <span className="truncate text-muted-foreground">{d.dept} · {d.pr ?? d.sin}</span>
             </CommandItem>
           ))}

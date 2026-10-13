@@ -8,8 +8,9 @@ import seedJson from "./seed.json";
 import { addDays, bandFor, computeLedger, FAR_FUTURE, fmtD, parseD, pkr, poValue, stamp, TODAY, TODAY_STR } from "./domain";
 import type {
   Activity, Approval, BudgetHead, CustodyHolder, CustodyMeta, Demand, Disposal, Grievance, Grn, Guarantee, Intention, Invoice,
-  Item, ItemLedger, Lifecycle, PurchaseOrder, Quote, Role, RoleKey, Store, Tender, Vendor,
+  Item, ItemLedger, Lifecycle, PurchaseOrder, Quote, Role, RoleKey, StockTake, Store, Tender, Vendor,
 } from "./types";
+import { createStoreActions, STORE_ACTION_TAB, type StoreActions } from "./engine-stores";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const seed = seedJson as any;
@@ -33,7 +34,7 @@ export interface Data {
   demands: Demand[];
   itemLedgers: Record<string, ItemLedger>;
   assetAttributes: Record<string, { warranty: string; usefulLife: string; depreciation: string }>;
-  stockTake: { id: string; store: string; date: string; countedBy: string; status: string; lines: { code: string; book: number; counted: number }[] };
+  stockTakes: StockTake[];
   deadStock: { code: string; name: string; store: string; qty: number; value: number; lastMovement: string; days: number }[];
   vendors: Vendor[];
   purchaseOrders: PurchaseOrder[];
@@ -61,14 +62,14 @@ export interface Workflow {
   rfqState: { dispatched: boolean; selected: string[]; quotes: Quote[]; po?: string };
   sbdLocked: boolean;
   scheduled: { name: string; freq: string; to: string; fmt: string; next: string }[];
-  seq: { grn: number; apr: number; demand: number; sin: number; pr: number; trf: number; po: number; dsp: number; vnd: number };
+  seq: { grn: number; apr: number; demand: number; sin: number; pr: number; trf: number; po: number; dsp: number; vnd: number; stk: number };
   tagSeq: Record<string, number>;
 }
 
 export type EngineState = Data & Workflow & { role: RoleKey };
 export type Result = { ok: boolean; title: string; message: string; detail?: any };
 
-export interface Actions {
+export interface Actions extends StoreActions {
   decideApproval: (id: string, action: "approve" | "reject" | "return", remark: string, demo?: boolean) => Result;
   rerouteApproval: (id: string) => Result;
   closeStandstill: (tender: string) => Result;
@@ -80,16 +81,13 @@ export interface Actions {
   captureInvoice: (grn: string, v: { inv: string; qty: number; rate: number }) => Result;
   resolveException: (inv: string, how: "cap" | "credit") => Result;
   releasePayment: (inv: string) => Result;
-  submitDemand: (d: { dept: string; itemCode: string; qty: number; requiredBy: string; purpose: string; budgetHead: string }) => Result;
   transferStock: (t: { code: string; from: string; to: string; qty: number; reason: string }) => Result;
-  approveStockTake: () => Result;
   issueAsset: (v: { itemCode: string; empId: string; purpose: string; location: string; expectedReturn: string }) => Result;
   confirmCustody: (tag: string) => Result;
   remindCustody: (tag: string) => Result;
   setLifecycle: (tag: string, s: Lifecycle) => Result;
   handOver: (h: { tag: string; toEmpId: string; purpose: string; expectedReturn: string }) => Result;
   proposeDisposal: (v: { tag: string; reason: string; method: "Write-off" | "Auction"; reservePrice?: number }) => Result;
-  requestItemCode: (c: { code: string; desc: string; nature: string; exp: string; uom: string; dupOf?: string }) => Result;
   registerVendor: (v: { name: string; ntn: string; strn: string; category: string; email: string; phone: string; address: string; financial: number; technical: number; past: number; turnover: number }) => Result;
   proposeBlacklist: (vendorId: string, reason: string, period: string) => Result;
   openEnvelopes: () => Result;
@@ -109,14 +107,14 @@ export const ACTION_TAB: Record<ActionName, string> = {
   decideApproval: "approvals", rerouteApproval: "approvals", closeStandstill: "approvals", addGrievance: "approvals", decideGrievance: "approvals", endDelegation: "approvals",
   issuePO089: "orders", postGRN: "orders",
   captureInvoice: "finance", resolveException: "finance", releasePayment: "finance",
-  submitDemand: "inventory", transferStock: "inventory", approveStockTake: "inventory",
+  ...STORE_ACTION_TAB, transferStock: "inventory",
   issueAsset: "custody", confirmCustody: "custody", remindCustody: "custody", setLifecycle: "custody", handOver: "custody", proposeDisposal: "custody",
-  requestItemCode: "items", registerVendor: "items", proposeBlacklist: "items",
+  registerVendor: "items", proposeBlacklist: "items",
   openEnvelopes: "tenders", toggleRfqVendor: "tenders", dispatchRfq: "tenders", receiveQuote: "tenders", approveRfqCst: "tenders", addSbdComment: "tenders", lockSbd: "tenders", releaseGuarantee: "tenders",
   scheduleReport: "reports",
 };
 
-export const canAccess = (role: Role, tab: string) => role.tabs === "all" || ["trace", "system", "commitment"].includes(tab) || role.tabs.includes(tab === "sourcing" ? "tenders" : tab);
+export const canAccess = (role: Role, tab: string) => role.tabs === "all" || ["trace", "system", "commitment"].includes(tab) || role.tabs.includes(({ sourcing: "tenders", catalogue: "items", demands: "inventory" } as Record<string, string>)[tab] ?? tab);
 
 export function permit(st: Pick<EngineState, "roles" | "role">, name: ActionName): Result | null {
   const role = st.roles[st.role];
@@ -128,6 +126,7 @@ export function permit(st: Pick<EngineState, "roles" | "role">, name: ActionName
 export function initialData(): Data {
   const d: Data = JSON.parse(JSON.stringify(seed));
   d.disposals = d.disposals ?? [];
+  d.itemsMaster.forEach((i) => { i.status = i.status ?? "Active"; i.reserved = i.reserved ?? 0; i.legacyCodes = i.legacyCodes ?? []; });
   d.itemsMaster.forEach((i) => {
     const L = d.itemLedgers[i.code];
     if (L) i.avgCostPkr = Math.round(computeLedger(L, new Date(2000, 0, 1), FAR_FUTURE).close.wac);
@@ -146,7 +145,7 @@ export function initialWorkflow(): Workflow {
       { name: "Item ledger, all items", freq: "Monthly", to: "cfo@pcb.com.pk", fmt: "PDF + Excel", next: "01-Nov-2026 07:00" },
       { name: "Vendor performance", freq: "Quarterly", to: "director.procurement@pcb.com.pk", fmt: "PDF", next: "01-Jan-2027 07:00" },
     ],
-    seq: { grn: 504, apr: 190, demand: 1052, sin: 8903, pr: 4408, trf: 48, po: 332, dsp: 8, vnd: 501 },
+    seq: { grn: 504, apr: 190, demand: 1052, sin: 8903, pr: 4408, trf: 48, po: 332, dsp: 8, vnd: 501, stk: 15 },
     tagSeq: { LGT: 21, MOW: 7, HWK: 13, REC: 15, ROL: 1 },
   };
 }
@@ -169,6 +168,7 @@ export function createActions(set: Set, get: Get): Actions {
       if (s.recentActivities.length > 60) s.recentActivities.pop();
     });
   const nextApr = () => { const id = `APR-2026-0${get().seq.apr}`; set((s) => { s.seq.apr++; }); return id; };
+  const { _approved, _rejected, ...storeActions } = createStoreActions(set, get, log, nextApr);
 
   /* Side effects when an approval chain completes */
   const onApprovalComplete = (id: string) => {
@@ -183,10 +183,6 @@ export function createActions(set: Set, get: Get): Actions {
         const v = s.vendors.find((x) => x.id === a.ref);
         if (v) { v.status = "Blacklisted"; v.until = fmtD(addDays(TODAY, 730)); }
       }
-      if (a.type === "Purchase Requisition") {
-        const d = s.demands.find((x) => x.pr === a.ref || x.id === a.demandId);
-        if (d) d.status = "PR approved, sent to sourcing";
-      }
       if (a.type === "Asset Disposal") {
         const d = s.disposals.find((x) => x.id === a.ref);
         if (d) {
@@ -198,7 +194,7 @@ export function createActions(set: Set, get: Get): Actions {
     });
     if (id === "APR-2026-0186") log("Intention to Award published", "Tender 089: 10-day standstill started.", "PPRA Compliance", `Notice posted on PCB and PPRA websites. Standstill ends ${fmtD(addDays(TODAY, 10))} 17:00.`);
     if (a.type === "Vendor Blacklisting") log("Vendor blacklisted", `${a.ref} debarred and excluded from invitations.`, "Vendor Control");
-    if (a.type === "Item Code Request") log("Item code activated", `${a.ref} added to the catalogue.`, "Item Master");
+    _approved(get().approvals.find((x) => x.id === id)!);
     if (a.type === "Asset Disposal") {
       const d = get().disposals.find((x) => x.id === a.ref);
       if (d) log(d.method === "Auction" ? "Disposal approved for auction" : "Asset written off", `${d.id}: ${d.assetTag} removed from the active asset register.`, "Disposal Register", `${d.reason}. History retained for audit.`);
@@ -206,6 +202,7 @@ export function createActions(set: Set, get: Get): Actions {
   };
 
   return {
+    ...storeActions,
     decideApproval: (id, action, remark, demo = false) => {
       const st = get();
       const a = st.approvals.find((x) => x.id === id);
@@ -237,6 +234,7 @@ export function createActions(set: Set, get: Get): Actions {
       const verb = action === "approve" ? "approved" : action === "reject" ? "rejected" : "returned";
       log(`${a.type} ${verb}`, `${a.ref}: ${step.role} ${verb}${next ? `, routed to ${next}` : final ? " (final)" : ""}.`, "Approval Workflow", `${a.id}. Remark: ${remark || "—"}`);
       if (final) onApprovalComplete(a.id);
+      if (action !== "approve") _rejected(get().approvals.find((x) => x.id === id)!);
       if (action === "approve") return ok(final ? "Final approval recorded" : "Approved and routed", final ? `${a.ref} is fully approved.` : `${a.ref} moved to ${next}.`);
       return ok(action === "reject" ? "Rejected" : "Returned for clarification", `${a.requestedBy} has been notified.`);
     },
@@ -412,51 +410,14 @@ export function createActions(set: Set, get: Get): Actions {
       return ok("Payment released", `RTGS ${ref} · ${pkr(net)} net.`);
     },
 
-    submitDemand: (d) => {
-      const st = get();
-      const item = st.itemsMaster.find((i) => i.code === d.itemCode);
-      if (!item) return no("Unknown item", d.itemCode);
-      if (d.qty < 1) return no("Check quantity", "Quantity must be at least 1.");
-      if (!d.purpose.trim()) return no("Purpose required", "State the purpose of the demand.");
-      const avail = item.storeBreakdown["STORE-LHR-01"] ?? 0;
-      const issue = Math.min(avail, d.qty), prQty = d.qty - issue;
-      const prValue = prQty * item.avgCostPkr;
-      const head = st.budgetHeads.find((b) => b.id === d.budgetHead);
-      if (prQty && head && prValue > head.allocation - head.committed) return no("Insufficient budget", `${head.name} has ${pkr(head.allocation - head.committed)} uncommitted.`);
-      const id = `REQ-2026-${st.seq.demand}`;
-      const sin = issue ? `SIN-LHR-${st.seq.sin}` : null;
-      const pr = prQty ? `PR-AUTO-${st.seq.pr}` : null;
-      const band = bandFor(prValue);
-      set((s) => {
-        s.seq.demand++; if (issue) s.seq.sin++; if (prQty) s.seq.pr++;
-        if (issue) {
-          const it = s.itemsMaster.find((i) => i.code === d.itemCode)!;
-          it.storeBreakdown["STORE-LHR-01"] -= issue; it.centralStock -= issue; it.totalStock -= issue;
-          s.itemLedgers[d.itemCode]?.entries.push({ date: TODAY_STR, type: "ISSUE", ref: sin!, doc: id, qty: -issue, party: d.dept, custodian: "Departmental custodian", recipient: s.roles[s.role].user, purpose: d.purpose });
-        }
-        s.demands.unshift({ id, date: TODAY_STR, dept: d.dept, by: s.roles[s.role].user, itemCode: d.itemCode, qty: d.qty, issued: issue, prQty, branch: prQty === 0 ? "full" : issue === 0 ? "none" : "partial", sin, pr, requiredBy: d.requiredBy, purpose: d.purpose, budgetHead: d.budgetHead, status: prQty ? "PR in approval" : "Fulfilled from stock" });
-        if (prQty) {
-          s.approvals.unshift({
-            id: `APR-2026-0${s.seq.apr++}`, type: "Purchase Requisition", ref: pr!, title: `${prQty} × ${item.name.slice(0, 50)}`, amount: prValue, band, dept: d.dept, requestedBy: s.roles[s.role].user, submitted: TODAY_STR, slaHours: 48, elapsedHours: 0, status: "pending", demandId: id,
-            chain: [
-              { role: "Head of Department", name: "Department head", status: "approved", at: stamp(), remark: d.purpose },
-              { role: "Director Procurement", name: "Usman Zafar", status: "pending", roleKey: "director" },
-              ...(["B3", "B4", "B5"].includes(band) ? [{ role: "CFO", name: "Tariq Mehmood", status: "waiting" as const, roleKey: "cfo" as const }] : []),
-            ],
-          });
-        }
-      });
-      log("Demand raised", `${id}: ${d.qty} × ${d.itemCode}${issue ? `, ${issue} issued (${sin})` : ""}${prQty ? `, ${prQty} to ${pr}` : ""}.`, "Auto Branching", `Purpose: ${d.purpose}.`);
-      return ok("Demand submitted", `${id}${sin ? ` · ${sin} issued` : ""}${pr ? ` · ${pr} sent for approval` : ""}`, { id });
-    },
-
     transferStock: (t) => {
       const st = get();
       const item = st.itemsMaster.find((i) => i.code === t.code);
       if (!item) return no("Unknown item", t.code);
-      const avail = item.storeBreakdown[t.from] ?? 0;
+      const avail = t.from === "STORE-LHR-01" ? Math.max(0, (item.storeBreakdown[t.from] ?? 0) - (item.reserved ?? 0)) : item.storeBreakdown[t.from] ?? 0;
       if (t.from === t.to) return no("Choose two stores", "Source and destination must differ.");
-      if (t.qty < 1 || t.qty > avail) return no("Check quantity", `Only ${avail} available at the source store.`);
+      if ((st.stadiumStores.find((x) => x.id === t.to) as unknown as { status?: string })?.status === "Inactive") return no("Store closed", "The destination store is closed.");
+      if (t.qty < 1 || t.qty > avail) return no("Check quantity", `Only ${avail} free to move at the source store${t.from === "STORE-LHR-01" && item.reserved ? ` (${item.reserved} reserved for demands)` : ""}.`);
       const ref = `TRF-2026-00${st.seq.trf}`;
       const name = (id: string) => st.stadiumStores.find((s) => s.id === id)?.name ?? id;
       set((s) => {
@@ -470,22 +431,6 @@ export function createActions(set: Set, get: Get): Actions {
       });
       log("Stock transferred", `${ref}: ${t.qty} × ${t.code} from ${name(t.from)} to ${name(t.to)}.`, "Inventory");
       return ok("Transfer authorised", `${ref} awaiting receipt confirmation at ${name(t.to)}.`);
-    },
-
-    approveStockTake: () => {
-      if (get().stockTake.status === "Approved") return no("Already approved", "Adjustments are posted.");
-      set((s) => {
-        s.stockTake.lines.filter((l) => l.counted !== l.book).forEach((l) => {
-          const v = l.counted - l.book;
-          const it = s.itemsMaster.find((i) => i.code === l.code)!;
-          it.totalStock += v; it.centralStock += v; it.storeBreakdown["STORE-LHR-01"] += v;
-          s.itemLedgers[l.code]?.entries.push({ date: TODAY_STR, type: "ADJUST", ref: s.stockTake.id, doc: "Stock-take variance", qty: v, party: "Gaddafi Central Store", purpose: "Approved stock-take adjustment" });
-          l.book = l.counted;
-        });
-        s.stockTake.status = "Approved";
-      });
-      log("Stock-take adjustment approved", "Variance posted to the ledger as a separate entry.", "Inventory");
-      return ok("Stock-take adjustment approved", "Variance posted as a separate ledger entry.");
     },
 
     issueAsset: (v) => {
@@ -579,23 +524,6 @@ export function createActions(set: Set, get: Get): Actions {
       });
       log("Disposal proposed", `${id}: ${v.method.toLowerCase()} of ${v.tag} (${pkr(asset.valuePkr)} book value).`, "Disposal Register", `${v.reason}. Routed as ${apr}.`);
       return ok("Disposal proposed", `${id} routed for approval as ${apr}.`);
-    },
-
-    requestItemCode: (c) => {
-      const st = get();
-      if (st.itemsMaster.some((i) => i.code === c.code) || st.approvals.some((a) => a.type === "Item Code Request" && a.ref === c.code)) return no("Code in use", `${c.code} already exists or is pending.`);
-      const id = nextApr();
-      set((s) => {
-        s.approvals.unshift({
-          id, type: "Item Code Request", ref: c.code, title: `New code: ${c.desc}`, amount: null, band: "—", dept: "Catalogue", requestedBy: s.roles[s.role].user, submitted: TODAY_STR, slaHours: 24, elapsedHours: 0, status: "pending",
-          chain: [
-            { role: "Catalogue Officer", name: "Saima Khan", status: "approved", at: stamp(), remark: c.dupOf ? `Possible duplicate of ${c.dupOf} reviewed; distinct specification.` : "No duplicate found." },
-            { role: "Director Procurement", name: "Usman Zafar", status: "pending", roleKey: "director" },
-          ],
-        });
-      });
-      log("Item code requested", `${c.code}: ${c.desc}.`, "Item Master", `${c.nature}, ${c.exp}, ${c.uom}. Routed as ${id}.`);
-      return ok("Code submitted for approval", `${c.code} routed as ${id}.`);
     },
 
     registerVendor: (v) => {

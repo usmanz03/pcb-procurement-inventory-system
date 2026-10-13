@@ -112,7 +112,7 @@ export default function Overview() {
         description="Commitments against budget, the demand-to-payment pipeline and what needs your decision, for your role."
         actions={<>
           <Button variant="outline" asChild><Link href="/reports/"><BarChart3 /> Reports</Link></Button>
-          {!role.readOnly && <Button asChild><Link href="/inventory/?new=1"><Plus /> Raise demand</Link></Button>}
+          {!role.readOnly && <Button asChild><Link href="/demands/?new=1"><Plus /> Raise demand</Link></Button>}
         </>}
       />
 

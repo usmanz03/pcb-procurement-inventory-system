@@ -103,7 +103,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <div className="mx-auto mt-20 flex max-w-md flex-col items-center gap-3 text-center">
                   <span className="flex size-12 items-center justify-center rounded-full bg-muted"><Lock className="size-5 text-muted-foreground" /></span>
                   <h1 className="text-xl font-semibold">{nav.title} isn&apos;t available to {role.label}</h1>
-                  <p className="text-sm text-muted-foreground">Access is set per role, at module, function and data level. Switch role from the menu at the bottom of the sidebar.</p>
+                  <p className="text-sm text-muted-foreground">Access is set per role, at module, function and data level. Sign in with an authorised account to access this section.</p>
                 </div>
               )}
             </motion.div>

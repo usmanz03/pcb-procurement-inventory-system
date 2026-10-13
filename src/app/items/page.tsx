@@ -69,7 +69,7 @@ function Items() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [activeTab, setActiveTab] = useState<"catalogue" | "vendors" | "codifier">(((v) => (v === "vendors" || v === "codifier" ? v : "catalogue"))(searchParams.get("view")));
+  const [activeTab, setActiveTab] = useState<"catalogue" | "vendors" | "codifier">("vendors");
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [budgetFilter, setBudgetFilter] = useState("all");
@@ -186,17 +186,9 @@ function Items() {
     <>
       <PageHeader
         module="Master data"
-        title="Items catalogue & vendor management"
-        description="Unified item codification with automated duplicate prevention, weighted average valuation, and vendor qualification lifecycle."
-        actions={
-          <div className="flex items-center gap-2">
-            {!role.readOnly && (
-              <Button onClick={() => setActiveTab("codifier")}>
-                <Plus className="size-4" /> Request item code
-              </Button>
-            )}
-          </div>
-        }
+        title="Vendors"
+        description="Register suppliers, check their tax status, score their prequalification and keep debarred firms out of every invitation."
+        actions={!role.readOnly && <Button onClick={() => setVendorOpen(true)}><Plus className="size-4" /> Register vendor</Button>}
       />
 
       <KpiGrid
@@ -239,14 +231,8 @@ function Items() {
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b pb-3">
           <TabsList className="h-auto max-w-full flex-wrap justify-start bg-muted/70">
-            <TabsTrigger value="catalogue" className="gap-2">
-              <Boxes className="size-4" /> Items catalogue ({s.itemsMaster.length})
-            </TabsTrigger>
             <TabsTrigger value="vendors" className="gap-2">
               <Users className="size-4" /> Vendor directory ({s.vendors.length})
-            </TabsTrigger>
-            <TabsTrigger value="codifier" className="gap-2">
-              <Sparkles className="size-4 text-gold-text" /> Item codifier & duplicate check
             </TabsTrigger>
           </TabsList>
           {activeTab === "catalogue" && (

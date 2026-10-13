@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Check, ChevronsUpDown, LogOut, RotateCcw } from "lucide-react";
-import { toast } from "sonner";
+import { ChevronsUpDown, LogOut } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -27,19 +26,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { asset, NAV, navFor } from "@/lib/nav";
 import { canAccess, useApp, useRole } from "@/lib/store";
-import type { RoleKey } from "@/lib/types";
 import { cn } from "@/lib/utils";
-
-const ROLE_ORDER: RoleKey[] = ["director", "committee", "cfo", "storekeeper", "auditor"];
 
 export function AppSidebar() {
   const pathname = usePathname();
   const active = navFor(pathname);
   const role = useRole();
-  const roleKey = useApp((s) => s.role);
-  const roles = useApp((s) => s.roles);
-  const setRole = useApp((s) => s.setRole);
-  const reset = useApp((s) => s.reset);
   const signOut = useApp((s) => s.signOut);
   const pendingMine = useApp(
     (s) =>
@@ -149,34 +141,15 @@ export function AppSidebar() {
                   <ChevronsUpDown className="ml-auto size-3.5 text-muted-foreground" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent side="right" align="end" className="w-64">
-                <DropdownMenuLabel className="text-xs text-muted-foreground">
-                  Switch user
+              <DropdownMenuContent side="right" align="end" className="w-56">
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{role.user}</p>
+                    <p className="text-xs leading-none text-muted-foreground">{role.label}</p>
+                  </div>
                 </DropdownMenuLabel>
-                {ROLE_ORDER.map((k) => (
-                  <DropdownMenuItem key={k} onClick={() => setRole(k)} className="gap-3">
-                    <span className="flex size-7 items-center justify-center rounded-md bg-muted text-[10px] font-bold">
-                      {roles[k].initials}
-                    </span>
-                    <span className="grid leading-tight">
-                      <span className="text-sm font-medium">{roles[k].user}</span>
-                      <span className="text-[11px] text-muted-foreground">{roles[k].label}</span>
-                    </span>
-                    {k === roleKey && <Check className="ml-auto size-4 text-primary" />}
-                  </DropdownMenuItem>
-                ))}
                 <DropdownMenuSeparator />
-                {!role.readOnly && (
-                  <DropdownMenuItem
-                    onClick={async () => {
-                      const r = await reset();
-                      if (r.ok) toast.success(r.title, { description: r.message }); else toast.error(r.title, { description: r.message });
-                    }}
-                  >
-                    <RotateCcw className="size-3.5 mr-2" /> Reset demo data
-                  </DropdownMenuItem>
-                )}
-                <DropdownMenuItem onClick={signOut}>
+                <DropdownMenuItem onClick={signOut} className="cursor-pointer text-destructive focus:text-destructive">
                   <LogOut className="size-3.5 mr-2" /> Sign out
                 </DropdownMenuItem>
               </DropdownMenuContent>
