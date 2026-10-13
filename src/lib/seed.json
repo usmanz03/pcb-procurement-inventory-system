@@ -258,6 +258,34 @@
       "status": "Active",
       "reserved": 0,
       "legacyCodes": []
+    },
+    {
+      "code": "PCB-GRD-CVR-0004",
+      "name": "Waterproof Rain Cover & Pitch Sheet Set (30 m)",
+      "category": "Turf & Grounds Equipment",
+      "categoryCode": "GRD",
+      "subCategory": "Covers",
+      "classification": "Consumable",
+      "budgetType": "OpEx",
+      "uom": "Set",
+      "totalStock": 0,
+      "storeBreakdown": {
+        "STORE-LHR-01": 0,
+        "STORE-KHI-01": 0,
+        "STORE-RWP-01": 0,
+        "STORE-MUL-01": 0,
+        "STORE-NCA-01": 0
+      },
+      "centralStock": 0,
+      "reorderLevel": 4,
+      "avgCostPkr": 228000,
+      "shelfLife": "5 years",
+      "spec": "PVC-coated polyester, 650 gsm, heat-welded seams",
+      "status": "Active",
+      "reserved": 0,
+      "legacyCodes": [
+        "GRD-COV-30M"
+      ]
     }
   ],
   "tenders": [
@@ -873,7 +901,7 @@
       "id": "BH-CAP-INF",
       "name": "Stadium Infrastructure CapEx (PC-1)",
       "type": "CapEx",
-      "allocation": 120000000,
+      "allocation": 135000000,
       "committed": 63000000,
       "spent": 41200000
     },
@@ -1060,7 +1088,8 @@
           "status": "waiting",
           "roleKey": "cfo"
         }
-      ]
+      ],
+      "demandId": "REQ-2026-1044"
     },
     {
       "id": "APR-2026-0181",
@@ -1138,8 +1167,8 @@
     },
     {
       "id": "APR-2026-0179",
-      "type": "Demand",
-      "ref": "REQ-2026-1051",
+      "type": "Purchase Requisition",
+      "ref": "PR-AUTO-4407",
       "title": "Rain covers and pitch sheets (8 sets) for Multan Cricket Stadium",
       "amount": 2240000,
       "band": "B2",
@@ -1164,7 +1193,8 @@
           "status": "pending",
           "roleKey": "director"
         }
-      ]
+      ],
+      "demandId": "REQ-2026-1051"
     },
     {
       "id": "APR-2026-0175",
@@ -1667,6 +1697,14 @@
         "date": "01-Jul-2026",
         "qty": 0,
         "unitCost": 840000
+      },
+      "entries": []
+    },
+    "PCB-GRD-CVR-0004": {
+      "opening": {
+        "date": "01-Jul-2026",
+        "qty": 0,
+        "unitCost": 228000
       },
       "entries": []
     }
@@ -2452,6 +2490,11 @@
           "code": "PCB-TRF-MOW-0007",
           "book": 2,
           "counted": 2
+        },
+        {
+          "code": "PCB-GRD-CVR-0004",
+          "book": 0,
+          "counted": 0
         }
       ],
       "storeId": "STORE-LHR-01"
@@ -2497,6 +2540,11 @@
         },
         {
           "code": "PCB-TRF-ROL-0002",
+          "book": 0,
+          "counted": 0
+        },
+        {
+          "code": "PCB-GRD-CVR-0004",
           "book": 0,
           "counted": 0
         }

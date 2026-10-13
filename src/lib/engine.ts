@@ -407,7 +407,7 @@ export function createActions(set: Set, get: Get): Actions {
       });
       const net = gross - i.base * 0.045;
       log("Payment released", `${inv}: ${pkr(net)} net to ${i.vendor}.`, "Finance Gate", `RTGS ${ref}. Withholding deducted under ITO 2001. Budget spent updated.`);
-      return ok("Payment released", `RTGS ${ref} · ${pkr(net)} net.`);
+      return ok("Payment released", `${ref} · ${pkr(net)} net.`);
     },
 
     transferStock: (t) => {

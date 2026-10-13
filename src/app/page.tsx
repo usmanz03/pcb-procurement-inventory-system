@@ -76,6 +76,7 @@ export default function Overview() {
 
   type Work = { title: string; meta: string; status: React.ReactNode; href: string; sla?: number; late?: boolean };
   const work: Work[] = [];
+  if (s.role === "director") s.stockTakes.filter((t) => t.status === "Submitted").forEach((t) => work.push({ title: `Approve stock-take ${t.id}`, meta: `${t.store} · counted by ${t.countedBy}`, status: <Status tone="warning">Variance</Status>, href: "/inventory/" }));
   if (s.role === "director" || s.role === "cfo") {
     mine.forEach((a) => {
       const late = a.elapsedHours > a.slaHours;
@@ -87,6 +88,8 @@ export default function Overview() {
     s.invoices.filter((i) => i.status === "Approved for payment").forEach((i) => work.push({ title: `Release payment · ${i.inv}`, meta: `${i.vendor} · ${pkr(i.base * 1.18 - i.base * 0.045)} net`, status: <Status tone="success">Ready</Status>, href: "/finance/" }));
   }
   if (s.role === "storekeeper") {
+    s.demands.filter((d) => (d.reserved ?? 0) > 0).forEach((d) => work.push({ title: `Issue ${d.reserved} · ${d.id}`, meta: `${d.dept} · stock reserved, needed by ${d.requiredBy}`, status: <Status tone="gold">Ready to issue</Status>, href: `/demands/?id=${d.id}` }));
+    s.stockTakes.filter((t) => t.status === "Counting").forEach((t) => work.push({ title: `Finish count ${t.id}`, meta: t.store, status: <Status tone="info">Counting</Status>, href: "/inventory/" }));
     openPOs.forEach((p) => work.push({ title: `Receive ${p.po}`, meta: `${p.item} · ${p.qty - p.received} outstanding · due ${p.due}`, status: parseD(p.due) < TODAY ? <Status tone="danger">Overdue</Status> : <Status tone="info" icon={Truck}>Due</Status>, href: `/orders/?po=${p.po}` }));
     lowStock.forEach((i) => work.push({ title: `Re-order ${i.code}`, meta: `${i.totalStock} on hand, re-order at ${i.reorderLevel}`, status: <Status tone="warning">Low stock</Status>, href: "/inventory/" }));
   }
@@ -102,7 +105,7 @@ export default function Overview() {
 
   const spend = A.months.map((m: string, i: number) => ({ month: m, capex: A.committedCapex[i], opex: A.committedOpex[i] }));
   const pipeColors = ["var(--chart-1)", "var(--chart-1)", "var(--chart-2)", "var(--chart-4)", "var(--chart-3)", "var(--chart-6)", "var(--chart-6)", "var(--chart-1)"];
-  const pipeHref: Record<string, string> = { inventory: "/inventory/", tenders: "/sourcing/", approvals: "/approvals/", orders: "/orders/", finance: "/finance/" };
+  const pipeHref: Record<string, string> = { inventory: "/demands/", tenders: "/sourcing/", approvals: "/approvals/", orders: "/orders/", finance: "/finance/" };
 
   return (
     <>
